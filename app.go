@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/tailored-style/pattern-generator/patternfile"
-	"github.com/tailored-style/catalogue/styles"
+	"github.com/tobyjsullivan/catalogue/styles"
 	"github.com/tailored-style/pattern-generator/pieces"
 )
 

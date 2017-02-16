@@ -1,7 +1,7 @@
 package styles
 
 import (
-	piece_catalogue "github.com/tailored-style/catalogue/pieces"
+	piece_catalogue "github.com/tobyjsullivan/catalogue/pieces"
 	"github.com/tailored-style/pattern-generator/pieces"
 	"github.com/tailored-style/pattern-generator/styles"
 )
