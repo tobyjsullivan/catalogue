@@ -144,7 +144,7 @@ func (p *PN5TorsoBack) yokeSeamStitch() geometry.Line {
 	return line
 }
 
-func (p *PN5TorsoBack) armscyeStitch() geometry.Line {
+func (p *PN5TorsoBack) armholeStitch() geometry.Line {
 	armscyeA := &geometry.EllipseCurve{
 		Start:         p.r(),
 		End:           p.o(),
@@ -249,7 +249,7 @@ func (p *PN5TorsoBack) dartStitch() geometry.Line {
 func (p *PN5TorsoBack) CutLayer() *geometry.Block {
 	layer := &geometry.Block{}
 
-	armscyeCut := pieces.AddSeamAllowance(p.armscyeStitch(), false)
+	armscyeCut := pieces.AddSeamAllowance(p.armholeStitch(), false)
 
 	layer.AddLine(
 		p.centreBack(),
@@ -270,7 +270,7 @@ func (p *PN5TorsoBack) StitchLayer() *geometry.Block {
 
 	layer.AddLine(
 		p.yokeSeamStitch(),
-		p.armscyeStitch(),
+		p.armholeStitch(),
 		p.sideSeamStitch(),
 		p.hemLineStitch(),
 		p.dartStitch(),
@@ -281,6 +281,33 @@ func (p *PN5TorsoBack) StitchLayer() *geometry.Block {
 
 func (p *PN5TorsoBack) NotationLayer() *geometry.Block {
 	layer := &geometry.Block{}
+
+	chestLine := &geometry.StraightLine{
+		Start: p.b(),
+		End: p.c(),
+	}
+
+	naturalWaistLine := &geometry.StraightLine{
+		Start: p.d(),
+		End: p.e(),
+	}
+
+	bellyButtonWaistLine := &geometry.StraightLine{
+		Start: p.f(),
+		End: p.g(),
+	}
+
+	hipLine := &geometry.StraightLine{
+		Start: p.h(),
+		End: p.i(),
+	}
+
+	layer.AddLine(
+		chestLine,
+		naturalWaistLine,
+		bellyButtonWaistLine,
+		hipLine,
+	)
 
 	// Draw all points (DEBUG)
 	anchors := make(map[string]*geometry.Point)

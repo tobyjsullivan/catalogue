@@ -70,7 +70,7 @@ func (p *PN6Yoke) frontStitch() geometry.Line {
 	}
 }
 
-func (p *PN6Yoke) armscyeStitch() geometry.Line {
+func (p *PN6Yoke) armholeStitch() geometry.Line {
 	return &geometry.StraightLine{
 		Start: p.g(),
 		End:   p.c(),
@@ -97,7 +97,7 @@ func (p *PN6Yoke) StitchLayer() *geometry.Block {
 	layer.AddLine(
 		p.necklineStitch(),
 		p.frontStitch(),
-		p.armscyeStitch(),
+		p.armholeStitch(),
 		p.backStitch(),
 	)
 
@@ -110,7 +110,7 @@ func (p *PN6Yoke) CutLayer() *geometry.Block {
 		p.centreBack(),
 		pieces.AddSeamAllowance(p.necklineStitch(), false),
 		pieces.AddSeamAllowance(p.frontStitch(), false),
-		pieces.AddSeamAllowance(p.armscyeStitch(), false),
+		pieces.AddSeamAllowance(p.armholeStitch(), false),
 		pieces.AddSeamAllowance(p.backStitch(), true),
 	)
 
