@@ -184,12 +184,20 @@ func (p *PN7Sleeve) frontArmholeStitch() geometry.Line {
 		Rotation: shoulderAngle,
 	}
 
-	partC := &geometry.EllipseCurve{
+	startAngle := p.w().AngleRelativeTo(p.e()).Perpendicular()
+	partC := &geometry.ParabolaCurve{
 		Start: p.e(),
 		End: p.o(),
-		StartingAngle: p.w().AngleRelativeTo(p.e()).Opposite(),
-		ArcAngle: shoulderAngle.Perpendicular().Neg(),
+		StartingAngle: startAngle,
+		ArcAngle: shoulderAngle.Subtract(startAngle),
 	}
+
+	//partC := &geometry.EllipseCurve{
+	//	Start: p.e(),
+	//	End: p.o(),
+	//	StartingAngle: p.w().AngleRelativeTo(p.e()).Opposite(),
+	//	ArcAngle: shoulderAngle.Perpendicular().Neg(),
+	//}
 
 	line := &geometry.Polyline{}
 
@@ -219,11 +227,12 @@ func (p *PN7Sleeve) backArmholeStitch() geometry.Line {
 		Rotation: shoulderAngle,
 	}
 
+	startAngle := p.x().AngleRelativeTo(p.f())
 	partC := &geometry.EllipseCurve{
 		Start: p.f(),
 		End: p.v(),
-		StartingAngle: p.x().AngleRelativeTo(p.f()).Opposite(),
-		ArcAngle: shoulderAngle.Perpendicular().Neg(),
+		StartingAngle: startAngle,
+		ArcAngle: p.a().AngleRelativeTo(p.f()).Subtract(startAngle).Perpendicular().Opposite(),
 	}
 
 	line := &geometry.Polyline{}
