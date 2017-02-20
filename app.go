@@ -5,6 +5,7 @@ import (
 	"github.com/tailored-style/pattern-generator/patternfile"
 	"github.com/tobyjsullivan/catalogue/styles"
 	"github.com/tailored-style/pattern-generator/pieces"
+	"github.com/tailored-style/pattern-generator/marker"
 )
 
 func main() {
@@ -50,6 +51,15 @@ func main() {
 	}
 
 	err = pf.SaveAs("/Users/toby/sandbox/v3-out.dxf")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	fmt.Println("Generating PDF Marker...")
+	marker := &marker.Marker{
+		Style: style,
+	}
+	err = marker.SavePDF("/Users/toby/sandbox/v3-marker-test.pdf")
 	if err != nil {
 		panic(err.Error())
 	}
