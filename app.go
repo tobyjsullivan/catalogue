@@ -44,13 +44,19 @@ func main() {
 	}
 
 	fmt.Println("Generating DXF...")
-	pf := patternfile.NewPatternFile()
-	err := pf.DrawPattern(style)
+	pf := &patternfile.PatternFile{
+		Style: style,
+	}
+	err := pf.SaveDXF("/Users/toby/sandbox/v3-out.dxf")
 	if err != nil {
 		panic(err.Error())
 	}
 
-	err = pf.SaveAs("/Users/toby/sandbox/v3-out.dxf")
+	fmt.Println("Generating PDF...")
+	pf = &patternfile.PatternFile{
+		Style: style,
+	}
+	err = pf.SavePDF("/Users/toby/sandbox/v3-out.pdf")
 	if err != nil {
 		panic(err.Error())
 	}
