@@ -8,7 +8,6 @@ import (
 )
 
 type pn9CollarBand struct {
-	bandHeight float64
 	height float64
 	neckCircumference float64
 	chestCircumference float64
@@ -18,7 +17,6 @@ type pn9CollarBand struct {
 
 func NewPN9CollarBand(height float64, neck float64, chest float64, waist float64, hip float64) pieces.Piece {
 	return &pn9CollarBand{
-		bandHeight: 3.2,
 		height: height,
 		neckCircumference: neck,
 		chestCircumference: chest,
@@ -64,17 +62,17 @@ func (p *pn9CollarBand) NotationLayer() *geometry.Block {
 	anchors := make(map[string]*geometry.Point)
 	anchors["A"] = p.a()
 	anchors["B"] = p.b()
-	//anchors["C"] = p.c()
+	anchors["C"] = p.c()
 	anchors["D"] = p.d()
-	//anchors["E"] = p.e()
+	anchors["E"] = p.e()
+	anchors["F"] = p.f()
+	anchors["G"] = p.g()
 	anchors["H"] = p.h()
 	anchors["I"] = p.i()
-	//anchors["J"] = p.j()
+	anchors["J"] = p.j()
 	anchors["K"] = p.k()
-	//anchors["L"] = p.l()
+	anchors["L"] = p.l()
 	anchors["M"] = p.m()
-	anchors["N"] = p.n()
-	//anchors["O"] = p.o()
 	addAnchors(layer, anchors)
 
 	return layer
@@ -111,6 +109,10 @@ func (p *pn9CollarBand) frontNeckLength() float64 {
 	}).frontNeckLine().Length()
 }
 
+func (p *pn9CollarBand) bandHeight() float64 {
+	return 3.2
+}
+
 func (p *pn9CollarBand) a() *geometry.Point {
 	return &geometry.Point{X: 0.0, Y: 0.0}
 }
@@ -124,59 +126,59 @@ func (p *pn9CollarBand) c() *geometry.Point {
 }
 
 func (p *pn9CollarBand) d() *geometry.Point {
-	return p.a().SquareUp(p.bandHeight)
+	return p.a().SquareUp(p.bandHeight())
 }
 
 func (p *pn9CollarBand) e() *geometry.Point {
 	return p.d().SquareUp(1.0)
 }
 
-func (p *pn9CollarBand) l() *geometry.Point {
+func (p *pn9CollarBand) f() *geometry.Point {
 	return p.c().SquareUp(p.a().DistanceTo(p.e()))
 }
 
-func (p *pn9CollarBand) h() *geometry.Point {
+func (p *pn9CollarBand) g() *geometry.Point {
 	return p.c().SquareUp(1.3)
 }
 
 func (p *pn9CollarBand) frontBottomLine() geometry.Line {
 	return &geometry.ParabolaCurve{
 		Start: p.b(),
-		End: p.h(),
+		End: p.g(),
 		StartingAngle: &geometry.Angle{Rads: 0.0},
 		ArcAngle: &geometry.Angle{Rads: math.Pi / 10.0},
 	}
 }
 
-func (p *pn9CollarBand) j() *geometry.Point {
+func (p *pn9CollarBand) h() *geometry.Point {
 	bottomStitch := p.frontBottomLine()
 	angle := bottomStitch.AngleAt(bottomStitch.Length() - 0.01).Perpendicular()
-	length := p.h().DistanceTo(p.l()) / angle.Sin()
-	return p.h().DrawAt(angle, length)
-}
-
-func (p *pn9CollarBand) k() *geometry.Point {
-	return p.j().SquareLeft(0.3).SquareDown(0.3)
+	length := p.g().DistanceTo(p.f()) / angle.Sin()
+	return p.g().DrawAt(angle, length)
 }
 
 func (p *pn9CollarBand) i() *geometry.Point {
-	angle := p.h().AngleRelativeTo(p.k())
-
-	return p.l().DrawAt(angle, p.k().DistanceTo(p.h()))
+	return p.h().SquareLeft(0.3).SquareDown(0.3)
 }
 
-func (p *pn9CollarBand) m() *geometry.Point {
+func (p *pn9CollarBand) j() *geometry.Point {
+	angle := p.g().AngleRelativeTo(p.i())
+
+	return p.f().DrawAt(angle, p.i().DistanceTo(p.g()))
+}
+
+func (p *pn9CollarBand) k() *geometry.Point {
 	return p.d().SquareRight(p.a().DistanceTo(p.b()))
 }
 
-func (p *pn9CollarBand) n() *geometry.Point {
-	return p.l().DrawAt(&geometry.Angle{Rads: -math.Pi * 3.0/4.0}, 0.3)
+func (p *pn9CollarBand) l() *geometry.Point {
+	return p.f().DrawAt(&geometry.Angle{Rads: -math.Pi * 3.0/4.0}, 0.3)
 }
 
-func (p *pn9CollarBand) o() *geometry.Point {
+func (p *pn9CollarBand) m() *geometry.Point {
 	return (&geometry.StraightLine{
-		Start: p.l(),
-		End: p.i(),
+		Start: p.f(),
+		End: p.j(),
 	}).Resize(1.3).End
 }
 
@@ -184,8 +186,8 @@ func (p *pn9CollarBand) bottomStitch() geometry.Line {
 	line := &geometry.Polyline{}
 
 	end := &geometry.StraightLine{
-		Start: p.h(),
-		End: p.i(),
+		Start: p.g(),
+		End: p.j(),
 	}
 
 	line.AddLine(
@@ -195,7 +197,7 @@ func (p *pn9CollarBand) bottomStitch() geometry.Line {
 		},
 		&geometry.ParabolaCurve{
 			Start: p.b(),
-			End: p.h(),
+			End: p.g(),
 			StartingAngle: &geometry.Angle{Rads: 0.0},
 			ArcAngle: end.AngleAt(0.0),
 		},
@@ -209,26 +211,26 @@ func (p *pn9CollarBand) topStitch() geometry.Line {
 	line := &geometry.Polyline{}
 
 	end := &geometry.StraightLine{
-		Start: p.o(),
-		End: p.i(),
+		Start: p.m(),
+		End: p.j(),
 	}
 
-	angleAtK := (&geometry.StraightLine{Start: p.k(), End: p.l()}).AngleAt(0.0)
+	angleAtK := (&geometry.StraightLine{Start: p.i(), End: p.f()}).AngleAt(0.0)
 
 	line.AddLine(
 		&geometry.StraightLine{
 			Start: p.d(),
-			End: p.m(),
+			End: p.k(),
 		},
 		&geometry.ParabolaCurve{
-			Start: p.m(),
-			End: p.k(),
+			Start: p.k(),
+			End: p.i(),
 			StartingAngle: &geometry.Angle{Rads: 0.0},
 			ArcAngle: angleAtK,
 		},
 		&geometry.EllipseCurve{
-			Start: p.k(),
-			End: p.o(),
+			Start: p.i(),
+			End: p.m(),
 			StartingAngle: angleAtK.Subtract(&geometry.Angle{Rads: math.Pi / 2.0}),
 			ArcAngle: end.AngleAt(0.0).Subtract(angleAtK),
 		},
@@ -247,7 +249,7 @@ func (p *pn9CollarBand) centreBack() geometry.Line {
 
 func (p *pn9CollarBand) centreFront() geometry.Line {
 	return &geometry.StraightLine{
-		Start: p.h(),
-		End: p.k(),
+		Start: p.g(),
+		End: p.i(),
 	}
 }
