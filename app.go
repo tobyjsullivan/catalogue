@@ -4,44 +4,48 @@ import (
 	"fmt"
 	"github.com/tailored-style/pattern-generator/patternfile"
 	"github.com/tobyjsullivan/catalogue/styles"
-	"github.com/tailored-style/pattern-generator/pieces"
 	"github.com/tailored-style/pattern-generator/marker"
 )
 
 func main() {
+	m := make(map[string]float64)
+
 	// 42" CHEST STANDARD
-	//measurements := &pieces.Measurements{
-	//	ChestCircumference: 106.7, // 42"
-	//	WaistCircumference: 91.4, // 36"
-	//	HipCircumference: 109.2, // 43"
-	//	NeckCircumference: 41.9, // 16 1/2"
-	//	Height: 182.9, // 72"
-	//  SleeveLength: 87.0, // 25 1/8" + (18 1/4" / 2) = 34 1/4
-	//}
+	//m["height"] = 182.9 // 72"
+	//m["neck"] = 41.9 // 16 1/2"
+	//m["chest"] = 106.7 // 42"
+	//m["waist"] = 91.4 // 36"
+	//m["hip"] = 109.2 // 43"
+	//m["sleeve"] = 87.0 // 25 1/8" + (18 1/4" / 2) = 34 1/4
+	//m["wrist"] = 19.1 // 7 1/2"
 
 	// PERSONAL MEASUREMENTS
-	//measurements := &pieces.Measurements{
-	//	ChestCircumference: 110.0,
-	//	WaistCircumference: 96.5,
-	//	HipCircumference: 110.5,
-	//	NeckCircumference: 43.0,
-	//	Height: 182.0,
-	//  SleeveLength: 92.0,
-	//}
+	//m["height"] = 182.0
+	//m["neck"] = 43.0
+	//m["chest"] = 110.0
+	//m["waist"] = 96.5
+	//m["hip"] = 110.5
+	//m["sleeve"] = 92.0
+	//m["wrist"] = 17.0
 
 	// PERSONAL - BODYxLABS ESTIMATE
-	measurements := &pieces.Measurements{
-		ChestCircumference: 110.25, // chest
-		WaistCircumference: 104.8, // belly_button_waist
-		HipCircumference: 111.04, // maximum_hip
-		NeckCircumference: 38.8, // neck (input)
-		Height: 183.0, // height (input)
-		SleeveLength: 84.23, // neck_shoulder_elbow_wrist
-	}
+	m["height"] = 183.0 // height (input)
+	m["neck"] = 38.8 // neck (input)
+	m["chest"] = 110.25 // chest
+	m["waist"] = 104.8 // belly_button_waist
+	m["hip"] = 111.04 // maximum_hip
+	m["sleeve"] = 84.23 // neck_shoulder_elbow_wrist
+	m["wrist"] = 18.33 // wrist
 
-	style := &styles.SN11001Shirt{
-		Measurements: measurements,
-	}
+	style := styles.NewSN11001Shirt(
+		m["height"],
+		m["neck"],
+		m["chest"],
+		m["waist"],
+		m["hip"],
+		m["sleeve"],
+		m["wrist"],
+	)
 
 	fmt.Println("Generating DXF...")
 	pf := &patternfile.PatternFile{

@@ -6,166 +6,193 @@ import (
 	"math"
 )
 
-type PN7Sleeve struct {
-	*pieces.Measurements
+type pn7Sleeve struct {
+	height float64
+	neckCircumference float64
+	chestCircumference float64
+	waistCircumference float64
+	hipCircumference float64
+	sleeveLength float64
 }
 
-func (p *PN7Sleeve) Details() *pieces.Details {
+func NewPN7Sleeve(height float64, neck float64, chest float64, waist float64, hip float64, sleeve float64) pieces.Piece {
+	return &pn7Sleeve{
+		height:height,
+		neckCircumference:neck,
+		chestCircumference:chest,
+		waistCircumference:waist,
+		hipCircumference:hip,
+		sleeveLength:sleeve,
+	}
+}
+
+func (p *pn7Sleeve) Details() *pieces.Details {
 	return &pieces.Details{
 		PieceNumber: "7",
 		Description: "Sleeve",
 	}
 }
 
-func (p *PN7Sleeve) OnFold() bool {
+func (p *pn7Sleeve) OnFold() bool {
 	return false
 }
 
-func (p *PN7Sleeve) a() *geometry.Point {
+func (p *pn7Sleeve) a() *geometry.Point {
 	return &geometry.Point{
 		X: 0.0,
 		Y: 0.0,
 	}
 }
 
-func (p *PN7Sleeve) b() *geometry.Point {
-	return p.a().SquareDown(p.Measurements.SleeveLength - 32.7)
+func (p *pn7Sleeve) b() *geometry.Point {
+	return p.a().SquareDown(p.sleeveLength - 32.7)
 }
 
-func (p *PN7Sleeve) c() *geometry.Point {
+func (p *pn7Sleeve) c() *geometry.Point {
 	armholeLength := p.frontArmholeLength() + p.backArmholeLength()
 	return p.a().SquareDown(armholeLength / 3.0 - 3.0)
 }
 
-func (p *PN7Sleeve) d() *geometry.Point {
+func (p *pn7Sleeve) d() *geometry.Point {
 	return p.c().SquareDown(p.b().DistanceTo(p.c()) / 2.0 - 4.6)
 }
 
-func (p *PN7Sleeve) e() *geometry.Point {
+func (p *pn7Sleeve) e() *geometry.Point {
 	aToE := p.frontArmholeLength() - 0.3
 	c := p.c()
 	return c.SquareRight(math.Sqrt(math.Pow(aToE, 2.0) - math.Pow(p.a().DistanceTo(c), 2.0)))
 }
 
-func (p *PN7Sleeve) f() *geometry.Point {
+func (p *pn7Sleeve) f() *geometry.Point {
 	aToF := p.backArmholeLength()
 	c := p.c()
 	return c.SquareLeft(math.Sqrt(math.Pow(aToF, 2.0) - math.Pow(p.a().DistanceTo(c), 2.0)))
 }
 
-func (p *PN7Sleeve) g() *geometry.Point {
+func (p *pn7Sleeve) g() *geometry.Point {
 	return p.e().SquareToHorizontalLine(p.b().Y)
 }
 
-func (p *PN7Sleeve) h() *geometry.Point {
+func (p *pn7Sleeve) h() *geometry.Point {
 	return p.f().SquareToHorizontalLine(p.b().Y)
 }
 
-func (p *PN7Sleeve) i() *geometry.Point {
+func (p *pn7Sleeve) i() *geometry.Point {
 	return p.d().SquareToVerticalLine(p.e().X)
 }
 
-func (p *PN7Sleeve) j() *geometry.Point {
+func (p *pn7Sleeve) j() *geometry.Point {
 	return p.d().SquareToVerticalLine(p.f().X)
 }
 
-func (p *PN7Sleeve) k() *geometry.Point {
+func (p *pn7Sleeve) k() *geometry.Point {
 	a := p.a()
 	e := p.e()
 	return a.DrawAt(e.AngleRelativeTo(a), a.DistanceTo(e) / 4.0)
 }
 
-func (p *PN7Sleeve) l() *geometry.Point {
+func (p *pn7Sleeve) l() *geometry.Point {
 	a := p.a()
 	e := p.e()
 	return a.DrawAt(e.AngleRelativeTo(a), a.DistanceTo(e) / 2.0 + 1.0)
 }
 
-func (p *PN7Sleeve) m() *geometry.Point {
+func (p *pn7Sleeve) m() *geometry.Point {
 	a := p.a()
 	e := p.e()
 	return a.DrawAt(e.AngleRelativeTo(a), a.DistanceTo(e) * 3.0 / 4.0)
 }
 
-func (p *PN7Sleeve) n() *geometry.Point {
+func (p *pn7Sleeve) n() *geometry.Point {
 	k := p.k()
 	return k.DrawAt(k.AngleRelativeTo(p.a()).Perpendicular(), 1.6)
 }
 
-func (p *PN7Sleeve) o() *geometry.Point {
+func (p *pn7Sleeve) o() *geometry.Point {
 	m := p.m()
 	return m.DrawAt(m.AngleRelativeTo(p.a()).Perpendicular().Opposite(), 1.3)
 }
 
-func (p *PN7Sleeve) p() *geometry.Point {
+func (p *pn7Sleeve) p() *geometry.Point {
 	a := p.a()
 	f := p.f()
 	return a.DrawAt(f.AngleRelativeTo(a), a.DistanceTo(f) / 4.0)
 }
 
-func (p *PN7Sleeve) q() *geometry.Point {
+func (p *pn7Sleeve) q() *geometry.Point {
 	a := p.a()
 	f := p.f()
 	return a.DrawAt(f.AngleRelativeTo(a), a.DistanceTo(f) / 2.0)
 }
 
-func (p *PN7Sleeve) r() *geometry.Point {
+func (p *pn7Sleeve) r() *geometry.Point {
 	a := p.a()
 	f := p.f()
 	return a.DrawAt(f.AngleRelativeTo(a), a.DistanceTo(f) * 3.0 / 4.0)
 }
 
-func (p *PN7Sleeve) s() *geometry.Point {
+func (p *pn7Sleeve) s() *geometry.Point {
 	pa := p.p()
 	return pa.DrawAt(pa.AngleRelativeTo(p.a()).Perpendicular().Opposite(), 1.9)
 }
 
-func (p *PN7Sleeve) t() *geometry.Point {
+func (p *pn7Sleeve) t() *geometry.Point {
 	q := p.q()
 	return q.DrawAt(q.AngleRelativeTo(p.a()).Perpendicular().Opposite(), 1.0)
 }
 
-func (p *PN7Sleeve) u() *geometry.Point {
+func (p *pn7Sleeve) u() *geometry.Point {
 	a := p.a()
 	f := p.f()
 	return a.DrawAt(f.AngleRelativeTo(a), a.DistanceTo(f) * 3.0 / 4.0 - 1.9)
 }
 
-func (p *PN7Sleeve) v() *geometry.Point {
+func (p *pn7Sleeve) v() *geometry.Point {
 	f := p.f()
 	r := p.r()
 	return f.MidpointTo(r).DrawAt(f.AngleRelativeTo(r).Perpendicular(), 0.6)
 }
 
-func (p *PN7Sleeve) w() *geometry.Point {
+func (p *pn7Sleeve) w() *geometry.Point {
 	return p.g().SquareLeft(7.9)
 }
 
-func (p *PN7Sleeve) x() *geometry.Point {
+func (p *pn7Sleeve) x() *geometry.Point {
 	return p.h().SquareRight(5.6)
 }
 
-func (p *PN7Sleeve) frontArmholeLength() float64 {
-	front := &PN4TorsoFront{
-		p.Measurements,
+func (p *pn7Sleeve) frontArmholeLength() float64 {
+	front := &pn4TorsoFront{
+		height: p.height,
+		neckCircumference: p.neckCircumference,
+		chestCircumference: p.chestCircumference,
+		waistCircumference: p.waistCircumference,
+		hipCircumference: p.hipCircumference,
 	}
 
 	return front.armholeStitch().Length()
 }
 
-func (p *PN7Sleeve) backArmholeLength() float64 {
-	back := &PN5TorsoBack{
-		p.Measurements,
+func (p *pn7Sleeve) backArmholeLength() float64 {
+	back := &pn5TorsoBack{
+		height: p.height,
+		chestCircumference: p.chestCircumference,
+		waistCircumference: p.waistCircumference,
+		hipCircumference: p.hipCircumference,
 	}
 
-	yoke := &PN6Yoke{
-		p.Measurements,
+	yoke := &pn6Yoke{
+		height: p.height,
+		neckCircumference: p.neckCircumference,
+		chestCircumference: p.chestCircumference,
+		waistCircumference: p.waistCircumference,
+		hipCircumference: p.hipCircumference,
 	}
 
 	return back.armholeStitch().Length() + yoke.armholeStitch().Length()
 }
 
-func (p *PN7Sleeve) frontArmholeStitch() geometry.Line {
+func (p *pn7Sleeve) frontArmholeStitch() geometry.Line {
 	a := p.a()
 
 	shoulderAngle := p.e().AngleRelativeTo(a)
@@ -192,13 +219,6 @@ func (p *PN7Sleeve) frontArmholeStitch() geometry.Line {
 		ArcAngle: shoulderAngle.Subtract(startAngle),
 	}
 
-	//partC := &geometry.EllipseCurve{
-	//	Start: p.e(),
-	//	End: p.o(),
-	//	StartingAngle: p.w().AngleRelativeTo(p.e()).Opposite(),
-	//	ArcAngle: shoulderAngle.Perpendicular().Neg(),
-	//}
-
 	line := &geometry.Polyline{}
 
 	line.AddLine(
@@ -210,7 +230,7 @@ func (p *PN7Sleeve) frontArmholeStitch() geometry.Line {
 	return line
 }
 
-func (p *PN7Sleeve) backArmholeStitch() geometry.Line {
+func (p *pn7Sleeve) backArmholeStitch() geometry.Line {
 	shoulderAngle := p.f().AngleRelativeTo(p.a())
 
 	partA := &geometry.EllipseCurve{
@@ -246,28 +266,28 @@ func (p *PN7Sleeve) backArmholeStitch() geometry.Line {
 	return line
 }
 
-func (p *PN7Sleeve) underSleeveStitchLeft() geometry.Line {
+func (p *pn7Sleeve) underSleeveStitchLeft() geometry.Line {
 	return &geometry.StraightLine{
 		Start: p.f(),
 		End: p.x(),
 	}
 }
 
-func (p *PN7Sleeve) underSleeveStitchRight() geometry.Line {
+func (p *pn7Sleeve) underSleeveStitchRight() geometry.Line {
 	return &geometry.StraightLine{
 		Start: p.e(),
 		End: p.w(),
 	}
 }
 
-func (p *PN7Sleeve) cuffStitch() geometry.Line {
+func (p *pn7Sleeve) cuffStitch() geometry.Line {
 	return &geometry.StraightLine{
 		Start: p.x(),
 		End: p.w(),
 	}
 }
 
-func (p *PN7Sleeve) CutLayer() *geometry.Block {
+func (p *pn7Sleeve) CutLayer() *geometry.Block {
 	layer := &geometry.Block{}
 
 	frontArmholeCut := pieces.AddSeamAllowance(p.frontArmholeStitch(), false)
@@ -289,7 +309,7 @@ func (p *PN7Sleeve) CutLayer() *geometry.Block {
 	return layer
 }
 
-func (p *PN7Sleeve) StitchLayer() *geometry.Block {
+func (p *pn7Sleeve) StitchLayer() *geometry.Block {
 	layer := &geometry.Block{}
 
 	layer.AddLine(
@@ -303,7 +323,7 @@ func (p *PN7Sleeve) StitchLayer() *geometry.Block {
 	return layer
 }
 
-func (p *PN7Sleeve) NotationLayer() *geometry.Block {
+func (p *pn7Sleeve) NotationLayer() *geometry.Block {
 	layer := &geometry.Block{}
 
 	centreOfSleeve := &geometry.StraightLine{

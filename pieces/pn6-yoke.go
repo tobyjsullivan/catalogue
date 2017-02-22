@@ -6,55 +6,75 @@ import (
 	"github.com/tailored-style/pattern-generator/pieces"
 )
 
-type PN6Yoke struct {
-	*pieces.Measurements
+type pn6Yoke struct {
+	height float64
+	neckCircumference float64
+	chestCircumference float64
+	waistCircumference float64
+	hipCircumference float64
 }
 
-func (p *PN6Yoke) Details() *pieces.Details {
+func NewPN6Yoke(height float64, neck float64, chest float64, waist float64, hip float64) pieces.Piece {
+	return &pn6Yoke{
+		height:height,
+		neckCircumference:neck,
+		chestCircumference:chest,
+		waistCircumference:waist,
+		hipCircumference:hip,
+	}
+}
+
+func (p *pn6Yoke) Details() *pieces.Details {
 	return &pieces.Details{
 		PieceNumber: "6",
 		Description: "Yoke",
 	}
 }
 
-func (p *PN6Yoke) OnFold() bool {
+func (p *pn6Yoke) OnFold() bool {
 	return true
 }
 
-func (p *PN6Yoke) a() *geometry.Point {
+func (p *pn6Yoke) a() *geometry.Point {
 	return &geometry.Point{X: 0.0, Y: 0.0}
 }
 
-func (p *PN6Yoke) b() *geometry.Point {
+func (p *pn6Yoke) b() *geometry.Point {
 	return p.a().SquareDown(9.5)
 }
 
-func (p *PN6Yoke) c() *geometry.Point {
-	return p.b().SquareRight(p.ChestCircumference/6.0 + 6.2)
+func (p *pn6Yoke) c() *geometry.Point {
+	return p.b().SquareRight(p.chestCircumference/6.0 + 6.2)
 }
 
-func (p *PN6Yoke) d() *geometry.Point {
+func (p *pn6Yoke) d() *geometry.Point {
 	return p.c().SquareToHorizontalLine(p.a().Y)
 }
 
-func (p *PN6Yoke) e() *geometry.Point {
-	return p.a().SquareRight(p.NeckCircumference/8.0 + 3.7)
+func (p *pn6Yoke) e() *geometry.Point {
+	return p.a().SquareRight(p.neckCircumference/8.0 + 3.7)
 }
 
-func (p *PN6Yoke) f() *geometry.Point {
+func (p *pn6Yoke) f() *geometry.Point {
 	e := p.e()
 	return e.SquareUp(p.a().DistanceTo(e)/2.0 + 0.3)
 }
 
-func (p *PN6Yoke) g() *geometry.Point {
+func (p *pn6Yoke) g() *geometry.Point {
 	return  (&geometry.StraightLine{Start: p.f(), End: p.d()}).Resize(p.shoulderSeamLength()).End
 }
 
-func (p *PN6Yoke) shoulderSeamLength() float64 {
-	return (&PN4TorsoFront{Measurements: p.Measurements}).shoulderStitch().Length()
+func (p *pn6Yoke) shoulderSeamLength() float64 {
+	return (&pn4TorsoFront{
+		height: p.height,
+		neckCircumference: p.neckCircumference,
+		chestCircumference: p.chestCircumference,
+		waistCircumference: p.waistCircumference,
+		hipCircumference: p.hipCircumference,
+	}).shoulderStitch().Length()
 }
 
-func (p *PN6Yoke) necklineStitch() geometry.Line {
+func (p *pn6Yoke) necklineStitch() geometry.Line {
 	return &geometry.EllipseCurve{
 		Start:         p.a(),
 		End:           p.f(),
@@ -63,14 +83,14 @@ func (p *PN6Yoke) necklineStitch() geometry.Line {
 	}
 }
 
-func (p *PN6Yoke) frontStitch() geometry.Line {
+func (p *pn6Yoke) frontStitch() geometry.Line {
 	return &geometry.StraightLine{
 		Start: p.f(),
 		End:   p.g(),
 	}
 }
 
-func (p *PN6Yoke) armholeStitch() geometry.Line {
+func (p *pn6Yoke) armholeStitch() geometry.Line {
 	return &geometry.EllipseCurve{
 		Start: p.c(),
 		End:   p.g(),
@@ -79,21 +99,21 @@ func (p *PN6Yoke) armholeStitch() geometry.Line {
 	}
 }
 
-func (p *PN6Yoke) backStitch() geometry.Line {
+func (p *pn6Yoke) backStitch() geometry.Line {
 	return &geometry.StraightLine{
 		Start: p.b(),
 		End:   p.c(),
 	}
 }
 
-func (p *PN6Yoke) centreBack() geometry.Line {
+func (p *pn6Yoke) centreBack() geometry.Line {
 	return &geometry.StraightLine{
 		Start: p.a(),
 		End:   p.b(),
 	}
 }
 
-func (p *PN6Yoke) StitchLayer() *geometry.Block {
+func (p *pn6Yoke) StitchLayer() *geometry.Block {
 
 	layer := &geometry.Block{}
 	layer.AddLine(
@@ -106,7 +126,7 @@ func (p *PN6Yoke) StitchLayer() *geometry.Block {
 	return layer
 }
 
-func (p *PN6Yoke) CutLayer() *geometry.Block {
+func (p *pn6Yoke) CutLayer() *geometry.Block {
 	layer := &geometry.Block{}
 	layer.AddLine(
 		p.centreBack(),
@@ -119,7 +139,7 @@ func (p *PN6Yoke) CutLayer() *geometry.Block {
 	return layer
 }
 
-func (p *PN6Yoke) NotationLayer() *geometry.Block {
+func (p *pn6Yoke) NotationLayer() *geometry.Block {
 	layer := &geometry.Block{}
 
 	// Draw all points (DEBUG)

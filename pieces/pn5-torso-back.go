@@ -6,123 +6,135 @@ import (
 	"github.com/tailored-style/pattern-generator/pieces"
 )
 
-type PN5TorsoBack struct {
-	*pieces.Measurements
+type pn5TorsoBack struct {
+	height float64
+	chestCircumference float64
+	waistCircumference float64
+	hipCircumference float64
 }
 
-func (p *PN5TorsoBack) Details() *pieces.Details {
+func NewPN5TorsoBack(height float64, chest float64, waist float64, hip float64) pieces.Piece {
+	return &pn5TorsoBack{
+		height: height,
+		chestCircumference: chest,
+		waistCircumference: waist,
+		hipCircumference: hip,
+	}
+}
+
+func (p *pn5TorsoBack) Details() *pieces.Details {
 	return &pieces.Details{
 		PieceNumber: "5",
 		Description: "Torso Back",
 	}
 }
 
-func (p *PN5TorsoBack) OnFold() bool {
+func (p *pn5TorsoBack) OnFold() bool {
 	return true
 }
 
-func (p *PN5TorsoBack) a() *geometry.Point {
+func (p *pn5TorsoBack) a() *geometry.Point {
 	return &geometry.Point{X: 0.0, Y: 0.0}
 }
 
-func (p *PN5TorsoBack) b() *geometry.Point {
-	return p.a().SquareDown(p.ChestCircumference/4.0 - 8.6)
+func (p *pn5TorsoBack) b() *geometry.Point {
+	return p.a().SquareDown(p.chestCircumference/4.0 - 8.6)
 }
 
-func (p *PN5TorsoBack) c() *geometry.Point {
-	return p.b().SquareRight(p.ChestCircumference/4.0 + 1.6)
+func (p *pn5TorsoBack) c() *geometry.Point {
+	return p.b().SquareRight(p.chestCircumference/4.0 + 1.6)
 }
 
-func (p *PN5TorsoBack) d() *geometry.Point {
-	return p.a().SquareDown(p.Height/4.0 - 11.4)
+func (p *pn5TorsoBack) d() *geometry.Point {
+	return p.a().SquareDown(p.height/4.0 - 11.4)
 }
 
-func (p *PN5TorsoBack) e() *geometry.Point {
-	return p.d().SquareRight(p.WaistCircumference/4.0 + 3.2)
+func (p *pn5TorsoBack) e() *geometry.Point {
+	return p.d().SquareRight(p.waistCircumference/4.0 + 3.2)
 }
 
-func (p *PN5TorsoBack) f() *geometry.Point {
-	return p.a().SquareDown(p.Height*(7.0/24.0) - 6.4)
+func (p *pn5TorsoBack) f() *geometry.Point {
+	return p.a().SquareDown(p.height*(7.0/24.0) - 6.4)
 }
 
-func (p *PN5TorsoBack) g() *geometry.Point {
-	return p.f().SquareRight(p.WaistCircumference/4.0 + 4.3)
+func (p *pn5TorsoBack) g() *geometry.Point {
+	return p.f().SquareRight(p.waistCircumference/4.0 + 4.3)
 }
 
-func (p *PN5TorsoBack) h() *geometry.Point {
-	return p.a().SquareDown(p.Height*(3.0/8.0) - 4.8)
+func (p *pn5TorsoBack) h() *geometry.Point {
+	return p.a().SquareDown(p.height*(3.0/8.0) - 4.8)
 }
 
-func (p *PN5TorsoBack) i() *geometry.Point {
-	return p.h().SquareRight(p.HipCircumference/4.0 + 0.6)
+func (p *pn5TorsoBack) i() *geometry.Point {
+	return p.h().SquareRight(p.hipCircumference/4.0 + 0.6)
 }
 
-func (p *PN5TorsoBack) j() *geometry.Point {
+func (p *pn5TorsoBack) j() *geometry.Point {
 	return p.i().SquareUp(7.3)
 }
 
-func (p *PN5TorsoBack) k() *geometry.Point {
+func (p *pn5TorsoBack) k() *geometry.Point {
 	return p.h().SquareDown(5.4)
 }
 
-func (p *PN5TorsoBack) l() *geometry.Point {
+func (p *pn5TorsoBack) l() *geometry.Point {
 	return p.k().SquareRight(7.6)
 }
 
-func (p *PN5TorsoBack) m() *geometry.Point {
-	return p.b().SquareRight(p.ChestCircumference/6.0 + 6.2)
+func (p *pn5TorsoBack) m() *geometry.Point {
+	return p.b().SquareRight(p.chestCircumference/6.0 + 6.2)
 }
 
-func (p *PN5TorsoBack) n() *geometry.Point {
+func (p *pn5TorsoBack) n() *geometry.Point {
 	return p.m().SquareToHorizontalLine(p.a().Y)
 }
 
-func (p *PN5TorsoBack) o() *geometry.Point {
+func (p *pn5TorsoBack) o() *geometry.Point {
 	return p.n().SquareDown(1.1)
 }
 
-func (p *PN5TorsoBack) p() *geometry.Point {
+func (p *pn5TorsoBack) p() *geometry.Point {
 	m := p.m()
 	return m.SquareUp(m.DistanceTo(p.o())*(2.0/3.0) + 1.3)
 }
 
-func (p *PN5TorsoBack) q() *geometry.Point {
+func (p *pn5TorsoBack) q() *geometry.Point {
 	return p.n().SquareLeft(8.4)
 }
 
-func (p *PN5TorsoBack) r() *geometry.Point {
+func (p *pn5TorsoBack) r() *geometry.Point {
 	return p.p().SquareLeft(0.5)
 }
 
-func (p *PN5TorsoBack) s() *geometry.Point {
+func (p *pn5TorsoBack) s() *geometry.Point {
 	return p.b().MidpointTo(p.m())
 }
 
-func (p *PN5TorsoBack) t() *geometry.Point {
-	return p.s().SquareDown(p.Height/8.0 - 2.5)
+func (p *pn5TorsoBack) t() *geometry.Point {
+	return p.s().SquareDown(p.height/8.0 - 2.5)
 }
 
-func (p *PN5TorsoBack) u() *geometry.Point {
+func (p *pn5TorsoBack) u() *geometry.Point {
 	s := p.s()
 	return s.SquareDown(s.DistanceTo(p.t())*2.0 - 3.8)
 }
 
-func (p *PN5TorsoBack) v() *geometry.Point {
+func (p *pn5TorsoBack) v() *geometry.Point {
 	return p.t().SquareLeft(1.3)
 }
 
-func (p *PN5TorsoBack) w() *geometry.Point {
+func (p *pn5TorsoBack) w() *geometry.Point {
 	return p.t().SquareRight(1.3)
 }
 
-func (p *PN5TorsoBack) centreBack() geometry.Line {
+func (p *pn5TorsoBack) centreBack() geometry.Line {
 	return &geometry.StraightLine{
 		Start: p.a(),
 		End:   p.k(),
 	}
 }
 
-func (p *PN5TorsoBack) yokeSeamStitch() geometry.Line {
+func (p *pn5TorsoBack) yokeSeamStitch() geometry.Line {
 	yokeSeamA := &geometry.StraightLine{
 		Start: p.a(),
 		End:   p.q(),
@@ -144,7 +156,7 @@ func (p *PN5TorsoBack) yokeSeamStitch() geometry.Line {
 	return line
 }
 
-func (p *PN5TorsoBack) armholeStitch() geometry.Line {
+func (p *pn5TorsoBack) armholeStitch() geometry.Line {
 	armscyeA := &geometry.EllipseCurve{
 		Start:         p.r(),
 		End:           p.o(),
@@ -168,7 +180,7 @@ func (p *PN5TorsoBack) armholeStitch() geometry.Line {
 	return line
 }
 
-func (p *PN5TorsoBack) sideSeamStitch() geometry.Line {
+func (p *pn5TorsoBack) sideSeamStitch() geometry.Line {
 	return &geometry.ThreePointCurve{
 		Start: p.i(),
 		Middle: p.g(),
@@ -177,7 +189,7 @@ func (p *PN5TorsoBack) sideSeamStitch() geometry.Line {
 	}
 }
 
-func (p *PN5TorsoBack) hemLineStitch() geometry.Line {
+func (p *pn5TorsoBack) hemLineStitch() geometry.Line {
 	hemLineA := &geometry.StraightLine{
 		Start: p.k(),
 		End:   p.l(),
@@ -200,7 +212,7 @@ func (p *PN5TorsoBack) hemLineStitch() geometry.Line {
 	return line
 }
 
-func (p *PN5TorsoBack) dartStitch() geometry.Line {
+func (p *pn5TorsoBack) dartStitch() geometry.Line {
 	dart := &geometry.Polyline{}
 
 	dart.AddLine(
@@ -225,7 +237,7 @@ func (p *PN5TorsoBack) dartStitch() geometry.Line {
 	return dart
 }
 
-func (p *PN5TorsoBack) CutLayer() *geometry.Block {
+func (p *pn5TorsoBack) CutLayer() *geometry.Block {
 	layer := &geometry.Block{}
 
 	armscyeCut := pieces.AddSeamAllowance(p.armholeStitch(), false)
@@ -243,7 +255,7 @@ func (p *PN5TorsoBack) CutLayer() *geometry.Block {
 	return layer
 }
 
-func (p *PN5TorsoBack) StitchLayer() *geometry.Block {
+func (p *pn5TorsoBack) StitchLayer() *geometry.Block {
 	layer := &geometry.Block{}
 
 
@@ -258,7 +270,7 @@ func (p *PN5TorsoBack) StitchLayer() *geometry.Block {
 	return layer
 }
 
-func (p *PN5TorsoBack) NotationLayer() *geometry.Block {
+func (p *pn5TorsoBack) NotationLayer() *geometry.Block {
 	layer := &geometry.Block{}
 
 	chestLine := &geometry.StraightLine{
