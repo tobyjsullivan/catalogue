@@ -207,11 +207,12 @@ func (p *PN4TorsoFront) armholeStitch() geometry.Line {
 		StartingAngle: &geometry.Angle{Rads: 0.0},
 		ArcAngle:      &geometry.Angle{Rads: math.Pi / 8.0},
 	}
+
 	bottom := &geometry.EllipseCurve{
 		Start:         p.s(),
 		End:           p.c(),
-		StartingAngle: &geometry.Angle{Rads: math.Pi},
-		ArcAngle:      &geometry.Angle{Rads: math.Pi * (2.0 / 5.0)},
+		StartingAngle: &geometry.Angle{Rads: 0.0},
+		ArcAngle:      &geometry.Angle{Rads: -math.Pi / 2.0},
 	}
 
 	armhole := &geometry.Polyline{}
@@ -223,28 +224,12 @@ func (p *PN4TorsoFront) armholeStitch() geometry.Line {
 	return armhole
 }
 
-func (p *PN4TorsoFront) sideSeamAStitch() geometry.Line {
-	return &geometry.EllipseCurve{
-		Start:         p.e(),
-		End:           p.c(),
-		StartingAngle: &geometry.Angle{Rads: 0.0},
-		ArcAngle:      &geometry.Angle{Rads: math.Pi / 4.0},
-	}
-}
-
-func (p *PN4TorsoFront) sideSeamBStitch() geometry.Line {
+func (p *PN4TorsoFront) sideSeamStitch() geometry.Line {
 	return &geometry.ThreePointCurve{
-		Start: p.j(),
+		Start: p.i(),
 		Middle: p.g(),
-		End: p.e(),
+		End: p.c(),
 		Rotation: &geometry.Angle{Rads: math.Pi / 2.0},
-	}
-}
-
-func (p *PN4TorsoFront) sideSeamCStitch() geometry.Line {
-	return &geometry.StraightLine{
-		Start: p.j(),
-		End:   p.i(),
 	}
 }
 
@@ -286,9 +271,7 @@ func (p *PN4TorsoFront) CutLayer() *geometry.Block {
 		pieces.Notch(armholeCut, 7.6),
 		pieces.Notch(armholeCut, armholeCut.Length() - 7.6),
 		pieces.Notch(armholeCut, armholeCut.Length() - 8.9),
-		pieces.AddSeamAllowance(p.sideSeamAStitch(), false),
-		pieces.AddSeamAllowance(p.sideSeamBStitch(), false),
-		pieces.AddSeamAllowance(p.sideSeamCStitch(), true),
+		pieces.AddSeamAllowance(p.sideSeamStitch(), false),
 		pieces.AddSeamAllowance(p.hemlineStitch(), false),
 		pieces.AddSeamAllowance(p.buttonStandTopA(), false),
 		pieces.AddSeamAllowance(p.buttonStandTopB(), true),
@@ -309,9 +292,7 @@ func (p *PN4TorsoFront) StitchLayer() *geometry.Block {
 		p.buttonStandBottom(),
 		p.shoulderStitch(),
 		p.armholeStitch(),
-		p.sideSeamAStitch(),
-		p.sideSeamBStitch(),
-		p.sideSeamCStitch(),
+		p.sideSeamStitch(),
 		p.hemlineStitch(),
 	)
 

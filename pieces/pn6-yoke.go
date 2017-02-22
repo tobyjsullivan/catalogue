@@ -71,9 +71,11 @@ func (p *PN6Yoke) frontStitch() geometry.Line {
 }
 
 func (p *PN6Yoke) armholeStitch() geometry.Line {
-	return &geometry.StraightLine{
-		Start: p.g(),
-		End:   p.c(),
+	return &geometry.EllipseCurve{
+		Start: p.c(),
+		End:   p.g(),
+		StartingAngle: &geometry.Angle{Rads: math.Pi},
+		ArcAngle: p.g().AngleRelativeTo(p.d()).Opposite().Subtract(&geometry.Angle{Rads: math.Pi}),
 	}
 }
 
@@ -110,7 +112,7 @@ func (p *PN6Yoke) CutLayer() *geometry.Block {
 		p.centreBack(),
 		pieces.AddSeamAllowance(p.necklineStitch(), false),
 		pieces.AddSeamAllowance(p.frontStitch(), false),
-		pieces.AddSeamAllowance(p.armholeStitch(), false),
+		pieces.AddSeamAllowance(p.armholeStitch(), true),
 		pieces.AddSeamAllowance(p.backStitch(), true),
 	)
 

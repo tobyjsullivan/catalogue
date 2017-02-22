@@ -156,7 +156,7 @@ func (p *PN5TorsoBack) armholeStitch() geometry.Line {
 		Start:         p.r(),
 		End:           p.c(),
 		StartingAngle: &geometry.Angle{Rads: math.Pi},
-		ArcAngle:      &geometry.Angle{Rads: math.Pi * 3.0 / 8.0},
+		ArcAngle:      &geometry.Angle{Rads: math.Pi / 2.0},
 	}
 
 	line := &geometry.Polyline{}
@@ -169,33 +169,12 @@ func (p *PN5TorsoBack) armholeStitch() geometry.Line {
 }
 
 func (p *PN5TorsoBack) sideSeamStitch() geometry.Line {
-	sideSeamA := &geometry.EllipseCurve{
-		Start:         p.e(),
-		End:           p.c(),
-		StartingAngle: &geometry.Angle{Rads: 0.0},
-		ArcAngle:      &geometry.Angle{Rads: math.Pi / 8.0},
-	}
-
-	sideSeamB := &geometry.ThreePointCurve{
-		Start: p.j(),
+	return &geometry.ThreePointCurve{
+		Start: p.i(),
 		Middle: p.g(),
-		End: p.e(),
+		End: p.c(),
 		Rotation: &geometry.Angle{Rads: math.Pi / 2.0},
 	}
-
-	sideSeamC := &geometry.StraightLine{
-		Start: p.j(),
-		End:   p.i(),
-	}
-
-	line := &geometry.Polyline{}
-	line.AddLine(
-		&geometry.ReverseLine{InnerLine: sideSeamA},
-		&geometry.ReverseLine{InnerLine: sideSeamB},
-		sideSeamC,
-	)
-
-	return line
 }
 
 func (p *PN5TorsoBack) hemLineStitch() geometry.Line {
@@ -257,7 +236,7 @@ func (p *PN5TorsoBack) CutLayer() *geometry.Block {
 		armscyeCut,
 		pieces.Notch(armscyeCut, 7.6),
 		pieces.Notch(armscyeCut, armscyeCut.Length() - 7.6),
-		pieces.AddSeamAllowance(p.sideSeamStitch(), false),
+		pieces.AddSeamAllowance(p.sideSeamStitch(), true),
 		pieces.AddSeamAllowance(p.hemLineStitch(), true),
 	)
 
