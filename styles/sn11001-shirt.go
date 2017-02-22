@@ -76,6 +76,7 @@ func (p *sn11001Shirt) Details() *styles.Details {
 			WaistCircumference: p.waistCircumference,
 			HipCircumference: p.hipCircumference,
 			SleeveLength: p.sleeveLength,
+			WristCircumference: p.wristCircumference,
 		},
 	}
 }
