@@ -62,6 +62,13 @@ func (p *sn11001Shirt) Pieces() []pieces.Piece {
 		piece_catalogue.NewPN8Cuff(
 			p.wristCircumference,
 		),
+		piece_catalogue.NewPN9CollarBand(
+			p.height,
+			p.neckCircumference,
+			p.chestCircumference,
+			p.waistCircumference,
+			p.hipCircumference,
+		),
 	}
 }
 

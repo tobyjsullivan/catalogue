@@ -12,6 +12,6 @@ func addAnchor(b *geometry.Block, label string, p *geometry.Point) {
 	b.AddPoint(p)
 	b.AddText(&geometry.Text{
 		Content:  label,
-		Position: p.Move(-1.5, -1.0),
+		Position: p.Move(-1.0, -1.0),
 	})
 }

@@ -75,13 +75,17 @@ func (p *pn6Yoke) shoulderSeamLength() float64 {
 	}).shoulderStitch().Length()
 }
 
-func (p *pn6Yoke) necklineStitch() geometry.Line {
+func (p *pn6Yoke) backNeckLine() geometry.Line {
 	return &geometry.EllipseCurve{
 		Start:         p.a(),
 		End:           p.f(),
 		StartingAngle: &geometry.Angle{Rads: math.Pi * (3.0 / 2.0)},
 		ArcAngle:      &geometry.Angle{Rads: math.Pi * (7.0 / 16.0)},
 	}
+}
+
+func (p *pn6Yoke) necklineStitch() geometry.Line {
+	return p.backNeckLine()
 }
 
 func (p *pn6Yoke) frontStitch() geometry.Line {

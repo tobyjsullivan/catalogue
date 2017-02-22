@@ -146,6 +146,15 @@ func (p *pn4TorsoFront) z() *geometry.Point {
 	return p.v().SquareToHorizontalLine(p.k().Y)
 }
 
+func (p *pn4TorsoFront) frontNeckLine() geometry.Line {
+	return &geometry.EllipseCurve{
+		Start:         p.l(),
+		End:           p.n(),
+		StartingAngle: &geometry.Angle{Rads: math.Pi / 2.0},
+		ArcAngle:      &geometry.Angle{Rads: math.Pi / 3.0},
+	}
+}
+
 func (p *pn4TorsoFront) necklineStitch() geometry.Line {
 	neckline := &geometry.Polyline{}
 
@@ -154,12 +163,7 @@ func (p *pn4TorsoFront) necklineStitch() geometry.Line {
 			Start: p.t(),
 			End: p.l(),
 		},
-		&geometry.EllipseCurve{
-			Start:         p.l(),
-			End:           p.n(),
-			StartingAngle: &geometry.Angle{Rads: math.Pi / 2.0},
-			ArcAngle:      &geometry.Angle{Rads: math.Pi / 3.0},
-		},
+		p.frontNeckLine(),
 	)
 
 	return neckline
