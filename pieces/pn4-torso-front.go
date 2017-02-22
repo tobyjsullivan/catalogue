@@ -48,7 +48,7 @@ func (p *PN4TorsoFront) f() *geometry.Point {
 }
 
 func (p *PN4TorsoFront) g() *geometry.Point {
-	return p.f().SquareLeft(p.HipCircumference/4.0 - 0.6)
+	return p.f().SquareLeft(p.WaistCircumference/4.0 + 4.3)
 }
 
 func (p *PN4TorsoFront) h() *geometry.Point {
