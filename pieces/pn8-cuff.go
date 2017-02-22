@@ -3,6 +3,7 @@ package pieces
 import (
 	"github.com/tailored-style/pattern-generator/pieces"
 	"github.com/tailored-style/pattern-generator/geometry"
+	"fmt"
 )
 
 type pn8Cuff struct {
@@ -137,7 +138,11 @@ func (p *pn8Cuff) NotationLayer() *geometry.Block {
 
 func (p *pn8Cuff) Details() *pieces.Details {
 	return &pieces.Details{
-		PieceNumber: "8",
+		PieceNumber: 8,
 		Description: "Cuff",
 	}
+}
+
+func (p *pn8Cuff) String() string {
+	return fmt.Sprintf("[PN: %d]", p.Details().PieceNumber)
 }

@@ -4,6 +4,7 @@ import (
 	"github.com/tailored-style/pattern-generator/geometry"
 	"math"
 	"github.com/tailored-style/pattern-generator/pieces"
+	"fmt"
 )
 
 type PN3Yoke struct {
@@ -12,7 +13,7 @@ type PN3Yoke struct {
 
 func (p *PN3Yoke) Details() *pieces.Details {
 	return &pieces.Details{
-		PieceNumber: "3",
+		PieceNumber: 3,
 		Description: "Yoke",
 	}
 }
@@ -117,4 +118,8 @@ func (p *PN3Yoke) NotationLayer() *geometry.Block {
 	addAnchors(layer, p.anchors)
 
 	return layer
+}
+
+func (p *PN3Yoke) String() string {
+	return fmt.Sprintf("[PN: %d]", p.Details().PieceNumber)
 }

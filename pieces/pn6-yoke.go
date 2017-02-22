@@ -4,6 +4,7 @@ import (
 	"github.com/tailored-style/pattern-generator/geometry"
 	"math"
 	"github.com/tailored-style/pattern-generator/pieces"
+	"fmt"
 )
 
 type pn6Yoke struct {
@@ -26,7 +27,7 @@ func NewPN6Yoke(height float64, neck float64, chest float64, waist float64, hip 
 
 func (p *pn6Yoke) Details() *pieces.Details {
 	return &pieces.Details{
-		PieceNumber: "6",
+		PieceNumber: 6,
 		Description: "Yoke",
 	}
 }
@@ -154,4 +155,8 @@ func (p *pn6Yoke) NotationLayer() *geometry.Block {
 	addAnchors(layer, anchors)
 
 	return layer
+}
+
+func (p *pn6Yoke) String() string {
+	return fmt.Sprintf("[PN: %d]", p.Details().PieceNumber)
 }

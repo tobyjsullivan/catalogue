@@ -4,6 +4,7 @@ import (
 	"github.com/tailored-style/pattern-generator/geometry"
 	"math"
 	"github.com/tailored-style/pattern-generator/pieces"
+	"fmt"
 )
 
 const PN4_BUTTON_WIDTH = 1.5
@@ -28,7 +29,7 @@ func NewPN4TorsoFront(height float64, neck float64, chest float64, waist float64
 
 func (p *pn4TorsoFront) Details() *pieces.Details {
 	return &pieces.Details{
-		PieceNumber: "4",
+		PieceNumber: 4,
 		Description: "Torso Front",
 	}
 }
@@ -377,4 +378,8 @@ func (p *pn4TorsoFront) NotationLayer() *geometry.Block {
 	addAnchors(layer, anchors)
 
 	return layer
+}
+
+func (p *pn4TorsoFront) String() string {
+	return fmt.Sprintf("[PN: %d]", p.Details().PieceNumber)
 }

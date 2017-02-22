@@ -4,6 +4,7 @@ import (
 	"github.com/tailored-style/pattern-generator/geometry"
 	"math"
 	"github.com/tailored-style/pattern-generator/pieces"
+	"fmt"
 )
 
 type pn5TorsoBack struct {
@@ -24,7 +25,7 @@ func NewPN5TorsoBack(height float64, chest float64, waist float64, hip float64) 
 
 func (p *pn5TorsoBack) Details() *pieces.Details {
 	return &pieces.Details{
-		PieceNumber: "5",
+		PieceNumber: 5,
 		Description: "Torso Back",
 	}
 }
@@ -328,4 +329,8 @@ func (p *pn5TorsoBack) NotationLayer() *geometry.Block {
 	addAnchors(layer, anchors)
 
 	return layer
+}
+
+func (p *pn5TorsoBack) String() string {
+	return fmt.Sprintf("[PN: %d]", p.Details().PieceNumber)
 }
