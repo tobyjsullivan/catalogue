@@ -19,12 +19,12 @@ type sn11001Shirt struct {
 
 func NewSN11001Shirt(height float64, neck float64, chest float64, waist float64, hip float64, sleeve float64, wrist float64) styles.Style {
 	return &sn11001Shirt{
-		height:height,
-		neckCircumference:neck,
-		chestCircumference:chest,
-		waistCircumference:chest,
-		hipCircumference:hip,
-		sleeveLength:sleeve,
+		height: height,
+		neckCircumference: neck,
+		chestCircumference: chest,
+		waistCircumference: waist,
+		hipCircumference: hip,
+		sleeveLength: sleeve,
 		wristCircumference: wrist,
 	}
 }
