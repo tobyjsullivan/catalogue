@@ -150,11 +150,11 @@ func (p *pn10Collar) bottomStitch() geometry.Line {
 			Start: p.a(),
 			End: p.g(),
 		},
-		&geometry.ParabolaCurve{
-			Start: p.g(),
-			End: p.c(),
-			StartingAngle: &geometry.Angle{Rads: 0.0},
-			ArcAngle: p.f().AngleRelativeTo(p.c()).Subtract(&geometry.Angle{Rads: math.Pi / 2.0}),
+		&geometry.Poly3Curve{
+			P0: p.g(),
+			P1: p.c(),
+			A0: &geometry.Angle{Rads: 0.0},
+			A1:p.f().AngleRelativeTo(p.c()).Perpendicular(),
 		},
 	)
 

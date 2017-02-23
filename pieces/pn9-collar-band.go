@@ -195,11 +195,11 @@ func (p *pn9CollarBand) bottomStitch() geometry.Line {
 			Start: p.a(),
 			End: p.b(),
 		},
-		&geometry.ParabolaCurve{
-			Start: p.b(),
-			End: p.g(),
-			StartingAngle: &geometry.Angle{Rads: 0.0},
-			ArcAngle: end.AngleAt(0.0),
+		&geometry.Poly3Curve{
+			P0: p.b(),
+			P1: p.g(),
+			A0: &geometry.Angle{Rads: 0.0},
+			A1: end.AngleAt(0.0),
 		},
 		end,
 	)

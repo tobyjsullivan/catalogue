@@ -213,11 +213,11 @@ func (p *pn7Sleeve) frontArmholeStitch() geometry.Line {
 	}
 
 	startAngle := p.w().AngleRelativeTo(p.e()).Perpendicular()
-	partC := &geometry.ParabolaCurve{
-		Start: p.e(),
-		End: p.o(),
-		StartingAngle: startAngle,
-		ArcAngle: shoulderAngle.Subtract(startAngle),
+	partC := &geometry.Poly3Curve{
+		P0: p.o(),
+		P1: p.e(),
+		A0: shoulderAngle,
+		A1: startAngle,
 	}
 
 	line := &geometry.Polyline{}
@@ -225,7 +225,7 @@ func (p *pn7Sleeve) frontArmholeStitch() geometry.Line {
 	line.AddLine(
 		partA,
 		partB,
-		&geometry.ReverseLine{InnerLine: partC},
+		partC,
 	)
 
 	return line
