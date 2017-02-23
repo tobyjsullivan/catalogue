@@ -198,11 +198,11 @@ func (p *pn7Sleeve) frontArmholeStitch() geometry.Line {
 
 	shoulderAngle := p.e().AngleRelativeTo(a)
 
-	partA := &geometry.EllipseCurve{
-		Start: a,
-		End: p.n(),
-		StartingAngle: &geometry.Angle{Rads: math.Pi * 3.0 / 2.0},
-		ArcAngle: shoulderAngle.Perpendicular(),
+	partA := &geometry.Poly3Curve{
+		P0: a,
+		P1: p.n(),
+		A0: &geometry.Angle{Rads: 0.0},
+		A1: shoulderAngle,
 	}
 
 	partB := &geometry.ThreePointCurve{
@@ -234,11 +234,11 @@ func (p *pn7Sleeve) frontArmholeStitch() geometry.Line {
 func (p *pn7Sleeve) backArmholeStitch() geometry.Line {
 	shoulderAngle := p.f().AngleRelativeTo(p.a())
 
-	partA := &geometry.EllipseCurve{
-		Start: p.a(),
-		End: p.s(),
-		StartingAngle: &geometry.Angle{Rads: math.Pi / 2.0},
-		ArcAngle: shoulderAngle.Perpendicular(),
+	partA := &geometry.Poly3Curve{
+		P0: p.a(),
+		P1: p.s(),
+		A0: &geometry.Angle{Rads: 0.0},
+		A1: shoulderAngle,
 	}
 
 	partB := &geometry.ThreePointCurve{
@@ -249,11 +249,11 @@ func (p *pn7Sleeve) backArmholeStitch() geometry.Line {
 	}
 
 	startAngle := p.x().AngleRelativeTo(p.f())
-	partC := &geometry.EllipseCurve{
-		Start: p.f(),
-		End: p.v(),
-		StartingAngle: startAngle,
-		ArcAngle: p.a().AngleRelativeTo(p.f()).Subtract(startAngle).Perpendicular().Opposite(),
+	partC := &geometry.Poly3Curve{
+		P0: p.f(),
+		P1: p.v(),
+		A0: startAngle.Perpendicular(),
+		A1: shoulderAngle,
 	}
 
 	line := &geometry.Polyline{}
