@@ -44,6 +44,9 @@ func (p *pn10Collar) CutLayer() *geometry.Block {
 
 	layer.AddLine(
 		p.centreBack(),
+		pieces.AddSeamAllowance(p.bottomStitch(), true),
+		pieces.AddSeamAllowance(p.topStitch(), false),
+		pieces.AddSeamAllowance(p.rightStitch(), false),
 	)
 
 	return layer
@@ -150,11 +153,13 @@ func (p *pn10Collar) bottomStitch() geometry.Line {
 			Start: p.a(),
 			End: p.g(),
 		},
-		&geometry.Poly3Curve{
-			P0: p.g(),
-			P1: p.c(),
-			A0: &geometry.Angle{Rads: 0.0},
-			A1:p.f().AngleRelativeTo(p.c()).Perpendicular(),
+		&geometry.PolyNCurve{
+			Points: []*geometry.Point{
+				p.g(),
+				p.c(),
+			},
+			StartAngle: &geometry.Angle{Rads: 0.0},
+			EndAngle: p.f().AngleRelativeTo(p.c()).Perpendicular(),
 		},
 	)
 
@@ -176,11 +181,13 @@ func (p *pn10Collar) topStitch() geometry.Line {
 			Start: p.b(),
 			End: p.h(),
 		},
-		&geometry.ParabolaCurve{
-			Start: p.h(),
-			End: p.f(),
-			StartingAngle: &geometry.Angle{Rads: 0.0},
-			ArcAngle: &geometry.Angle{Rads: math.Pi / 16.0},
+		&geometry.PolyNCurve{
+			Points: []*geometry.Point{
+				p.h(),
+				p.f(),
+			},
+			StartAngle: &geometry.Angle{Rads: 0.0},
+			EndAngle: &geometry.Angle{Rads: math.Pi / 24.0},
 		},
 	)
 

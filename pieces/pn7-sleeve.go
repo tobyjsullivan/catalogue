@@ -194,77 +194,32 @@ func (p *pn7Sleeve) backArmholeLength() float64 {
 }
 
 func (p *pn7Sleeve) frontArmholeStitch() geometry.Line {
-	a := p.a()
-
-	shoulderAngle := p.e().AngleRelativeTo(a)
-
-	partA := &geometry.Poly3Curve{
-		P0: a,
-		P1: p.n(),
-		A0: &geometry.Angle{Rads: 0.0},
-		A1: shoulderAngle,
+	return &geometry.PolyNCurve{
+		Points: []*geometry.Point{
+			p.a(),
+			p.n(),
+			p.l(),
+			p.o(),
+			p.e(),
+		},
+		StartAngle: &geometry.Angle{Rads: 0.0},
+		EndAngle: p.w().AngleRelativeTo(p.e()).Perpendicular(),
 	}
-
-	partB := &geometry.ThreePointCurve{
-		Start: p.n(),
-		Middle: p.l(),
-		End: p.o(),
-		Rotation: shoulderAngle,
-	}
-
-	startAngle := p.w().AngleRelativeTo(p.e()).Perpendicular()
-	partC := &geometry.Poly3Curve{
-		P0: p.o(),
-		P1: p.e(),
-		A0: shoulderAngle,
-		A1: startAngle,
-	}
-
-	line := &geometry.Polyline{}
-
-	line.AddLine(
-		partA,
-		partB,
-		partC,
-	)
-
-	return line
 }
 
 func (p *pn7Sleeve) backArmholeStitch() geometry.Line {
-	shoulderAngle := p.f().AngleRelativeTo(p.a())
-
-	partA := &geometry.Poly3Curve{
-		P0: p.a(),
-		P1: p.s(),
-		A0: &geometry.Angle{Rads: 0.0},
-		A1: shoulderAngle,
+	return &geometry.PolyNCurve{
+		Points: []*geometry.Point{
+			p.a(),
+			p.s(),
+			p.t(),
+			p.u(),
+			p.v(),
+			p.f(),
+		},
+		StartAngle: &geometry.Angle{Rads: 0.0},
+		EndAngle: p.x().AngleRelativeTo(p.f()).Perpendicular(),
 	}
-
-	partB := &geometry.ThreePointCurve{
-		Start: p.s(),
-		Middle: p.u(),
-		End: p.v(),
-		Rotation: shoulderAngle,
-	}
-
-	startAngle := p.x().AngleRelativeTo(p.f())
-	partC := &geometry.Poly3Curve{
-		P0: p.f(),
-		P1: p.v(),
-		A0: startAngle.Perpendicular(),
-		A1: shoulderAngle,
-	}
-
-	line := &geometry.Polyline{}
-
-	line.AddLine(
-		partA,
-		partB,
-		&geometry.ReverseLine{InnerLine: partC},
-	)
-
-	return line
 }
 
 func (p *pn7Sleeve) underSleeveStitchLeft() geometry.Line {

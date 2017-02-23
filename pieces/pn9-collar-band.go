@@ -195,11 +195,13 @@ func (p *pn9CollarBand) bottomStitch() geometry.Line {
 			Start: p.a(),
 			End: p.b(),
 		},
-		&geometry.Poly3Curve{
-			P0: p.b(),
-			P1: p.g(),
-			A0: &geometry.Angle{Rads: 0.0},
-			A1: end.AngleAt(0.0),
+		&geometry.PolyNCurve{
+			Points: []*geometry.Point{
+				p.b(),
+				p.g(),
+			},
+			StartAngle: &geometry.Angle{Rads: 0.0},
+			EndAngle: end.AngleAt(0.0),
 		},
 		end,
 	)
@@ -208,6 +210,9 @@ func (p *pn9CollarBand) bottomStitch() geometry.Line {
 }
 
 func (p *pn9CollarBand) topStitch() geometry.Line {
+
+
+
 	line := &geometry.Polyline{}
 
 	end := &geometry.StraightLine{
@@ -215,24 +220,29 @@ func (p *pn9CollarBand) topStitch() geometry.Line {
 		End: p.j(),
 	}
 
-	angleAtK := (&geometry.StraightLine{Start: p.i(), End: p.f()}).AngleAt(0.0)
+	angleAtI := (&geometry.StraightLine{Start: p.i(), End: p.f()}).AngleAt(0.0)
 
 	line.AddLine(
 		&geometry.StraightLine{
 			Start: p.d(),
 			End: p.k(),
 		},
-		&geometry.ParabolaCurve{
-			Start: p.k(),
-			End: p.i(),
-			StartingAngle: &geometry.Angle{Rads: 0.0},
-			ArcAngle: angleAtK,
+		&geometry.PolyNCurve{
+			Points: []*geometry.Point{
+				p.k(),
+				p.i(),
+			},
+			StartAngle: &geometry.Angle{Rads: 0.0},
+			EndAngle: angleAtI,
 		},
-		&geometry.EllipseCurve{
-			Start: p.i(),
-			End: p.m(),
-			StartingAngle: angleAtK.Subtract(&geometry.Angle{Rads: math.Pi / 2.0}),
-			ArcAngle: end.AngleAt(0.0).Subtract(angleAtK),
+		&geometry.PolyNCurve{
+			Points: []*geometry.Point{
+				p.i(),
+				p.l(),
+				p.m(),
+			},
+			StartAngle: angleAtI,
+			EndAngle: end.AngleAt(0.0),
 		},
 		end,
 	)
