@@ -210,9 +210,6 @@ func (p *pn9CollarBand) bottomStitch() geometry.Line {
 }
 
 func (p *pn9CollarBand) topStitch() geometry.Line {
-
-
-
 	line := &geometry.Polyline{}
 
 	end := &geometry.StraightLine{

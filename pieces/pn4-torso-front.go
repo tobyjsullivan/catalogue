@@ -47,7 +47,7 @@ func (p *pn4TorsoFront) b() *geometry.Point {
 }
 
 func (p *pn4TorsoFront) c() *geometry.Point {
-	return p.b().SquareLeft(p.chestCircumference/4.0 + 1.4)
+	return p.b().SquareLeft(p.chestCircumference/4.0 + 1.6)
 }
 
 func (p *pn4TorsoFront) d() *geometry.Point {
@@ -244,11 +244,16 @@ func (p *pn4TorsoFront) armholeStitch() geometry.Line {
 }
 
 func (p *pn4TorsoFront) sideSeamStitch() geometry.Line {
-	return &geometry.ThreePointCurve{
-		Start: p.i(),
-		Middle: p.g(),
-		End: p.c(),
-		Rotation: &geometry.Angle{Rads: math.Pi / 2.0},
+	return &geometry.PolyNCurve{
+		Points: []*geometry.Point{
+			p.c(),
+			p.e(),
+			p.g(),
+			p.i(),
+		},
+		StartAngle: &geometry.Angle{Rads: -math.Pi / 2.0},
+		EndAngle: &geometry.Angle{Rads: -math.Pi / 2.0},
+		Vertical: true,
 	}
 }
 
@@ -290,7 +295,7 @@ func (p *pn4TorsoFront) CutLayer() *geometry.Block {
 		pieces.Notch(armholeCut, 7.6),
 		pieces.Notch(armholeCut, armholeCut.Length() - 7.6),
 		pieces.Notch(armholeCut, armholeCut.Length() - 8.9),
-		pieces.AddSeamAllowance(p.sideSeamStitch(), false),
+		pieces.AddSeamAllowance(p.sideSeamStitch(), true),
 		pieces.AddSeamAllowance(p.hemlineStitch(), false),
 		pieces.AddSeamAllowance(p.buttonStandTopA(), false),
 		pieces.AddSeamAllowance(p.buttonStandTopB(), true),
