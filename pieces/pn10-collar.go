@@ -66,7 +66,7 @@ func (p *pn10Collar) NotationLayer() *geometry.Block {
 	anchors["G"] = p.g()
 	anchors["H"] = p.h()
 	anchors["I"] = p.i()
-	addAnchors(layer, anchors)
+	AddAnchors(layer, anchors)
 
 	return layer
 }

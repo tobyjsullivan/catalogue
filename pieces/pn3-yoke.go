@@ -115,7 +115,7 @@ func (p *PN3Yoke) NotationLayer() *geometry.Block {
 	layer := &geometry.Block{}
 
 	// Draw all points (DEBUG)
-	addAnchors(layer, p.anchors)
+	AddAnchors(layer, p.anchors)
 
 	return layer
 }

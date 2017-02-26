@@ -328,7 +328,7 @@ func (p *pn7Sleeve) NotationLayer() *geometry.Block {
 	anchors["V"] = p.v()
 	anchors["W"] = p.w()
 	anchors["X"] = p.x()
-	addAnchors(layer, anchors)
+	AddAnchors(layer, anchors)
 
 	return layer
 }

@@ -331,7 +331,7 @@ func (p *pn5TorsoBack) NotationLayer() *geometry.Block {
 	anchors["U"] = p.u()
 	anchors["V"] = p.v()
 	anchors["W"] = p.w()
-	addAnchors(layer, anchors)
+	AddAnchors(layer, anchors)
 
 	return layer
 }

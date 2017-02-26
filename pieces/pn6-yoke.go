@@ -156,7 +156,7 @@ func (p *pn6Yoke) NotationLayer() *geometry.Block {
 	anchors["E"] = p.e()
 	anchors["F"] = p.f()
 	anchors["G"] = p.g()
-	addAnchors(layer, anchors)
+	AddAnchors(layer, anchors)
 
 	return layer
 }

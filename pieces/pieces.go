@@ -2,7 +2,7 @@ package pieces
 
 import "github.com/tailored-style/pattern-generator/geometry"
 
-func addAnchors(b *geometry.Block, anchors map[string]*geometry.Point) {
+func AddAnchors(b *geometry.Block, anchors map[string]*geometry.Point) {
 	for k, p := range anchors {
 		addAnchor(b, k, p)
 	}

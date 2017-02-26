@@ -73,7 +73,7 @@ func (p *pn9CollarBand) NotationLayer() *geometry.Block {
 	anchors["K"] = p.k()
 	anchors["L"] = p.l()
 	anchors["M"] = p.m()
-	addAnchors(layer, anchors)
+	AddAnchors(layer, anchors)
 
 	return layer
 }

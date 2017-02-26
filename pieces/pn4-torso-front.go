@@ -384,7 +384,7 @@ func (p *pn4TorsoFront) NotationLayer() *geometry.Block {
 	anchors["X"] = p.x()
 	anchors["Y"] = p.y()
 	anchors["Z"] = p.z()
-	addAnchors(layer, anchors)
+	AddAnchors(layer, anchors)
 
 	return layer
 }
