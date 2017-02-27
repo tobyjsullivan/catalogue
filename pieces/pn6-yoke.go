@@ -1,27 +1,28 @@
 package pieces
 
 import (
-	"github.com/tailored-style/pattern-generator/geometry"
-	"math"
-	"github.com/tailored-style/pattern-generator/pieces"
 	"fmt"
+	"math"
+
+	"github.com/tailored-style/pattern-generator/geometry"
+	"github.com/tailored-style/pattern-generator/pieces"
 )
 
 type pn6Yoke struct {
-	height float64
-	neckCircumference float64
+	height             float64
+	neckCircumference  float64
 	chestCircumference float64
 	waistCircumference float64
-	hipCircumference float64
+	hipCircumference   float64
 }
 
 func NewPN6Yoke(height float64, neck float64, chest float64, waist float64, hip float64) pieces.Piece {
 	return &pn6Yoke{
-		height:height,
-		neckCircumference:neck,
-		chestCircumference:chest,
-		waistCircumference:waist,
-		hipCircumference:hip,
+		height:             height,
+		neckCircumference:  neck,
+		chestCircumference: chest,
+		waistCircumference: waist,
+		hipCircumference:   hip,
 	}
 }
 
@@ -62,16 +63,16 @@ func (p *pn6Yoke) f() *geometry.Point {
 }
 
 func (p *pn6Yoke) g() *geometry.Point {
-	return  (&geometry.StraightLine{Start: p.f(), End: p.d()}).Resize(p.shoulderSeamLength()).End
+	return (&geometry.StraightLine{Start: p.f(), End: p.d()}).Resize(p.shoulderSeamLength()).End
 }
 
 func (p *pn6Yoke) shoulderSeamLength() float64 {
 	return (&pn4TorsoFront{
-		height: p.height,
-		neckCircumference: p.neckCircumference,
+		height:             p.height,
+		neckCircumference:  p.neckCircumference,
 		chestCircumference: p.chestCircumference,
 		waistCircumference: p.waistCircumference,
-		hipCircumference: p.hipCircumference,
+		hipCircumference:   p.hipCircumference,
 	}).shoulderStitch().Length()
 }
 
@@ -97,10 +98,10 @@ func (p *pn6Yoke) frontStitch() geometry.Line {
 
 func (p *pn6Yoke) armholeStitch() geometry.Line {
 	return &geometry.EllipseCurve{
-		Start: p.c(),
-		End:   p.g(),
+		Start:         p.c(),
+		End:           p.g(),
 		StartingAngle: &geometry.Angle{Rads: math.Pi},
-		ArcAngle: p.g().AngleRelativeTo(p.d()).Opposite().Subtract(&geometry.Angle{Rads: math.Pi}),
+		ArcAngle:      p.g().AngleRelativeTo(p.d()).Opposite().Subtract(&geometry.Angle{Rads: math.Pi}),
 	}
 }
 

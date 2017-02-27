@@ -1,10 +1,11 @@
 package pieces
 
 import (
+	"fmt"
+	"math"
+
 	"github.com/tailored-style/pattern-generator/geometry"
 	"github.com/tailored-style/pattern-generator/pieces"
-	"math"
-	"fmt"
 )
 
 type PN2TorsoBack struct {
@@ -39,7 +40,7 @@ func (p *PN2TorsoBack) populateAnchors() error {
 	a["7"] = a["5"].SquareDown(1.1)
 	a["8"] = a["5"].SquareDown(5.7)
 	a["9"] = a["8"].SquareLeft(0.5)
-	a["10"] = a["4"].DrawAt(&geometry.Angle{Rads: math.Pi/4.0}, 2.5)
+	a["10"] = a["4"].DrawAt(&geometry.Angle{Rads: math.Pi / 4.0}, 2.5)
 	a["11"] = a["0"].SquareDown(16.2)
 	a["12"] = a["11"].SquareRight(26.0)
 	a["13"] = a["11"].SquareDown(12.5)

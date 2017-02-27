@@ -1,32 +1,32 @@
 package styles
 
 import (
-	piece_catalogue "github.com/tobyjsullivan/catalogue/pieces"
 	"github.com/tailored-style/pattern-generator/pieces"
 	"github.com/tailored-style/pattern-generator/styles"
+	piece_catalogue "github.com/tobyjsullivan/catalogue/pieces"
 )
 
 const SN11001_CUFF_DEPTH = 6.2
 
 type sn11001Shirt struct {
-	height float64
-	neckCircumference float64
+	height             float64
+	neckCircumference  float64
 	chestCircumference float64
 	waistCircumference float64
-	hipCircumference float64
-	sleeveLength float64
+	hipCircumference   float64
+	sleeveLength       float64
 	wristCircumference float64
-	pieces []pieces.Piece
+	pieces             []pieces.Piece
 }
 
 func NewSN11001Shirt(height float64, neck float64, chest float64, waist float64, hip float64, sleeve float64, wrist float64) styles.Style {
 	return &sn11001Shirt{
-		height: height,
-		neckCircumference: neck,
+		height:             height,
+		neckCircumference:  neck,
 		chestCircumference: chest,
 		waistCircumference: waist,
-		hipCircumference: hip,
-		sleeveLength: sleeve,
+		hipCircumference:   hip,
+		sleeveLength:       sleeve,
 		wristCircumference: wrist,
 	}
 }
@@ -88,12 +88,12 @@ func (p *sn11001Shirt) Details() *styles.Details {
 		Description: "Tailored Shirt - v3.0 TEST",
 		StyleNumber: "11001",
 		Measurements: &pieces.Measurements{
-			Height: p.height,
-			NeckCircumference: p.neckCircumference,
+			Height:             p.height,
+			NeckCircumference:  p.neckCircumference,
 			ChestCircumference: p.chestCircumference,
 			WaistCircumference: p.waistCircumference,
-			HipCircumference: p.hipCircumference,
-			SleeveLength: p.sleeveLength,
+			HipCircumference:   p.hipCircumference,
+			SleeveLength:       p.sleeveLength,
 			WristCircumference: p.wristCircumference,
 		},
 	}

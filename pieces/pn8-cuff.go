@@ -1,9 +1,10 @@
 package pieces
 
 import (
-	"github.com/tailored-style/pattern-generator/pieces"
-	"github.com/tailored-style/pattern-generator/geometry"
 	"fmt"
+
+	"github.com/tailored-style/pattern-generator/geometry"
+	"github.com/tailored-style/pattern-generator/pieces"
 )
 
 type pn8Cuff struct {
@@ -13,7 +14,7 @@ type pn8Cuff struct {
 
 func NewPN8Cuff(wristCircumference float64, cuffDepth float64) pieces.Piece {
 	return &pn8Cuff{
-		cuffDepth: cuffDepth,
+		cuffDepth:          cuffDepth,
 		wristCircumference: wristCircumference,
 	}
 }
@@ -57,35 +58,35 @@ func (p *pn8Cuff) h() *geometry.Point {
 func (p *pn8Cuff) topStitch() geometry.Line {
 	return &geometry.StraightLine{
 		Start: p.a(),
-		End: p.b(),
+		End:   p.b(),
 	}
 }
 
 func (p *pn8Cuff) leftStitch() geometry.Line {
 	return &geometry.StraightLine{
 		Start: p.a(),
-		End: p.g(),
+		End:   p.g(),
 	}
 }
 
 func (p *pn8Cuff) rightStitch() geometry.Line {
 	return &geometry.StraightLine{
 		Start: p.b(),
-		End: p.h(),
+		End:   p.h(),
 	}
 }
 
 func (p *pn8Cuff) bottomStitch() geometry.Line {
 	return &geometry.StraightLine{
 		Start: p.g(),
-		End: p.h(),
+		End:   p.h(),
 	}
 }
 
 func (p *pn8Cuff) middleFold() geometry.Line {
 	return &geometry.StraightLine{
 		Start: p.d(),
-		End: p.e(),
+		End:   p.e(),
 	}
 }
 

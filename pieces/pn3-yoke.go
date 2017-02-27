@@ -1,10 +1,11 @@
 package pieces
 
 import (
-	"github.com/tailored-style/pattern-generator/geometry"
-	"math"
-	"github.com/tailored-style/pattern-generator/pieces"
 	"fmt"
+	"math"
+
+	"github.com/tailored-style/pattern-generator/geometry"
+	"github.com/tailored-style/pattern-generator/pieces"
 )
 
 type PN3Yoke struct {

@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/tailored-style/pattern-generator/rendering"
-	"github.com/tobyjsullivan/catalogue/styles"
 	"github.com/tobyjsullivan/catalogue/slopers"
+	"github.com/tobyjsullivan/catalogue/styles"
 )
 
 func main() {
@@ -29,9 +30,9 @@ func main() {
 	//m["wrist"] = 17.0
 
 	// PERSONAL - BODYxLABS ESTIMATE
-	m["height"] = 183.0 // height (input)
-	m["neck"] = 38.8 // neck (input)
-	m["chest"] = 110.25 // chest
+	m["height"] = 183.0             // height (input)
+	m["neck"] = 38.8                // neck (input)
+	m["chest"] = 110.25             // chest
 	m["belly_button_waist"] = 104.8 // belly_button_waist
 	m["natural_waist"] = 98.89
 	m["gluteal_hip"] = 109.42
@@ -41,9 +42,9 @@ func main() {
 	m["neck_to_gluteal_hip"] = 64.28
 	m["shoulder_to_midhand"] = 63.76
 	m["under_bust"] = 101.3
-	m["maximum_hip"] = 111.04 // maximum_hip
+	m["maximum_hip"] = 111.04              // maximum_hip
 	m["neck_shoulder_elbow_wrist"] = 84.23 // neck_shoulder_elbow_wrist
-	m["wrist"] = 18.33 // wrist
+	m["wrist"] = 18.33                     // wrist
 
 	style := styles.NewSN11001Shirt(
 		m["height"],
@@ -85,17 +86,17 @@ func main() {
 	fmt.Println("Generating PDF of torso sloper")
 	pieceRender := &rendering.Piece{
 		Piece: &slopers.Torso{
-			Height: m["height"],
-			NeckCircumference: m["neck"],
-			ShoulderToShoulder: m["across_back_shoulder_neck"],
-			ChestCircumference: m["chest"],
-			ShirtLength: m["neck_to_gluteal_hip"],
+			Height:                        m["height"],
+			NeckCircumference:             m["neck"],
+			ShoulderToShoulder:            m["across_back_shoulder_neck"],
+			ChestCircumference:            m["chest"],
+			ShirtLength:                   m["neck_to_gluteal_hip"],
 			BellyButtonWaistCircumference: m["belly_button_waist"],
-			NaturalWaistCircumference: m["natural_waist"],
-			HipCircumference: m["maximum_hip"],
-			ShirtSleeveLength: m["shoulder_to_midhand"],
-			BicepCircumference: m["mid_upper_arm"],
-			WristCircumference: m["wrist"],
+			NaturalWaistCircumference:     m["natural_waist"],
+			HipCircumference:              m["maximum_hip"],
+			ShirtSleeveLength:             m["shoulder_to_midhand"],
+			BicepCircumference:            m["mid_upper_arm"],
+			WristCircumference:            m["wrist"],
 		},
 	}
 	err = pieceRender.SavePDF("/Users/toby/sandbox/torso-out.pdf")

@@ -1,31 +1,32 @@
 package slopers
 
 import (
-	"github.com/tailored-style/pattern-generator/geometry"
-	catalogue_pieces "github.com/tobyjsullivan/catalogue/pieces"
-	"github.com/tailored-style/pattern-generator/pieces"
 	"math"
+
+	"github.com/tailored-style/pattern-generator/geometry"
+	"github.com/tailored-style/pattern-generator/pieces"
+	catalogue_pieces "github.com/tobyjsullivan/catalogue/pieces"
 )
 
 type Torso struct {
-	Height float64
-	NeckCircumference float64
-	ShoulderToShoulder float64
-	ChestCircumference float64
-	ShirtLength float64
+	Height                        float64
+	NeckCircumference             float64
+	ShoulderToShoulder            float64
+	ChestCircumference            float64
+	ShirtLength                   float64
 	BellyButtonWaistCircumference float64
-	NaturalWaistCircumference float64
-	HipCircumference float64
-	ShirtSleeveLength float64
-	BicepCircumference float64
-	WristCircumference float64
+	NaturalWaistCircumference     float64
+	HipCircumference              float64
+	ShirtSleeveLength             float64
+	BicepCircumference            float64
+	WristCircumference            float64
 }
 
 func (s *Torso) A() *geometry.Point {
 	return &geometry.Point{X: 0.0, Y: 0.0}
 }
 
-func (s *Torso) B() *geometry.Point{
+func (s *Torso) B() *geometry.Point {
 	return s.A().SquareDown(s.ShirtLength)
 }
 
@@ -70,7 +71,7 @@ func (s *Torso) L() *geometry.Point {
 }
 
 func (s *Torso) M() *geometry.Point {
-	return s.E().SquareRight(s.ChestCircumference / 4.0 + 0.635)
+	return s.E().SquareRight(s.ChestCircumference/4.0 + 0.635)
 }
 
 func (s *Torso) O() *geometry.Point {
@@ -99,7 +100,7 @@ func (s *Torso) BC() *geometry.Point {
 
 func (s *Torso) BD() *geometry.Point {
 	bb := s.BB()
-	return bb.DrawAt(s.BC().AngleRelativeTo(bb), (s.ShoulderToShoulder / 2.0) - s.BA().DistanceTo(s.A()))
+	return bb.DrawAt(s.BC().AngleRelativeTo(bb), (s.ShoulderToShoulder/2.0)-s.BA().DistanceTo(s.A()))
 }
 
 func (s *Torso) BE() *geometry.Point {
@@ -134,66 +135,56 @@ func (s *Torso) NotationLayer() *geometry.Block {
 	layer.AddLine(
 		&geometry.StraightLine{
 			Start: s.A(),
-			End: s.B(),
+			End:   s.B(),
 		},
 		&geometry.StraightLine{
 			Start: s.B(),
-			End: s.C(),
+			End:   s.C(),
 		},
 		&geometry.StraightLine{
 			Start: s.C(),
-			End: s.D(),
+			End:   s.D(),
 		},
 		&geometry.StraightLine{
 			Start: s.D(),
-			End: s.A(),
+			End:   s.A(),
 		},
 		&geometry.StraightLine{
 			Start: s.E(),
-			End: s.G(),
+			End:   s.G(),
 		},
 		&geometry.StraightLine{
 			Start: s.F(),
-			End: s.H(),
+			End:   s.H(),
 		},
 		&geometry.StraightLine{
 			Start: s.I(),
-			End: s.J(),
+			End:   s.J(),
 		},
 		&geometry.StraightLine{
 			Start: s.K(),
-			End: s.L(),
+			End:   s.L(),
 		},
 		&geometry.StraightLine{
 			Start: s.M(),
-			End: s.P(),
+			End:   s.P(),
 		},
 		&geometry.StraightLine{
 			Start: s.BB(),
-			End: s.BD(),
+			End:   s.BD(),
 		},
 		&geometry.EllipseCurve{
-			Start: s.A(),
-			End: s.BB(),
+			Start:         s.A(),
+			End:           s.BB(),
 			StartingAngle: &geometry.Angle{Rads: math.Pi * 3.0 / 2.0},
-			ArcAngle: s.BD().AngleRelativeTo(s.BB()),
+			ArcAngle:      s.BD().AngleRelativeTo(s.BB()),
 		},
 		&geometry.EllipseCurve{
-			Start: s.M(),
-			End: s.BF(),
+			Start:         s.M(),
+			End:           s.BF(),
 			StartingAngle: &geometry.Angle{Rads: math.Pi * 3.0 / 2.0},
-			ArcAngle: &geometry.Angle{Rads: math.Pi / 2.0},
+			ArcAngle:      &geometry.Angle{Rads: math.Pi / 2.0},
 		},
-		//&geometry.PolyNCurve{
-		//	Points: []*geometry.Point{
-		//		s.BH(),
-		//		s.BG(),
-		//		s.BF(),
-		//	},
-		//	StartAngle: &geometry.Angle{Rads: 0.0},
-		//	EndAngle: s.M().AngleRelativeTo(s.BH()),
-		//	Vertical: true,
-		//},
 	)
 
 	anchors := make(map[string]*geometry.Point)

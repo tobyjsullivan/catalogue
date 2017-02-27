@@ -1,25 +1,26 @@
 package pieces
 
 import (
-	"github.com/tailored-style/pattern-generator/geometry"
-	"math"
-	"github.com/tailored-style/pattern-generator/pieces"
 	"fmt"
+	"math"
+
+	"github.com/tailored-style/pattern-generator/geometry"
+	"github.com/tailored-style/pattern-generator/pieces"
 )
 
 type pn5TorsoBack struct {
-	height float64
+	height             float64
 	chestCircumference float64
 	waistCircumference float64
-	hipCircumference float64
+	hipCircumference   float64
 }
 
 func NewPN5TorsoBack(height float64, chest float64, waist float64, hip float64) pieces.Piece {
 	return &pn5TorsoBack{
-		height: height,
+		height:             height,
 		chestCircumference: chest,
 		waistCircumference: waist,
-		hipCircumference: hip,
+		hipCircumference:   hip,
 	}
 }
 
@@ -190,8 +191,8 @@ func (p *pn5TorsoBack) sideSeamStitch() geometry.Line {
 			p.i(),
 		},
 		StartAngle: &geometry.Angle{Rads: -math.Pi / 2.0},
-		EndAngle: &geometry.Angle{Rads: -math.Pi / 2.0},
-		Vertical: true,
+		EndAngle:   &geometry.Angle{Rads: -math.Pi / 2.0},
+		Vertical:   true,
 	}
 }
 
@@ -224,19 +225,19 @@ func (p *pn5TorsoBack) dartStitch() geometry.Line {
 	dart.AddLine(
 		&geometry.StraightLine{
 			Start: p.s(),
-			End: p.v(),
+			End:   p.v(),
 		},
 		&geometry.StraightLine{
 			Start: p.v(),
-			End: p.u(),
+			End:   p.u(),
 		},
 		&geometry.StraightLine{
 			Start: p.u(),
-			End: p.w(),
+			End:   p.w(),
 		},
 		&geometry.StraightLine{
 			Start: p.w(),
-			End: p.s(),
+			End:   p.s(),
 		},
 	)
 
@@ -253,7 +254,7 @@ func (p *pn5TorsoBack) CutLayer() *geometry.Block {
 		pieces.AddSeamAllowance(p.yokeSeamStitch(), false),
 		armscyeCut,
 		pieces.Notch(armscyeCut, 7.6),
-		pieces.Notch(armscyeCut, armscyeCut.Length() - 7.6),
+		pieces.Notch(armscyeCut, armscyeCut.Length()-7.6),
 		pieces.AddSeamAllowance(p.sideSeamStitch(), false),
 		pieces.AddSeamAllowance(p.hemLineStitch(), true),
 	)
@@ -263,7 +264,6 @@ func (p *pn5TorsoBack) CutLayer() *geometry.Block {
 
 func (p *pn5TorsoBack) StitchLayer() *geometry.Block {
 	layer := &geometry.Block{}
-
 
 	layer.AddLine(
 		p.yokeSeamStitch(),
@@ -281,22 +281,22 @@ func (p *pn5TorsoBack) NotationLayer() *geometry.Block {
 
 	chestLine := &geometry.StraightLine{
 		Start: p.b(),
-		End: p.c(),
+		End:   p.c(),
 	}
 
 	naturalWaistLine := &geometry.StraightLine{
 		Start: p.d(),
-		End: p.e(),
+		End:   p.e(),
 	}
 
 	bellyButtonWaistLine := &geometry.StraightLine{
 		Start: p.f(),
-		End: p.g(),
+		End:   p.g(),
 	}
 
 	hipLine := &geometry.StraightLine{
 		Start: p.h(),
-		End: p.i(),
+		End:   p.i(),
 	}
 
 	layer.AddLine(

@@ -1,27 +1,28 @@
 package pieces
 
 import (
-	"github.com/tailored-style/pattern-generator/pieces"
 	"fmt"
-	"github.com/tailored-style/pattern-generator/geometry"
 	"math"
+
+	"github.com/tailored-style/pattern-generator/geometry"
+	"github.com/tailored-style/pattern-generator/pieces"
 )
 
 type pn10Collar struct {
-	height float64
-	neckCircumference float64
+	height             float64
+	neckCircumference  float64
 	chestCircumference float64
 	waistCircumference float64
-	hipCircumference float64
+	hipCircumference   float64
 }
 
 func NewPN10Collar(height float64, neck float64, chest float64, waist float64, hip float64) pieces.Piece {
 	return &pn10Collar{
-		height: height,
-		neckCircumference: neck,
+		height:             height,
+		neckCircumference:  neck,
 		chestCircumference: chest,
 		waistCircumference: waist,
-		hipCircumference: hip,
+		hipCircumference:   hip,
 	}
 }
 func (p *pn10Collar) OnFold() bool {
@@ -84,8 +85,8 @@ func (p *pn10Collar) String() string {
 
 func (p *pn10Collar) collarBand() *pn9CollarBand {
 	return &pn9CollarBand{
-		height: p.height,
-		neckCircumference: p.neckCircumference,
+		height:             p.height,
+		neckCircumference:  p.neckCircumference,
 		chestCircumference: p.chestCircumference,
 		waistCircumference: p.waistCircumference,
 	}
@@ -122,7 +123,7 @@ func (p *pn10Collar) e() *geometry.Point {
 func (p *pn10Collar) f() *geometry.Point {
 	return (&geometry.StraightLine{
 		Start: p.c(),
-		End: p.e(),
+		End:   p.e(),
 	}).Resize(p.c().DistanceTo(p.e()) + 0.6).End
 }
 
@@ -141,7 +142,7 @@ func (p *pn10Collar) i() *geometry.Point {
 func (p *pn10Collar) centreBack() geometry.Line {
 	return &geometry.StraightLine{
 		Start: p.b(),
-		End: p.a(),
+		End:   p.a(),
 	}
 }
 
@@ -151,7 +152,7 @@ func (p *pn10Collar) bottomStitch() geometry.Line {
 	line.AddLine(
 		&geometry.StraightLine{
 			Start: p.a(),
-			End: p.g(),
+			End:   p.g(),
 		},
 		&geometry.PolyNCurve{
 			Points: []*geometry.Point{
@@ -159,7 +160,7 @@ func (p *pn10Collar) bottomStitch() geometry.Line {
 				p.c(),
 			},
 			StartAngle: &geometry.Angle{Rads: 0.0},
-			EndAngle: p.f().AngleRelativeTo(p.c()).Perpendicular(),
+			EndAngle:   p.f().AngleRelativeTo(p.c()).Perpendicular(),
 		},
 	)
 
@@ -169,7 +170,7 @@ func (p *pn10Collar) bottomStitch() geometry.Line {
 func (p *pn10Collar) rightStitch() geometry.Line {
 	return &geometry.StraightLine{
 		Start: p.f(),
-		End: p.c(),
+		End:   p.c(),
 	}
 }
 
@@ -179,7 +180,7 @@ func (p *pn10Collar) topStitch() geometry.Line {
 	line.AddLine(
 		&geometry.StraightLine{
 			Start: p.b(),
-			End: p.h(),
+			End:   p.h(),
 		},
 		&geometry.PolyNCurve{
 			Points: []*geometry.Point{
@@ -187,7 +188,7 @@ func (p *pn10Collar) topStitch() geometry.Line {
 				p.f(),
 			},
 			StartAngle: &geometry.Angle{Rads: 0.0},
-			EndAngle: &geometry.Angle{Rads: math.Pi / 24.0},
+			EndAngle:   &geometry.Angle{Rads: math.Pi / 24.0},
 		},
 	)
 

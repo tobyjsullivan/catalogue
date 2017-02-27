@@ -1,10 +1,11 @@
 package pieces
 
 import (
+	"fmt"
+	"math"
+
 	"github.com/tailored-style/pattern-generator/geometry"
 	"github.com/tailored-style/pattern-generator/pieces"
-	"math"
-	"fmt"
 )
 
 type PN1TorsoFront struct {
@@ -102,28 +103,28 @@ func (p *PN1TorsoFront) StitchLayer() *geometry.Block {
 	scyeTop := &geometry.EllipseCurve{
 		Start:         p.anchors["6"],
 		End:           p.anchors["17"],
-		StartingAngle: &geometry.Angle{Rads:0.0},
-		ArcAngle:      &geometry.Angle{Rads:math.Pi / 8.0},
+		StartingAngle: &geometry.Angle{Rads: 0.0},
+		ArcAngle:      &geometry.Angle{Rads: math.Pi / 8.0},
 	}
 
 	scyeBottom := &geometry.EllipseCurve{
 		Start:         p.anchors["6"],
 		End:           p.anchors["1"],
-		StartingAngle: &geometry.Angle{Rads:math.Pi},
-		ArcAngle:      &geometry.Angle{Rads:math.Pi * (2.0 / 5.0)},
+		StartingAngle: &geometry.Angle{Rads: math.Pi},
+		ArcAngle:      &geometry.Angle{Rads: math.Pi * (2.0 / 5.0)},
 	}
 
 	sideSeamA := &geometry.EllipseCurve{
 		Start:         p.anchors["11"],
 		End:           p.anchors["1"],
-		StartingAngle: &geometry.Angle{Rads:0.0},
-		ArcAngle:      &geometry.Angle{Rads:math.Pi / 4.0},
+		StartingAngle: &geometry.Angle{Rads: 0.0},
+		ArcAngle:      &geometry.Angle{Rads: math.Pi / 4.0},
 	}
 
 	sideSeamB := &geometry.EllipseCurve{
 		Start:         p.anchors["11"],
 		End:           p.anchors["12"],
-		StartingAngle: &geometry.Angle{Rads:math.Pi},
+		StartingAngle: &geometry.Angle{Rads: math.Pi},
 		ArcAngle:      &geometry.Angle{Rads: math.Pi / 8.0},
 	}
 

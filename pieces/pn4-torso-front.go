@@ -1,29 +1,30 @@
 package pieces
 
 import (
-	"github.com/tailored-style/pattern-generator/geometry"
-	"math"
-	"github.com/tailored-style/pattern-generator/pieces"
 	"fmt"
+	"math"
+
+	"github.com/tailored-style/pattern-generator/geometry"
+	"github.com/tailored-style/pattern-generator/pieces"
 )
 
 const PN4_BUTTON_WIDTH = 1.5
 
 type pn4TorsoFront struct {
-	height float64
-	neckCircumference float64
+	height             float64
+	neckCircumference  float64
 	chestCircumference float64
 	waistCircumference float64
-	hipCircumference float64
+	hipCircumference   float64
 }
 
 func NewPN4TorsoFront(height float64, neck float64, chest float64, waist float64, hip float64) pieces.Piece {
 	return &pn4TorsoFront{
-		height: height,
-		neckCircumference: neck,
+		height:             height,
+		neckCircumference:  neck,
 		chestCircumference: chest,
 		waistCircumference: waist,
-		hipCircumference: hip,
+		hipCircumference:   hip,
 	}
 }
 
@@ -114,7 +115,7 @@ func (p *pn4TorsoFront) r() *geometry.Point {
 
 func (p *pn4TorsoFront) s() *geometry.Point {
 	o := p.o()
-	return  o.SquareUp(o.DistanceTo(p.q()) / 2.0)
+	return o.SquareUp(o.DistanceTo(p.q()) / 2.0)
 }
 
 func (p *pn4TorsoFront) t() *geometry.Point {
@@ -161,7 +162,7 @@ func (p *pn4TorsoFront) necklineStitch() geometry.Line {
 	neckline.AddLine(
 		&geometry.StraightLine{
 			Start: p.t(),
-			End: p.l(),
+			End:   p.l(),
 		},
 		p.frontNeckLine(),
 	)
@@ -180,35 +181,35 @@ func (p *pn4TorsoFront) buttonStandTopB() geometry.Line {
 func (p *pn4TorsoFront) buttonStandFoldA() geometry.Line {
 	return &geometry.StraightLine{
 		Start: p.t(),
-		End: p.x(),
+		End:   p.x(),
 	}
 }
 
 func (p *pn4TorsoFront) buttonStandFoldB() geometry.Line {
 	return &geometry.StraightLine{
 		Start: p.v(),
-		End: p.z(),
+		End:   p.z(),
 	}
 }
 
 func (p *pn4TorsoFront) buttonStandFoldC() geometry.Line {
 	return &geometry.StraightLine{
 		Start: p.w(),
-		End: p.y(),
+		End:   p.y(),
 	}
 }
 
 func (p *pn4TorsoFront) buttonStandBottom() geometry.Line {
 	return &geometry.StraightLine{
 		Start: p.x(),
-		End: p.y(),
+		End:   p.y(),
 	}
 }
 
 func (p *pn4TorsoFront) buttonStandFront() geometry.Line {
 	return &geometry.StraightLine{
 		Start: p.w(),
-		End: p.y(),
+		End:   p.y(),
 	}
 }
 
@@ -252,11 +253,10 @@ func (p *pn4TorsoFront) sideSeamStitch() geometry.Line {
 			p.i(),
 		},
 		StartAngle: &geometry.Angle{Rads: -math.Pi / 2.0},
-		EndAngle: &geometry.Angle{Rads: -math.Pi / 2.0},
-		Vertical: true,
+		EndAngle:   &geometry.Angle{Rads: -math.Pi / 2.0},
+		Vertical:   true,
 	}
 }
-
 
 func (p *pn4TorsoFront) hemlineStitch() geometry.Line {
 	line := &geometry.Polyline{}
@@ -264,7 +264,7 @@ func (p *pn4TorsoFront) hemlineStitch() geometry.Line {
 	line.AddLine(
 		&geometry.StraightLine{
 			Start: p.x(),
-			End: p.k(),
+			End:   p.k(),
 		},
 		&geometry.SCurve{
 			Start:         p.k(),
@@ -293,8 +293,8 @@ func (p *pn4TorsoFront) CutLayer() *geometry.Block {
 		pieces.AddSeamAllowance(p.shoulderStitch(), true),
 		armholeCut,
 		pieces.Notch(armholeCut, 7.6),
-		pieces.Notch(armholeCut, armholeCut.Length() - 7.6),
-		pieces.Notch(armholeCut, armholeCut.Length() - 8.9),
+		pieces.Notch(armholeCut, armholeCut.Length()-7.6),
+		pieces.Notch(armholeCut, armholeCut.Length()-8.9),
 		pieces.AddSeamAllowance(p.sideSeamStitch(), true),
 		pieces.AddSeamAllowance(p.hemlineStitch(), false),
 		pieces.AddSeamAllowance(p.buttonStandTopA(), false),
@@ -328,22 +328,22 @@ func (p *pn4TorsoFront) NotationLayer() *geometry.Block {
 
 	chestLine := &geometry.StraightLine{
 		Start: p.b(),
-		End: p.c(),
+		End:   p.c(),
 	}
 
 	naturalWaistLine := &geometry.StraightLine{
 		Start: p.d(),
-		End: p.e(),
+		End:   p.e(),
 	}
 
 	bellyButtonWaistLine := &geometry.StraightLine{
 		Start: p.f(),
-		End: p.g(),
+		End:   p.g(),
 	}
 
 	hipLine := &geometry.StraightLine{
 		Start: p.h(),
-		End: p.i(),
+		End:   p.i(),
 	}
 
 	layer.AddLine(

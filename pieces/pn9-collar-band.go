@@ -1,27 +1,28 @@
 package pieces
 
 import (
-	"github.com/tailored-style/pattern-generator/pieces"
 	"fmt"
-	"github.com/tailored-style/pattern-generator/geometry"
 	"math"
+
+	"github.com/tailored-style/pattern-generator/geometry"
+	"github.com/tailored-style/pattern-generator/pieces"
 )
 
 type pn9CollarBand struct {
-	height float64
-	neckCircumference float64
+	height             float64
+	neckCircumference  float64
 	chestCircumference float64
 	waistCircumference float64
-	hipCircumference float64
+	hipCircumference   float64
 }
 
 func NewPN9CollarBand(height float64, neck float64, chest float64, waist float64, hip float64) pieces.Piece {
 	return &pn9CollarBand{
-		height: height,
-		neckCircumference: neck,
+		height:             height,
+		neckCircumference:  neck,
 		chestCircumference: chest,
 		waistCircumference: waist,
-		hipCircumference: hip,
+		hipCircumference:   hip,
 	}
 }
 
@@ -91,21 +92,21 @@ func (p *pn9CollarBand) String() string {
 
 func (p *pn9CollarBand) backNeckLength() float64 {
 	return (&pn6Yoke{
-		height: p.height,
-		neckCircumference: p.neckCircumference,
+		height:             p.height,
+		neckCircumference:  p.neckCircumference,
 		chestCircumference: p.chestCircumference,
 		waistCircumference: p.waistCircumference,
-		hipCircumference: p.hipCircumference,
+		hipCircumference:   p.hipCircumference,
 	}).backNeckLine().Length()
 }
 
 func (p *pn9CollarBand) frontNeckLength() float64 {
 	return (&pn4TorsoFront{
-		height: p.height,
-		neckCircumference: p.neckCircumference,
+		height:             p.height,
+		neckCircumference:  p.neckCircumference,
 		chestCircumference: p.chestCircumference,
 		waistCircumference: p.waistCircumference,
-		hipCircumference: p.hipCircumference,
+		hipCircumference:   p.hipCircumference,
 	}).frontNeckLine().Length()
 }
 
@@ -143,10 +144,10 @@ func (p *pn9CollarBand) g() *geometry.Point {
 
 func (p *pn9CollarBand) frontBottomLine() geometry.Line {
 	return &geometry.ParabolaCurve{
-		Start: p.b(),
-		End: p.g(),
+		Start:         p.b(),
+		End:           p.g(),
 		StartingAngle: &geometry.Angle{Rads: 0.0},
-		ArcAngle: &geometry.Angle{Rads: math.Pi / 10.0},
+		ArcAngle:      &geometry.Angle{Rads: math.Pi / 10.0},
 	}
 }
 
@@ -172,13 +173,13 @@ func (p *pn9CollarBand) k() *geometry.Point {
 }
 
 func (p *pn9CollarBand) l() *geometry.Point {
-	return p.f().DrawAt(&geometry.Angle{Rads: -math.Pi * 3.0/4.0}, 0.3)
+	return p.f().DrawAt(&geometry.Angle{Rads: -math.Pi * 3.0 / 4.0}, 0.3)
 }
 
 func (p *pn9CollarBand) m() *geometry.Point {
 	return (&geometry.StraightLine{
 		Start: p.f(),
-		End: p.j(),
+		End:   p.j(),
 	}).Resize(1.3).End
 }
 
@@ -187,13 +188,13 @@ func (p *pn9CollarBand) bottomStitch() geometry.Line {
 
 	end := &geometry.StraightLine{
 		Start: p.g(),
-		End: p.j(),
+		End:   p.j(),
 	}
 
 	line.AddLine(
 		&geometry.StraightLine{
 			Start: p.a(),
-			End: p.b(),
+			End:   p.b(),
 		},
 		&geometry.PolyNCurve{
 			Points: []*geometry.Point{
@@ -201,7 +202,7 @@ func (p *pn9CollarBand) bottomStitch() geometry.Line {
 				p.g(),
 			},
 			StartAngle: &geometry.Angle{Rads: 0.0},
-			EndAngle: end.AngleAt(0.0),
+			EndAngle:   end.AngleAt(0.0),
 		},
 		end,
 	)
@@ -214,7 +215,7 @@ func (p *pn9CollarBand) topStitch() geometry.Line {
 
 	end := &geometry.StraightLine{
 		Start: p.m(),
-		End: p.j(),
+		End:   p.j(),
 	}
 
 	angleAtI := (&geometry.StraightLine{Start: p.i(), End: p.f()}).AngleAt(0.0)
@@ -222,7 +223,7 @@ func (p *pn9CollarBand) topStitch() geometry.Line {
 	line.AddLine(
 		&geometry.StraightLine{
 			Start: p.d(),
-			End: p.k(),
+			End:   p.k(),
 		},
 		&geometry.PolyNCurve{
 			Points: []*geometry.Point{
@@ -230,7 +231,7 @@ func (p *pn9CollarBand) topStitch() geometry.Line {
 				p.i(),
 			},
 			StartAngle: &geometry.Angle{Rads: 0.0},
-			EndAngle: angleAtI,
+			EndAngle:   angleAtI,
 		},
 		&geometry.PolyNCurve{
 			Points: []*geometry.Point{
@@ -239,7 +240,7 @@ func (p *pn9CollarBand) topStitch() geometry.Line {
 				p.m(),
 			},
 			StartAngle: angleAtI,
-			EndAngle: end.AngleAt(0.0),
+			EndAngle:   end.AngleAt(0.0),
 		},
 		end,
 	)
@@ -250,13 +251,13 @@ func (p *pn9CollarBand) topStitch() geometry.Line {
 func (p *pn9CollarBand) centreBack() geometry.Line {
 	return &geometry.StraightLine{
 		Start: p.a(),
-		End: p.d(),
+		End:   p.d(),
 	}
 }
 
 func (p *pn9CollarBand) centreFront() geometry.Line {
 	return &geometry.StraightLine{
 		Start: p.g(),
-		End: p.i(),
+		End:   p.i(),
 	}
 }
