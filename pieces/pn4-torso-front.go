@@ -63,8 +63,12 @@ func (p *pn4TorsoFront) f() *geometry.Point {
 	return p.a().SquareDown(p.height/3.0 - 5.7)
 }
 
+func (p *pn4TorsoFront) bellyWaistGirth() float64 {
+	return p.waistCircumference/4.0 + 4.3
+}
+
 func (p *pn4TorsoFront) g() *geometry.Point {
-	return p.f().SquareLeft(p.waistCircumference/4.0 + 4.3)
+	return p.f().SquareLeft(p.bellyWaistGirth())
 }
 
 func (p *pn4TorsoFront) h() *geometry.Point {
@@ -72,7 +76,13 @@ func (p *pn4TorsoFront) h() *geometry.Point {
 }
 
 func (p *pn4TorsoFront) i() *geometry.Point {
-	return p.h().SquareLeft(p.hipCircumference/4.0 + 0.6)
+	hipLine := p.hipCircumference/4.0 + 0.6
+	bellyWaist := p.bellyWaistGirth()
+	if hipLine < bellyWaist {
+		hipLine = bellyWaist
+	}
+
+	return p.h().SquareLeft(hipLine)
 }
 
 func (p *pn4TorsoFront) j() *geometry.Point {
