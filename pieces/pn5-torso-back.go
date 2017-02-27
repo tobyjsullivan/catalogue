@@ -176,11 +176,10 @@ func (p *pn5TorsoBack) armholeStitch() geometry.Line {
 		ArcAngle:      &geometry.Angle{Rads: math.Pi / 8.0},
 	}
 
-	armscyeB := &geometry.EllipseCurve{
-		Start:         p.r(),
-		End:           p.c(),
-		StartingAngle: &geometry.Angle{Rads: math.Pi},
-		ArcAngle:      &geometry.Angle{Rads: math.Pi / 2.0},
+	armscyeB := &geometry.QuadraticBezierCurve{
+		P0: p.r(),
+		P1: p.m(),
+		P2: p.c(),
 	}
 
 	line := &geometry.Polyline{}
