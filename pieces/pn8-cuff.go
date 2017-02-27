@@ -5,6 +5,7 @@ import (
 
 	"github.com/tailored-style/pattern-generator/geometry"
 	"github.com/tailored-style/pattern-generator/pieces"
+	"github.com/tailored-style/pattern-generator/symbols"
 )
 
 type pn8Cuff struct {
@@ -45,6 +46,14 @@ func (p *pn8Cuff) e() *geometry.Point {
 
 func (p *pn8Cuff) f() *geometry.Point {
 	return p.b().SquareLeft(1.6)
+}
+
+func (p *pn8Cuff) g() *geometry.Point {
+	return p.c().MidpointTo(p.d())
+}
+
+func (p *pn8Cuff) h() *geometry.Point {
+	return p.f().SquareDown(p.b().DistanceTo(p.e()) / 2.0).SquareLeft(BUTTON_DIAMETER / 2.0)
 }
 
 func (p *pn8Cuff) topStitch() geometry.Line {
@@ -101,8 +110,27 @@ func (p *pn8Cuff) CutLayer() *geometry.Block {
 	return layer
 }
 
+func (p *pn8Cuff) button() *symbols.Button {
+	return &symbols.Button{
+		Centre: p.g(),
+		Diameter: BUTTON_DIAMETER,
+	}
+}
+
+func (p *pn8Cuff) buttonHole() *symbols.ButtonHole {
+	return &symbols.ButtonHole{
+		Centre: p.h(),
+		Length: BUTTON_DIAMETER + 0.4,
+	}
+}
+
 func (p *pn8Cuff) NotationLayer() *geometry.Block {
 	layer := &geometry.Block{}
+
+	layer.AddBlock(
+		p.button().Block(),
+		p.buttonHole().Block(),
+	)
 
 	// Draw all points (DEBUG)
 	if DEBUG {
@@ -113,6 +141,8 @@ func (p *pn8Cuff) NotationLayer() *geometry.Block {
 		anchors["D"] = p.d()
 		anchors["E"] = p.e()
 		anchors["F"] = p.f()
+		anchors["G"] = p.g()
+		anchors["H"] = p.h()
 		AddAnchors(layer, anchors)
 	}
 
