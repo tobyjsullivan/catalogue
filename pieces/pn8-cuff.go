@@ -47,14 +47,6 @@ func (p *pn8Cuff) f() *geometry.Point {
 	return p.b().SquareLeft(1.6)
 }
 
-func (p *pn8Cuff) g() *geometry.Point {
-	return p.a().MirrorVertically(p.d().Y)
-}
-
-func (p *pn8Cuff) h() *geometry.Point {
-	return p.g().SquareToVerticalLine(p.e().X)
-}
-
 func (p *pn8Cuff) topStitch() geometry.Line {
 	return &geometry.StraightLine{
 		Start: p.a(),
@@ -65,25 +57,18 @@ func (p *pn8Cuff) topStitch() geometry.Line {
 func (p *pn8Cuff) leftStitch() geometry.Line {
 	return &geometry.StraightLine{
 		Start: p.a(),
-		End:   p.g(),
+		End:   p.d(),
 	}
 }
 
 func (p *pn8Cuff) rightStitch() geometry.Line {
 	return &geometry.StraightLine{
 		Start: p.b(),
-		End:   p.h(),
+		End:   p.e(),
 	}
 }
 
 func (p *pn8Cuff) bottomStitch() geometry.Line {
-	return &geometry.StraightLine{
-		Start: p.g(),
-		End:   p.h(),
-	}
-}
-
-func (p *pn8Cuff) middleFold() geometry.Line {
 	return &geometry.StraightLine{
 		Start: p.d(),
 		End:   p.e(),
@@ -119,10 +104,6 @@ func (p *pn8Cuff) CutLayer() *geometry.Block {
 func (p *pn8Cuff) NotationLayer() *geometry.Block {
 	layer := &geometry.Block{}
 
-	layer.AddLine(
-		p.middleFold(),
-	)
-
 	// Draw all points (DEBUG)
 	anchors := make(map[string]*geometry.Point)
 	anchors["A"] = p.a()
@@ -131,7 +112,6 @@ func (p *pn8Cuff) NotationLayer() *geometry.Block {
 	anchors["D"] = p.d()
 	anchors["E"] = p.e()
 	anchors["F"] = p.f()
-	anchors["G"] = p.g()
 	AddAnchors(layer, anchors)
 
 	return layer
