@@ -48,7 +48,7 @@ func (p *pn5TorsoBack) c() *geometry.Point {
 }
 
 func (p *pn5TorsoBack) d() *geometry.Point {
-	return p.a().SquareDown(p.height/4.0 - 11.4)
+	return p.a().SquareDown(p.height/4.0 - 11.8)
 }
 
 func (p *pn5TorsoBack) e() *geometry.Point {
@@ -56,7 +56,7 @@ func (p *pn5TorsoBack) e() *geometry.Point {
 }
 
 func (p *pn5TorsoBack) f() *geometry.Point {
-	return p.a().SquareDown(p.height*(7.0/24.0) - 6.4)
+	return p.a().SquareDown(p.height/3.0 - 14.3)
 }
 
 func (p *pn5TorsoBack) g() *geometry.Point {
@@ -64,7 +64,7 @@ func (p *pn5TorsoBack) g() *geometry.Point {
 }
 
 func (p *pn5TorsoBack) h() *geometry.Point {
-	return p.a().SquareDown(p.height*(3.0/8.0) - 4.8)
+	return p.a().SquareDown(p.height*(3.0/8.0) - 5.4)
 }
 
 func (p *pn5TorsoBack) i() *geometry.Point {
