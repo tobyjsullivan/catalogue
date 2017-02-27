@@ -7,13 +7,13 @@ import (
 )
 
 type pn8Cuff struct {
-	cuffHeight float64
+	cuffDepth          float64
 	wristCircumference float64
 }
 
-func NewPN8Cuff(wristCircumference float64) pieces.Piece {
+func NewPN8Cuff(wristCircumference float64, cuffDepth float64) pieces.Piece {
 	return &pn8Cuff{
-		cuffHeight: 6.2,
+		cuffDepth: cuffDepth,
 		wristCircumference: wristCircumference,
 	}
 }
@@ -35,7 +35,7 @@ func (p *pn8Cuff) c() *geometry.Point {
 }
 
 func (p *pn8Cuff) d() *geometry.Point {
-	return p.a().SquareDown(p.cuffHeight)
+	return p.a().SquareDown(p.cuffDepth)
 }
 
 func (p *pn8Cuff) e() *geometry.Point {

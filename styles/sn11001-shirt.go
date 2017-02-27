@@ -6,6 +6,8 @@ import (
 	"github.com/tailored-style/pattern-generator/styles"
 )
 
+const SN11001_CUFF_DEPTH = 6.2
+
 type sn11001Shirt struct {
 	height float64
 	neckCircumference float64
@@ -58,9 +60,11 @@ func (p *sn11001Shirt) Pieces() []pieces.Piece {
 			p.waistCircumference,
 			p.hipCircumference,
 			p.sleeveLength,
+			SN11001_CUFF_DEPTH,
 		),
 		piece_catalogue.NewPN8Cuff(
 			p.wristCircumference,
+			SN11001_CUFF_DEPTH,
 		),
 		piece_catalogue.NewPN10Collar(
 			p.height,

@@ -14,9 +14,10 @@ type pn7Sleeve struct {
 	waistCircumference float64
 	hipCircumference float64
 	sleeveLength float64
+	cuffDepth float64
 }
 
-func NewPN7Sleeve(height float64, neck float64, chest float64, waist float64, hip float64, sleeve float64) pieces.Piece {
+func NewPN7Sleeve(height float64, neck float64, chest float64, waist float64, hip float64, sleeve float64, cuffDepth float64) pieces.Piece {
 	return &pn7Sleeve{
 		height:height,
 		neckCircumference:neck,
@@ -24,6 +25,7 @@ func NewPN7Sleeve(height float64, neck float64, chest float64, waist float64, hi
 		waistCircumference:waist,
 		hipCircumference:hip,
 		sleeveLength:sleeve,
+		cuffDepth: cuffDepth,
 	}
 }
 
@@ -45,8 +47,18 @@ func (p *pn7Sleeve) a() *geometry.Point {
 	}
 }
 
+func (p *pn7Sleeve) shoulderSeamLength() float64 {
+	return (&pn6Yoke{
+		height: p.height,
+		neckCircumference: p.neckCircumference,
+		chestCircumference: p.chestCircumference,
+		waistCircumference: p.waistCircumference,
+		hipCircumference: p.hipCircumference,
+	}).shoulderSeamLength()
+}
+
 func (p *pn7Sleeve) b() *geometry.Point {
-	return p.a().SquareDown(p.sleeveLength - 32.7)
+	return p.a().SquareDown(p.sleeveLength - (p.shoulderSeamLength() + p.cuffDepth))
 }
 
 func (p *pn7Sleeve) c() *geometry.Point {
