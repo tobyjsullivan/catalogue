@@ -149,15 +149,17 @@ func (p *pn6Yoke) NotationLayer() *geometry.Block {
 	layer := &geometry.Block{}
 
 	// Draw all points (DEBUG)
-	anchors := make(map[string]*geometry.Point)
-	anchors["A"] = p.a()
-	anchors["B"] = p.b()
-	anchors["C"] = p.c()
-	anchors["D"] = p.d()
-	anchors["E"] = p.e()
-	anchors["F"] = p.f()
-	anchors["G"] = p.g()
-	AddAnchors(layer, anchors)
+	if DEBUG {
+		anchors := make(map[string]*geometry.Point)
+		anchors["A"] = p.a()
+		anchors["B"] = p.b()
+		anchors["C"] = p.c()
+		anchors["D"] = p.d()
+		anchors["E"] = p.e()
+		anchors["F"] = p.f()
+		anchors["G"] = p.g()
+		AddAnchors(layer, anchors)
+	}
 
 	return layer
 }

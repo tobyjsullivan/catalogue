@@ -57,17 +57,19 @@ func (p *pn10Collar) NotationLayer() *geometry.Block {
 	layer := &geometry.Block{}
 
 	// Draw all points (DEBUG)
-	anchors := make(map[string]*geometry.Point)
-	anchors["A"] = p.a()
-	anchors["B"] = p.b()
-	anchors["C"] = p.c()
-	anchors["D"] = p.d()
-	anchors["E"] = p.e()
-	anchors["F"] = p.f()
-	anchors["G"] = p.g()
-	anchors["H"] = p.h()
-	anchors["I"] = p.i()
-	AddAnchors(layer, anchors)
+	if DEBUG {
+		anchors := make(map[string]*geometry.Point)
+		anchors["A"] = p.a()
+		anchors["B"] = p.b()
+		anchors["C"] = p.c()
+		anchors["D"] = p.d()
+		anchors["E"] = p.e()
+		anchors["F"] = p.f()
+		anchors["G"] = p.g()
+		anchors["H"] = p.h()
+		anchors["I"] = p.i()
+		AddAnchors(layer, anchors)
+	}
 
 	return layer
 }

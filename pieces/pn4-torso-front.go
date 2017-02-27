@@ -237,7 +237,7 @@ func (p *pn4TorsoFront) armholeStitch() geometry.Line {
 		StartingAngle: &geometry.Angle{Rads: 0.0},
 		ArcAngle:      &geometry.Angle{Rads: math.Pi / 8.0},
 	}
-	
+
 	bottom := &geometry.QuadraticBezierCurve{
 		P0: p.s(),
 		P1: p.o(),
@@ -366,34 +366,36 @@ func (p *pn4TorsoFront) NotationLayer() *geometry.Block {
 	)
 
 	// Draw all points (DEBUG)
-	anchors := make(map[string]*geometry.Point)
-	anchors["A"] = p.a()
-	anchors["B"] = p.b()
-	anchors["C"] = p.c()
-	anchors["D"] = p.d()
-	anchors["E"] = p.e()
-	anchors["F"] = p.f()
-	anchors["G"] = p.g()
-	anchors["H"] = p.h()
-	anchors["I"] = p.i()
-	anchors["J"] = p.j()
-	anchors["K"] = p.k()
-	anchors["L"] = p.l()
-	anchors["M"] = p.m()
-	anchors["N"] = p.n()
-	anchors["O"] = p.o()
-	anchors["P"] = p.p()
-	anchors["Q"] = p.q()
-	anchors["R"] = p.r()
-	anchors["S"] = p.s()
-	anchors["T"] = p.t()
-	anchors["U"] = p.u()
-	anchors["V"] = p.v()
-	anchors["W"] = p.w()
-	anchors["X"] = p.x()
-	anchors["Y"] = p.y()
-	anchors["Z"] = p.z()
-	AddAnchors(layer, anchors)
+	if DEBUG {
+		anchors := make(map[string]*geometry.Point)
+		anchors["A"] = p.a()
+		anchors["B"] = p.b()
+		anchors["C"] = p.c()
+		anchors["D"] = p.d()
+		anchors["E"] = p.e()
+		anchors["F"] = p.f()
+		anchors["G"] = p.g()
+		anchors["H"] = p.h()
+		anchors["I"] = p.i()
+		anchors["J"] = p.j()
+		anchors["K"] = p.k()
+		anchors["L"] = p.l()
+		anchors["M"] = p.m()
+		anchors["N"] = p.n()
+		anchors["O"] = p.o()
+		anchors["P"] = p.p()
+		anchors["Q"] = p.q()
+		anchors["R"] = p.r()
+		anchors["S"] = p.s()
+		anchors["T"] = p.t()
+		anchors["U"] = p.u()
+		anchors["V"] = p.v()
+		anchors["W"] = p.w()
+		anchors["X"] = p.x()
+		anchors["Y"] = p.y()
+		anchors["Z"] = p.z()
+		AddAnchors(layer, anchors)
+	}
 
 	return layer
 }

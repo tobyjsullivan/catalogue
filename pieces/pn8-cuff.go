@@ -105,14 +105,16 @@ func (p *pn8Cuff) NotationLayer() *geometry.Block {
 	layer := &geometry.Block{}
 
 	// Draw all points (DEBUG)
-	anchors := make(map[string]*geometry.Point)
-	anchors["A"] = p.a()
-	anchors["B"] = p.b()
-	anchors["C"] = p.c()
-	anchors["D"] = p.d()
-	anchors["E"] = p.e()
-	anchors["F"] = p.f()
-	AddAnchors(layer, anchors)
+	if DEBUG {
+		anchors := make(map[string]*geometry.Point)
+		anchors["A"] = p.a()
+		anchors["B"] = p.b()
+		anchors["C"] = p.c()
+		anchors["D"] = p.d()
+		anchors["E"] = p.e()
+		anchors["F"] = p.f()
+		AddAnchors(layer, anchors)
+	}
 
 	return layer
 }
