@@ -8,17 +8,65 @@ import (
 	"github.com/tobyjsullivan/catalogue/styles"
 )
 
-func main() {
-	m := make(map[string]float64)
+type bodyLabsMeasurments struct {
+	height                         float64
+	neck                           float64
+	chest                          float64
+	bellyButtonWaist               float64
+	naturalWaist                   float64
+	glutealHip                     float64
+	acrossBackShoulderNeck         float64
+	alongFrontNeckBaseToGlutealHip float64
+	midUpperArm                    float64
+	shoulderToMidhand			   float64
+	neckToGlutealHip               float64
+	underBust					   float64
+	maximumHip                     float64
+	neckShoulderElbowWrist         float64
+	wrist                          float64
+}
 
+func (m *bodyLabsMeasurments) toSN11001Measurements() *styles.SN11001Measurements {
+	assertAmount(m.height)
+	assertAmount(m.neck)
+	assertAmount(m.chest)
+	assertAmount(m.bellyButtonWaist)
+	assertAmount(m.maximumHip)
+	assertAmount(m.neckShoulderElbowWrist)
+	assertAmount(m.wrist)
+
+	return &styles.SN11001Measurements{
+		Height: m.height,
+		Neck: m.neck,
+		Chest: m.chest,
+		Waist: m.bellyButtonWaist,
+		Hip: m.maximumHip,
+		Sleeve: m.neckShoulderElbowWrist,
+		Wrist: m.wrist,
+	}
+}
+
+func assertAmount(v float64) {
+	if v == 0.0 {
+		panic("Amount must be greater than zero")
+	}
+}
+
+func main() {
 	// 42" CHEST STANDARD
-	//m["height"] = 182.9 // 72"
-	//m["neck"] = 41.9 // 16 1/2"
-	//m["chest"] = 106.7 // 42"
-	//m["waist"] = 91.4 // 36"
-	//m["hip"] = 109.2 // 43"
-	//m["sleeve"] = 87.0 // 25 1/8" + (18 1/4" / 2) = 34 1/4
-	//m["wrist"] = 19.1 // 7 1/2"
+	//measurements := &bodyLabsMeasurments{
+	//	height: 182.9, // 72"
+	//	neck: 41.9, // 16 1/2"
+	//	chest: 106.7, // 42"
+	//	bellyButtonWaist: 91.4, // 36"
+	//	naturalWaist: 91.4, // 36"
+	//	acrossBackShoulderNeck: 46.4, // 18 1/4
+	//	midUpperArm: 36.2, // 14 1/4
+	//	neckToGlutealHip: 64.1, // 25 1/4
+	//	maximumHip: 109.2, // 43"
+	//	neckShoulderElbowWrist: 87.0, // 25 1/8" + (18 1/4" / 2) = 34 1/4
+	//	wrist: 19.1, // 7 1/2"
+	//}
 
 	// PERSONAL MEASUREMENTS
 	//m["height"] = 182.0
@@ -30,31 +78,25 @@ func main() {
 	//m["wrist"] = 17.0
 
 	// PERSONAL - BODYxLABS ESTIMATE
-	m["height"] = 183.0             // height (input)
-	m["neck"] = 38.8                // neck (input)
-	m["chest"] = 110.25             // chest
-	m["belly_button_waist"] = 104.8 // belly_button_waist
-	m["natural_waist"] = 98.89
-	m["gluteal_hip"] = 109.42
-	m["across_back_shoulder_neck"] = 43.32
-	m["along_front_neck_base_to_gluteal_hip"] = 57.02
-	m["mid_upper_arm"] = 33.89
-	m["neck_to_gluteal_hip"] = 64.28
-	m["shoulder_to_midhand"] = 63.76
-	m["under_bust"] = 101.3
-	m["maximum_hip"] = 111.04              // maximum_hip
-	m["neck_shoulder_elbow_wrist"] = 84.23 // neck_shoulder_elbow_wrist
-	m["wrist"] = 18.33                     // wrist
+	measurements := &bodyLabsMeasurments{
+		height: 183.0,
+		neck: 38.8,
+		chest: 110.25,
+		bellyButtonWaist: 104.8,
+		naturalWaist: 98.89,
+		glutealHip: 109.42,
+		acrossBackShoulderNeck: 43.32,
+		alongFrontNeckBaseToGlutealHip: 57.02,
+		midUpperArm: 33.89,
+		neckToGlutealHip: 64.28,
+		shoulderToMidhand: 63.76,
+		underBust: 101.3,
+		maximumHip: 111.04,
+		neckShoulderElbowWrist: 84.23,
+		wrist: 18.33,
+	}
 
-	style := styles.NewSN11001Shirt(
-		m["height"],
-		m["neck"],
-		m["chest"],
-		m["belly_button_waist"],
-		m["maximum_hip"],
-		m["neck_shoulder_elbow_wrist"],
-		m["wrist"],
-	)
+	style := styles.NewSN11001Shirt(measurements.toSN11001Measurements())
 
 	fmt.Println("Generating DXF...")
 	pf := &rendering.Pattern{
@@ -86,17 +128,17 @@ func main() {
 	fmt.Println("Generating PDF of torso sloper")
 	pieceRender := &rendering.Piece{
 		Piece: &slopers.Torso{
-			Height:                        m["height"],
-			NeckCircumference:             m["neck"],
-			ShoulderToShoulder:            m["across_back_shoulder_neck"],
-			ChestCircumference:            m["chest"],
-			ShirtLength:                   m["neck_to_gluteal_hip"],
-			BellyButtonWaistCircumference: m["belly_button_waist"],
-			NaturalWaistCircumference:     m["natural_waist"],
-			HipCircumference:              m["maximum_hip"],
-			ShirtSleeveLength:             m["shoulder_to_midhand"],
-			BicepCircumference:            m["mid_upper_arm"],
-			WristCircumference:            m["wrist"],
+			Height:                        measurements.height,
+			NeckCircumference:             measurements.neck,
+			ShoulderToShoulder:            measurements.acrossBackShoulderNeck,
+			ChestCircumference:            measurements.chest,
+			ShirtLength:                   measurements.neckToGlutealHip,
+			BellyButtonWaistCircumference: measurements.bellyButtonWaist,
+			NaturalWaistCircumference:     measurements.naturalWaist,
+			HipCircumference:              measurements.maximumHip,
+			ShirtSleeveLength:             measurements.neckShoulderElbowWrist,
+			BicepCircumference:            measurements.midUpperArm,
+			WristCircumference:            measurements.wrist,
 		},
 	}
 	err = pieceRender.SavePDF("/Users/toby/sandbox/torso-out.pdf")

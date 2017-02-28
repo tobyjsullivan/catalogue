@@ -19,15 +19,25 @@ type sn11001Shirt struct {
 	pieces             []pieces.Piece
 }
 
-func NewSN11001Shirt(height float64, neck float64, chest float64, waist float64, hip float64, sleeve float64, wrist float64) styles.Style {
+type SN11001Measurements struct {
+	Height float64
+	Neck   float64
+	Chest  float64
+	Waist  float64
+	Hip    float64
+	Sleeve float64
+	Wrist  float64
+}
+
+func NewSN11001Shirt(m *SN11001Measurements) styles.Style {
 	return &sn11001Shirt{
-		height:             height,
-		neckCircumference:  neck,
-		chestCircumference: chest,
-		waistCircumference: waist,
-		hipCircumference:   hip,
-		sleeveLength:       sleeve,
-		wristCircumference: wrist,
+		height:             m.Height,
+		neckCircumference:  m.Neck,
+		chestCircumference: m.Chest,
+		waistCircumference: m.Waist,
+		hipCircumference:   m.Hip,
+		sleeveLength:       m.Sleeve,
+		wristCircumference: m.Wrist,
 	}
 }
 
