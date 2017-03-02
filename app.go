@@ -146,12 +146,5 @@ func main() {
 		panic(err.Error())
 	}
 
-	fmt.Println("Generating Laser Cut Marker...")
-	laser := rendering.NewLaserCutFromStyle(style)
-	err = laser.SavePDF("/Users/toby/sandbox/v3-laser-test.pdf")
-	if err != nil {
-		panic(err.Error())
-	}
-
 	fmt.Println("Done.")
 }
