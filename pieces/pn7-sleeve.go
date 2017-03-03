@@ -179,6 +179,14 @@ func (p *pn7Sleeve) x() *geometry.Point {
 	return p.h().SquareRight(5.6)
 }
 
+func (p *pn7Sleeve) y() *geometry.Point {
+	return p.b().MidpointTo(p.w())
+}
+
+func (p *pn7Sleeve) z() *geometry.Point {
+	return p.y().SquareUp(15.2)
+}
+
 func (p *pn7Sleeve) frontArmholeLength() float64 {
 	front := &pn4TorsoFront{
 		height:             p.height,
@@ -274,8 +282,14 @@ func (p *pn7Sleeve) CutLayer() *geometry.Block {
 		pieces.AddSeamAllowance(p.underSleeveStitchRight(), false),
 	)
 
+	placketCut := &geometry.StraightLine{
+		Start: p.y().SquareDown(pieces.SEAM_ALLOWANCE),
+		End: p.z(),
+	}
+
 	layer.AddLine(
 		seamAllowance,
+		placketCut,
 		pieces.Notch(frontArmholeStitch, 7.6, false),
 		pieces.Notch(frontArmholeStitch, frontArmholeStitch.Length() - 7.6, false),
 		pieces.Notch(backArmholeStitch, 7.6, true),
