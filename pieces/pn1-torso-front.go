@@ -23,6 +23,10 @@ func (p *PN1TorsoFront) OnFold() bool {
 	return false
 }
 
+func (p *PN1TorsoFront) Mirrored() bool {
+	return true
+}
+
 func (p *PN1TorsoFront) populateAnchors() error {
 	if p.anchors != nil {
 		return nil

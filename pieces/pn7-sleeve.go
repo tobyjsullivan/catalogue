@@ -41,6 +41,10 @@ func (p *pn7Sleeve) OnFold() bool {
 	return false
 }
 
+func (p *pn7Sleeve) Mirrored() bool {
+	return true
+}
+
 func (p *pn7Sleeve) a() *geometry.Point {
 	return &geometry.Point{
 		X: 0.0,

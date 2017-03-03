@@ -39,6 +39,10 @@ func (p *pn4TorsoFront) OnFold() bool {
 	return false
 }
 
+func (p *pn4TorsoFront) Mirrored() bool {
+	return true
+}
+
 func (p *pn4TorsoFront) a() *geometry.Point {
 	return &geometry.Point{X: 0.0, Y: 0.0}
 }
@@ -335,38 +339,38 @@ func (p *pn4TorsoFront) StitchLayer() *geometry.Block {
 func (p *pn4TorsoFront) NotationLayer() *geometry.Block {
 	layer := &geometry.Block{}
 
-	chestLine := &geometry.StraightLine{
-		Start: p.b(),
-		End:   p.c(),
-	}
-
-	naturalWaistLine := &geometry.StraightLine{
-		Start: p.d(),
-		End:   p.e(),
-	}
-
-	bellyButtonWaistLine := &geometry.StraightLine{
-		Start: p.f(),
-		End:   p.g(),
-	}
-
-	hipLine := &geometry.StraightLine{
-		Start: p.h(),
-		End:   p.i(),
-	}
-
-	layer.AddLine(
-		chestLine,
-		naturalWaistLine,
-		bellyButtonWaistLine,
-		hipLine,
-		p.centreFront(),
-		p.buttonStandFoldA(),
-		p.buttonStandFoldB(),
-	)
-
-	// Draw all points (DEBUG)
 	if DEBUG {
+		chestLine := &geometry.StraightLine{
+			Start: p.b(),
+			End:   p.c(),
+		}
+
+		naturalWaistLine := &geometry.StraightLine{
+			Start: p.d(),
+			End:   p.e(),
+		}
+
+		bellyButtonWaistLine := &geometry.StraightLine{
+			Start: p.f(),
+			End:   p.g(),
+		}
+
+		hipLine := &geometry.StraightLine{
+			Start: p.h(),
+			End:   p.i(),
+		}
+
+		layer.AddLine(
+			chestLine,
+			naturalWaistLine,
+			bellyButtonWaistLine,
+			hipLine,
+			p.centreFront(),
+			p.buttonStandFoldA(),
+			p.buttonStandFoldB(),
+		)
+
+		// Draw all points (DEBUG)
 		anchors := make(map[string]*geometry.Point)
 		anchors["A"] = p.a()
 		anchors["B"] = p.b()

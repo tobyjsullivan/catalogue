@@ -29,6 +29,11 @@ func NewPN9CollarBand(height float64, neck float64, chest float64, waist float64
 func (p *pn9CollarBand) OnFold() bool {
 	return true
 }
+
+func (p *pn9CollarBand) Mirrored() bool {
+	return false
+}
+
 func (p *pn9CollarBand) StitchLayer() *geometry.Block {
 	layer := &geometry.Block{}
 
@@ -44,7 +49,6 @@ func (p *pn9CollarBand) CutLayer() *geometry.Block {
 	layer := &geometry.Block{}
 
 	layer.AddLine(
-		p.centreBack(),
 		pieces.AddSeamAllowance(p.bottomStitch(), true),
 		pieces.AddSeamAllowance(p.topStitch(), false),
 	)
@@ -55,12 +59,13 @@ func (p *pn9CollarBand) CutLayer() *geometry.Block {
 func (p *pn9CollarBand) NotationLayer() *geometry.Block {
 	layer := &geometry.Block{}
 
-	layer.AddLine(
-		p.centreFront(),
-	)
-
 	// Draw all points (DEBUG)
 	if DEBUG {
+		layer.AddLine(
+			p.centreFront(),
+			p.centreBack(),
+		)
+
 		anchors := make(map[string]*geometry.Point)
 		anchors["A"] = p.a()
 		anchors["B"] = p.b()

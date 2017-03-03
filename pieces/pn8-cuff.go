@@ -24,6 +24,10 @@ func (p *pn8Cuff) OnFold() bool {
 	return false
 }
 
+func (p *pn8Cuff) Mirrored() bool {
+	return false
+}
+
 func (p *pn8Cuff) a() *geometry.Point {
 	return &geometry.Point{X: 0.0, Y: 0.0}
 }

@@ -23,6 +23,10 @@ func (p *PN3Yoke) OnFold() bool {
 	return true
 }
 
+func (p *PN3Yoke) Mirrored() bool {
+	return false
+}
+
 func (p *PN3Yoke) populateAnchors() error {
 	if p.anchors != nil {
 		return nil

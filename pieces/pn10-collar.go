@@ -25,9 +25,15 @@ func NewPN10Collar(height float64, neck float64, chest float64, waist float64, h
 		hipCircumference:   hip,
 	}
 }
+
 func (p *pn10Collar) OnFold() bool {
 	return true
 }
+
+func (p *pn10Collar) Mirrored() bool {
+	return false
+}
+
 func (p *pn10Collar) StitchLayer() *geometry.Block {
 	layer := &geometry.Block{}
 
@@ -44,7 +50,6 @@ func (p *pn10Collar) CutLayer() *geometry.Block {
 	layer := &geometry.Block{}
 
 	layer.AddLine(
-		p.centreBack(),
 		pieces.AddSeamAllowance(p.bottomStitch(), true),
 		pieces.AddSeamAllowance(p.topStitch(), false),
 		pieces.AddSeamAllowance(p.rightStitch(), false),
@@ -58,6 +63,10 @@ func (p *pn10Collar) NotationLayer() *geometry.Block {
 
 	// Draw all points (DEBUG)
 	if DEBUG {
+		layer.AddLine(
+			p.centreBack(),
+		)
+
 		anchors := make(map[string]*geometry.Point)
 		anchors["A"] = p.a()
 		anchors["B"] = p.b()

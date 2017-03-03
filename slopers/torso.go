@@ -219,6 +219,10 @@ func (s *Torso) OnFold() bool {
 	return true
 }
 
+func (s *Torso) Mirrored() bool {
+	return false
+}
+
 func (s *Torso) Details() *pieces.Details {
 	return &pieces.Details{}
 }
