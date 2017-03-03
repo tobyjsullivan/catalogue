@@ -126,7 +126,7 @@ func main() {
 	}
 
 	fmt.Println("Generating PDF of torso sloper")
-	pieceRender := &rendering.Piece{
+	pieceRender := &rendering.PieceRender{
 		Piece: &slopers.Torso{
 			Height:                        measurements.height,
 			NeckCircumference:             measurements.neck,
