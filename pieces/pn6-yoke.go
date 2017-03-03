@@ -139,15 +139,17 @@ func (p *pn6Yoke) StitchLayer() *geometry.Block {
 func (p *pn6Yoke) CutLayer() *geometry.Block {
 	layer := &geometry.Block{}
 
+	armholeStitch := &geometry.ReverseLine{InnerLine: p.armholeStitch()}
 	seamAllowance := pieces.SeamAllowance(false,
 		pieces.AddSeamAllowance(p.necklineStitch(), false),
 		pieces.AddSeamAllowance(p.frontStitch(), false),
-		&geometry.ReverseLine{InnerLine: pieces.AddSeamAllowance(p.armholeStitch(), true)},
+		pieces.AddSeamAllowance(armholeStitch, false),
 		pieces.AddSeamAllowance(p.backStitch(), true),
 	)
 
 	layer.AddLine(
 		seamAllowance,
+		pieces.Notch(armholeStitch, 7.6, false),
 	)
 
 	return layer

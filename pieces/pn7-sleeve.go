@@ -263,26 +263,24 @@ func (p *pn7Sleeve) cuffStitch() geometry.Line {
 func (p *pn7Sleeve) CutLayer() *geometry.Block {
 	layer := &geometry.Block{}
 
-	frontArmholeCut := pieces.AddSeamAllowance(p.frontArmholeStitch(), false)
-	backArmholeCut := pieces.AddSeamAllowance(p.backArmholeStitch(), true)
-
-	rightSleeveCut := pieces.AddSeamAllowance(p.underSleeveStitchRight(), false)
+	frontArmholeStitch := p.frontArmholeStitch()
+	backArmholeStitch := p.backArmholeStitch()
 
 	seamAllowance := pieces.SeamAllowance(true,
-		&geometry.ReverseLine{InnerLine: frontArmholeCut},
-		backArmholeCut,
+		&geometry.ReverseLine{InnerLine: pieces.AddSeamAllowance(frontArmholeStitch, false)},
+		pieces.AddSeamAllowance(backArmholeStitch, true),
 		pieces.AddSeamAllowance(p.underSleeveStitchLeft(), true),
 		pieces.AddSeamAllowance(p.cuffStitch(), true),
-		rightSleeveCut,
+		pieces.AddSeamAllowance(p.underSleeveStitchRight(), false),
 	)
 
 	layer.AddLine(
 		seamAllowance,
-		pieces.Notch(frontArmholeCut, 7.6),
-		pieces.Notch(frontArmholeCut, frontArmholeCut.Length()-7.6),
-		pieces.Notch(frontArmholeCut, frontArmholeCut.Length()-8.9),
-		pieces.Notch(backArmholeCut, 7.6),
-		pieces.Notch(backArmholeCut, backArmholeCut.Length()-7.6),
+		pieces.Notch(frontArmholeStitch, 7.6, false),
+		pieces.Notch(frontArmholeStitch, frontArmholeStitch.Length() - 7.6, false),
+		pieces.Notch(backArmholeStitch, 7.6, true),
+		pieces.Notch(backArmholeStitch, backArmholeStitch.Length() - 7.6, true),
+		pieces.Notch(backArmholeStitch, backArmholeStitch.Length() - 8.9, true),
 	)
 
 	return layer
