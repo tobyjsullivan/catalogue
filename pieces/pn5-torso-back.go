@@ -262,13 +262,17 @@ func (p *pn5TorsoBack) CutLayer() *geometry.Block {
 
 	armscyeCut := pieces.AddSeamAllowance(p.armholeStitch(), false)
 
-	layer.AddLine(
+	seamAllowance := pieces.SeamAllowance(false,
 		pieces.AddSeamAllowance(p.yokeSeamStitch(), false),
 		armscyeCut,
+		pieces.AddSeamAllowance(p.sideSeamStitch(), false),
+		&geometry.ReverseLine{InnerLine: pieces.AddSeamAllowance(p.hemLineStitch(), true)},
+	)
+
+	layer.AddLine(
+		seamAllowance,
 		pieces.Notch(armscyeCut, 7.6),
 		pieces.Notch(armscyeCut, armscyeCut.Length()-7.6),
-		pieces.AddSeamAllowance(p.sideSeamStitch(), false),
-		pieces.AddSeamAllowance(p.hemLineStitch(), true),
 	)
 
 	return layer

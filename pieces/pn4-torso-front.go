@@ -293,7 +293,7 @@ func (p *pn4TorsoFront) CutLayer() *geometry.Block {
 
 	armholeCut := pieces.AddSeamAllowance(p.armholeStitch(), true)
 
-	seamAllowance := pieces.SeamAllowance(
+	seamAllowance := pieces.SeamAllowance(false,
 		&geometry.ReverseLine{InnerLine: pieces.AddSeamAllowance(p.buttonStandBottom(), true)},
 		pieces.AddSeamAllowance(p.hemlineStitch(), false),
 		&geometry.ReverseLine{InnerLine: pieces.AddSeamAllowance(p.sideSeamStitch(), true)},

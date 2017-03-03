@@ -69,8 +69,8 @@ func (p *pn8Cuff) topStitch() geometry.Line {
 
 func (p *pn8Cuff) leftStitch() geometry.Line {
 	return &geometry.StraightLine{
-		Start: p.a(),
-		End:   p.d(),
+		Start: p.d(),
+		End:   p.a(),
 	}
 }
 
@@ -83,8 +83,8 @@ func (p *pn8Cuff) rightStitch() geometry.Line {
 
 func (p *pn8Cuff) bottomStitch() geometry.Line {
 	return &geometry.StraightLine{
-		Start: p.d(),
-		End:   p.e(),
+		Start: p.e(),
+		End:   p.d(),
 	}
 }
 
@@ -104,11 +104,15 @@ func (p *pn8Cuff) StitchLayer() *geometry.Block {
 func (p *pn8Cuff) CutLayer() *geometry.Block {
 	layer := &geometry.Block{}
 
-	layer.AddLine(
+	seamAllowance := pieces.SeamAllowance(true,
 		pieces.AddSeamAllowance(p.topStitch(), false),
-		pieces.AddSeamAllowance(p.leftStitch(), true),
 		pieces.AddSeamAllowance(p.rightStitch(), false),
-		pieces.AddSeamAllowance(p.bottomStitch(), true),
+		pieces.AddSeamAllowance(p.bottomStitch(), false),
+		pieces.AddSeamAllowance(p.leftStitch(), false),
+	)
+
+	layer.AddLine(
+		seamAllowance,
 	)
 
 	return layer

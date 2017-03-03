@@ -49,10 +49,14 @@ func (p *pn10Collar) StitchLayer() *geometry.Block {
 func (p *pn10Collar) CutLayer() *geometry.Block {
 	layer := &geometry.Block{}
 
-	layer.AddLine(
-		pieces.AddSeamAllowance(p.bottomStitch(), true),
+	seamAllowance := pieces.SeamAllowance(false,
 		pieces.AddSeamAllowance(p.topStitch(), false),
 		pieces.AddSeamAllowance(p.rightStitch(), false),
+		&geometry.ReverseLine{InnerLine: pieces.AddSeamAllowance(p.bottomStitch(), true)},
+	)
+
+	layer.AddLine(
+		seamAllowance,
 	)
 
 	return layer
