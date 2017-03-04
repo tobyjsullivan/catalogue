@@ -16,9 +16,10 @@ type pn7Sleeve struct {
 	hipCircumference   float64
 	sleeveLength       float64
 	cuffDepth          float64
+	placketOpeningLength float64
 }
 
-func NewPN7Sleeve(height float64, neck float64, chest float64, waist float64, hip float64, sleeve float64, cuffDepth float64) pieces.Piece {
+func NewPN7Sleeve(height float64, neck float64, chest float64, waist float64, hip float64, sleeve float64, cuffDepth float64, placketOpening float64) pieces.Piece {
 	return &pn7Sleeve{
 		height:             height,
 		neckCircumference:  neck,
@@ -27,6 +28,7 @@ func NewPN7Sleeve(height float64, neck float64, chest float64, waist float64, hi
 		hipCircumference:   hip,
 		sleeveLength:       sleeve,
 		cuffDepth:          cuffDepth,
+		placketOpeningLength: placketOpening,
 	}
 }
 
@@ -184,7 +186,7 @@ func (p *pn7Sleeve) y() *geometry.Point {
 }
 
 func (p *pn7Sleeve) z() *geometry.Point {
-	return p.y().SquareUp(15.2)
+	return p.y().SquareUp(p.placketOpeningLength)
 }
 
 func (p *pn7Sleeve) frontArmholeLength() float64 {

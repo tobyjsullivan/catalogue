@@ -6,7 +6,10 @@ import (
 	piece_catalogue "github.com/tobyjsullivan/catalogue/pieces"
 )
 
-const SN11001_CUFF_DEPTH = 6.2
+const (
+	SN11001_CUFF_DEPTH = 6.2
+	SN11001_SLEEVE_PLACKET_OPENING = 10.2
+)
 
 type sn11001Shirt struct {
 	height             float64
@@ -71,6 +74,7 @@ func (p *sn11001Shirt) Pieces() []pieces.Piece {
 			p.hipCircumference,
 			p.sleeveLength,
 			SN11001_CUFF_DEPTH,
+			SN11001_SLEEVE_PLACKET_OPENING,
 		),
 		piece_catalogue.NewPN8Cuff(
 			p.wristCircumference,
@@ -89,6 +93,9 @@ func (p *sn11001Shirt) Pieces() []pieces.Piece {
 			p.chestCircumference,
 			p.waistCircumference,
 			p.hipCircumference,
+		),
+		piece_catalogue.NewPN11SleevePlacket(
+			SN11001_SLEEVE_PLACKET_OPENING,
 		),
 	}
 }
