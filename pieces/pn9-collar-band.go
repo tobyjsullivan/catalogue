@@ -26,6 +26,10 @@ func NewPN9CollarBand(height float64, neck float64, chest float64, waist float64
 	}
 }
 
+func (p *pn9CollarBand) CutCount() int {
+	return 2
+}
+
 func (p *pn9CollarBand) OnFold() bool {
 	return true
 }
@@ -63,11 +67,14 @@ func (p *pn9CollarBand) CutLayer() *geometry.Block {
 func (p *pn9CollarBand) NotationLayer() *geometry.Block {
 	layer := &geometry.Block{}
 
+	layer.AddLine(
+		p.centreBack(),
+	)
+
 	// Draw all points (DEBUG)
 	if DEBUG {
 		layer.AddLine(
 			p.centreFront(),
-			p.centreBack(),
 		)
 
 		anchors := make(map[string]*geometry.Point)

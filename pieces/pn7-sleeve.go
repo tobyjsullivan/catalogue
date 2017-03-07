@@ -39,6 +39,10 @@ func (p *pn7Sleeve) Details() *pieces.Details {
 	}
 }
 
+func (p *pn7Sleeve) CutCount() int {
+	return 1
+}
+
 func (p *pn7Sleeve) OnFold() bool {
 	return false
 }
@@ -319,28 +323,28 @@ func (p *pn7Sleeve) StitchLayer() *geometry.Block {
 func (p *pn7Sleeve) NotationLayer() *geometry.Block {
 	layer := &geometry.Block{}
 
-	centreOfSleeve := &geometry.StraightLine{
-		Start: p.a(),
-		End:   p.b(),
-	}
-
-	bicepLine := &geometry.StraightLine{
-		Start: p.f(),
-		End:   p.e(),
-	}
-
-	elbowLine := &geometry.StraightLine{
-		Start: p.j(),
-		End:   p.i(),
-	}
-
-	layer.AddLine(
-		centreOfSleeve,
-		bicepLine,
-		elbowLine,
-	)
-
 	if DEBUG {
+		centreOfSleeve := &geometry.StraightLine{
+			Start: p.a(),
+			End:   p.b(),
+		}
+
+		bicepLine := &geometry.StraightLine{
+			Start: p.f(),
+			End:   p.e(),
+		}
+
+		elbowLine := &geometry.StraightLine{
+			Start: p.j(),
+			End:   p.i(),
+		}
+
+		layer.AddLine(
+			centreOfSleeve,
+			bicepLine,
+			elbowLine,
+		)
+
 		anchors := make(map[string]*geometry.Point)
 		anchors["A"] = p.a()
 		anchors["B"] = p.b()

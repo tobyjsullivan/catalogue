@@ -26,6 +26,10 @@ func NewPN10Collar(height float64, neck float64, chest float64, waist float64, h
 	}
 }
 
+func (p *pn10Collar) CutCount() int {
+	return 2
+}
+
 func (p *pn10Collar) OnFold() bool {
 	return true
 }
@@ -65,12 +69,12 @@ func (p *pn10Collar) CutLayer() *geometry.Block {
 func (p *pn10Collar) NotationLayer() *geometry.Block {
 	layer := &geometry.Block{}
 
+	layer.AddLine(
+		p.centreBack(),
+	)
+
 	// Draw all points (DEBUG)
 	if DEBUG {
-		layer.AddLine(
-			p.centreBack(),
-		)
-
 		anchors := make(map[string]*geometry.Point)
 		anchors["A"] = p.a()
 		anchors["B"] = p.b()

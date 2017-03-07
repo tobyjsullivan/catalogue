@@ -215,6 +215,10 @@ func (s *Torso) NotationLayer() *geometry.Block {
 	return layer
 }
 
+func (s *Torso) CutCount() int {
+	return 1
+}
+
 func (s *Torso) OnFold() bool {
 	return true
 }

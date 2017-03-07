@@ -31,6 +31,10 @@ func (p *pn5TorsoBack) Details() *pieces.Details {
 	}
 }
 
+func (p *pn5TorsoBack) CutCount() int {
+	return 1
+}
+
 func (p *pn5TorsoBack) OnFold() bool {
 	return true
 }

@@ -25,6 +25,10 @@ func (p *pn11SleevePlacket) Details() *pieces.Details {
 	}
 }
 
+func (p *pn11SleevePlacket) CutCount() int {
+	return 1
+}
+
 func (p *pn11SleevePlacket) OnFold() bool {
 	return false
 }

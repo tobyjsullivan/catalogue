@@ -37,6 +37,10 @@ func (p *pn6Yoke) OnFold() bool {
 	return true
 }
 
+func (p *pn6Yoke) CutCount() int {
+	return 2
+}
+
 func (p *pn6Yoke) Mirrored() bool {
 	return false
 }
@@ -158,12 +162,12 @@ func (p *pn6Yoke) CutLayer() *geometry.Block {
 func (p *pn6Yoke) NotationLayer() *geometry.Block {
 	layer := &geometry.Block{}
 
+	layer.AddLine(
+		p.centreBack(),
+	)
+
 	// Draw all points (DEBUG)
 	if DEBUG {
-		layer.AddLine(
-			p.centreBack(),
-		)
-
 		anchors := make(map[string]*geometry.Point)
 		anchors["A"] = p.a()
 		anchors["B"] = p.b()

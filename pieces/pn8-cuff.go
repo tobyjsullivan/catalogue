@@ -20,6 +20,10 @@ func NewPN8Cuff(wristCircumference float64, cuffDepth float64) pieces.Piece {
 	}
 }
 
+func (p *pn8Cuff) CutCount() int {
+	return 4
+}
+
 func (p *pn8Cuff) OnFold() bool {
 	return false
 }
