@@ -92,7 +92,7 @@ func (p *pn8Cuff) bottomStitch() geometry.Line {
 	}
 }
 
-func (p *pn8Cuff) StitchLayer() *geometry.Block {
+func (p *pn8Cuff) Stitch() *geometry.Block {
 	layer := &geometry.Block{}
 
 	layer.AddLine(
@@ -105,7 +105,7 @@ func (p *pn8Cuff) StitchLayer() *geometry.Block {
 	return layer
 }
 
-func (p *pn8Cuff) CutLayer() *geometry.Block {
+func (p *pn8Cuff) InnerCut() *geometry.Block {
 	layer := &geometry.Block{}
 
 	seamAllowance := pieces.SeamAllowance(true,
@@ -136,7 +136,7 @@ func (p *pn8Cuff) buttonHole() *symbols.ButtonHole {
 	}
 }
 
-func (p *pn8Cuff) NotationLayer() *geometry.Block {
+func (p *pn8Cuff) Ink() *geometry.Block {
 	layer := &geometry.Block{}
 
 	layer.AddBlock(

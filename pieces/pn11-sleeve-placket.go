@@ -37,7 +37,7 @@ func (p *pn11SleevePlacket) Mirrored() bool {
 	return true
 }
 
-func (p *pn11SleevePlacket) StitchLayer() *geometry.Block {
+func (p *pn11SleevePlacket) Stitch() *geometry.Block {
 	layer := &geometry.Block{}
 
 	layer.AddLine(
@@ -56,7 +56,7 @@ func (p *pn11SleevePlacket) StitchLayer() *geometry.Block {
 	return layer
 }
 
-func (p *pn11SleevePlacket) CutLayer() *geometry.Block {
+func (p *pn11SleevePlacket) InnerCut() *geometry.Block {
 	layer := &geometry.Block{}
 
 	cornerCut := &geometry.Polyline{}
@@ -96,7 +96,7 @@ func (p *pn11SleevePlacket) CutLayer() *geometry.Block {
 	return layer
 }
 
-func (p *pn11SleevePlacket) NotationLayer() *geometry.Block {
+func (p *pn11SleevePlacket) Ink() *geometry.Block {
 	layer := &geometry.Block{}
 
 	if DEBUG {

@@ -261,7 +261,7 @@ func (p *pn5TorsoBack) dartStitch() geometry.Line {
 	return dart
 }
 
-func (p *pn5TorsoBack) CutLayer() *geometry.Block {
+func (p *pn5TorsoBack) InnerCut() *geometry.Block {
 	layer := &geometry.Block{}
 
 	armholeStitch := p.armholeStitch()
@@ -282,7 +282,7 @@ func (p *pn5TorsoBack) CutLayer() *geometry.Block {
 	return layer
 }
 
-func (p *pn5TorsoBack) StitchLayer() *geometry.Block {
+func (p *pn5TorsoBack) Stitch() *geometry.Block {
 	layer := &geometry.Block{}
 
 	layer.AddLine(
@@ -296,7 +296,7 @@ func (p *pn5TorsoBack) StitchLayer() *geometry.Block {
 	return layer
 }
 
-func (p *pn5TorsoBack) NotationLayer() *geometry.Block {
+func (p *pn5TorsoBack) Ink() *geometry.Block {
 	layer := &geometry.Block{}
 
 	layer.AddLine(

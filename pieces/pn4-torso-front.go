@@ -292,7 +292,7 @@ func (p *pn4TorsoFront) centreFront() geometry.Line {
 	return &geometry.StraightLine{Start: p.l(), End: p.k()}
 }
 
-func (p *pn4TorsoFront) CutLayer() *geometry.Block {
+func (p *pn4TorsoFront) InnerCut() *geometry.Block {
 	layer := &geometry.Block{}
 
 	armholeStitch := p.armholeStitch()
@@ -322,7 +322,7 @@ func (p *pn4TorsoFront) CutLayer() *geometry.Block {
 	return layer
 }
 
-func (p *pn4TorsoFront) StitchLayer() *geometry.Block {
+func (p *pn4TorsoFront) Stitch() *geometry.Block {
 	layer := &geometry.Block{}
 
 	layer.AddLine(
@@ -339,7 +339,7 @@ func (p *pn4TorsoFront) StitchLayer() *geometry.Block {
 	return layer
 }
 
-func (p *pn4TorsoFront) NotationLayer() *geometry.Block {
+func (p *pn4TorsoFront) Ink() *geometry.Block {
 	layer := &geometry.Block{}
 
 	if DEBUG {

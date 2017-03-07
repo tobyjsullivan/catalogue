@@ -274,7 +274,7 @@ func (p *pn7Sleeve) cuffStitch() geometry.Line {
 	}
 }
 
-func (p *pn7Sleeve) CutLayer() *geometry.Block {
+func (p *pn7Sleeve) InnerCut() *geometry.Block {
 	layer := &geometry.Block{}
 
 	frontArmholeStitch := p.frontArmholeStitch()
@@ -306,7 +306,7 @@ func (p *pn7Sleeve) CutLayer() *geometry.Block {
 	return layer
 }
 
-func (p *pn7Sleeve) StitchLayer() *geometry.Block {
+func (p *pn7Sleeve) Stitch() *geometry.Block {
 	layer := &geometry.Block{}
 
 	layer.AddLine(
@@ -320,7 +320,7 @@ func (p *pn7Sleeve) StitchLayer() *geometry.Block {
 	return layer
 }
 
-func (p *pn7Sleeve) NotationLayer() *geometry.Block {
+func (p *pn7Sleeve) Ink() *geometry.Block {
 	layer := &geometry.Block{}
 
 	if DEBUG {

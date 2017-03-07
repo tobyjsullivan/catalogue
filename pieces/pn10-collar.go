@@ -38,7 +38,7 @@ func (p *pn10Collar) Mirrored() bool {
 	return false
 }
 
-func (p *pn10Collar) StitchLayer() *geometry.Block {
+func (p *pn10Collar) Stitch() *geometry.Block {
 	layer := &geometry.Block{}
 
 	layer.AddLine(
@@ -50,7 +50,7 @@ func (p *pn10Collar) StitchLayer() *geometry.Block {
 	return layer
 }
 
-func (p *pn10Collar) CutLayer() *geometry.Block {
+func (p *pn10Collar) InnerCut() *geometry.Block {
 	layer := &geometry.Block{}
 
 	seamAllowance := pieces.SeamAllowance(false,
@@ -66,7 +66,7 @@ func (p *pn10Collar) CutLayer() *geometry.Block {
 	return layer
 }
 
-func (p *pn10Collar) NotationLayer() *geometry.Block {
+func (p *pn10Collar) Ink() *geometry.Block {
 	layer := &geometry.Block{}
 
 	layer.AddLine(

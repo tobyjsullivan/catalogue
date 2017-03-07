@@ -121,15 +121,15 @@ func (s *Torso) BH() *geometry.Point {
 	return s.I().DrawAt(&geometry.Angle{Rads: math.Pi / 4.0}, d)
 }
 
-func (s *Torso) StitchLayer() *geometry.Block {
+func (s *Torso) Stitch() *geometry.Block {
 	return &geometry.Block{}
 }
 
-func (s *Torso) CutLayer() *geometry.Block {
+func (s *Torso) InnerCut() *geometry.Block {
 	return &geometry.Block{}
 }
 
-func (s *Torso) NotationLayer() *geometry.Block {
+func (s *Torso) Ink() *geometry.Block {
 	layer := &geometry.Block{}
 
 	layer.AddLine(

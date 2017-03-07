@@ -127,7 +127,7 @@ func (p *pn6Yoke) centreBack() geometry.Line {
 	}
 }
 
-func (p *pn6Yoke) StitchLayer() *geometry.Block {
+func (p *pn6Yoke) Stitch() *geometry.Block {
 
 	layer := &geometry.Block{}
 	layer.AddLine(
@@ -140,7 +140,7 @@ func (p *pn6Yoke) StitchLayer() *geometry.Block {
 	return layer
 }
 
-func (p *pn6Yoke) CutLayer() *geometry.Block {
+func (p *pn6Yoke) InnerCut() *geometry.Block {
 	layer := &geometry.Block{}
 
 	armholeStitch := &geometry.ReverseLine{InnerLine: p.armholeStitch()}
@@ -159,7 +159,7 @@ func (p *pn6Yoke) CutLayer() *geometry.Block {
 	return layer
 }
 
-func (p *pn6Yoke) NotationLayer() *geometry.Block {
+func (p *pn6Yoke) Ink() *geometry.Block {
 	layer := &geometry.Block{}
 
 	layer.AddLine(
