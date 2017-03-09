@@ -125,6 +125,10 @@ func (s *Torso) Stitch() *geometry.Block {
 	return &geometry.Block{}
 }
 
+func (p *Torso) OuterCut() *geometry.Polyline {
+	return &geometry.Polyline{}
+}
+
 func (s *Torso) InnerCut() *geometry.Block {
 	return &geometry.Block{}
 }

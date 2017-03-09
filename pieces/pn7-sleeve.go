@@ -274,6 +274,10 @@ func (p *pn7Sleeve) cuffStitch() geometry.Line {
 	}
 }
 
+func (p *pn7Sleeve) OuterCut() *geometry.Polyline {
+	return &geometry.Polyline{}
+}
+
 func (p *pn7Sleeve) InnerCut() *geometry.Block {
 	layer := &geometry.Block{}
 

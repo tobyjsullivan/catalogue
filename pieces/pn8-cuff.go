@@ -105,6 +105,10 @@ func (p *pn8Cuff) Stitch() *geometry.Block {
 	return layer
 }
 
+func (p *pn8Cuff) OuterCut() *geometry.Polyline {
+	return &geometry.Polyline{}
+}
+
 func (p *pn8Cuff) InnerCut() *geometry.Block {
 	layer := &geometry.Block{}
 

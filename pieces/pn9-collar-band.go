@@ -49,6 +49,10 @@ func (p *pn9CollarBand) Stitch() *geometry.Block {
 	return layer
 }
 
+func (p *pn9CollarBand) OuterCut() *geometry.Polyline {
+	return &geometry.Polyline{}
+}
+
 func (p *pn9CollarBand) InnerCut() *geometry.Block {
 	layer := &geometry.Block{}
 

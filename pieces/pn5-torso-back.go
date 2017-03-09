@@ -261,6 +261,10 @@ func (p *pn5TorsoBack) dartStitch() geometry.Line {
 	return dart
 }
 
+func (p *pn5TorsoBack) OuterCut() *geometry.Polyline {
+	return &geometry.Polyline{}
+}
+
 func (p *pn5TorsoBack) InnerCut() *geometry.Block {
 	layer := &geometry.Block{}
 

@@ -56,6 +56,10 @@ func (p *pn11SleevePlacket) Stitch() *geometry.Block {
 	return layer
 }
 
+func (p *pn11SleevePlacket) OuterCut() *geometry.Polyline {
+	return &geometry.Polyline{}
+}
+
 func (p *pn11SleevePlacket) InnerCut() *geometry.Block {
 	layer := &geometry.Block{}
 

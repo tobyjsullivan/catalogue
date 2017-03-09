@@ -292,16 +292,12 @@ func (p *pn4TorsoFront) centreFront() geometry.Line {
 	return &geometry.StraightLine{Start: p.l(), End: p.k()}
 }
 
-func (p *pn4TorsoFront) InnerCut() *geometry.Block {
-	layer := &geometry.Block{}
-
-	armholeStitch := p.armholeStitch()
-
+func (p *pn4TorsoFront) OuterCut() *geometry.Polyline {
 	seamAllowance := pieces.SeamAllowance(false,
 		&geometry.ReverseLine{InnerLine: pieces.AddSeamAllowance(p.buttonStandBottom(), true)},
 		pieces.AddSeamAllowance(p.hemlineStitch(), false),
 		&geometry.ReverseLine{InnerLine: pieces.AddSeamAllowance(p.sideSeamStitch(), true)},
-		&geometry.ReverseLine{InnerLine: pieces.AddSeamAllowance(armholeStitch, true)},
+		&geometry.ReverseLine{InnerLine: pieces.AddSeamAllowance(p.armholeStitch(), true)},
 		&geometry.ReverseLine{InnerLine: pieces.AddSeamAllowance(p.shoulderStitch(), true)},
 		&geometry.ReverseLine{InnerLine: pieces.AddSeamAllowance(p.necklineStitch(), true)},
 		pieces.AddSeamAllowance(p.buttonStandTopA(), false),
@@ -310,11 +306,23 @@ func (p *pn4TorsoFront) InnerCut() *geometry.Block {
 
 	front := p.buttonStandFront()
 
-	layer.AddLine(
-		front,
+	poly := &geometry.Polyline{}
+	poly.AddLine(
 		seamAllowance,
+		front,
 		geometry.Connect(front, seamAllowance),
 		geometry.Connect(seamAllowance, front),
+	)
+
+
+	return poly
+}
+
+func (p *pn4TorsoFront) InnerCut() *geometry.Block {
+	layer := &geometry.Block{}
+
+	armholeStitch := p.armholeStitch()
+	layer.AddLine(
 		pieces.Notch(armholeStitch, 7.6, true),
 		pieces.Notch(armholeStitch, armholeStitch.Length() - 7.6, true),
 	)

@@ -140,6 +140,10 @@ func (p *pn6Yoke) Stitch() *geometry.Block {
 	return layer
 }
 
+func (p *pn6Yoke) OuterCut() *geometry.Polyline {
+	return &geometry.Polyline{}
+}
+
 func (p *pn6Yoke) InnerCut() *geometry.Block {
 	layer := &geometry.Block{}
 
