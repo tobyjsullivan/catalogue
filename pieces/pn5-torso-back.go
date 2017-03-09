@@ -301,6 +301,10 @@ func (p *pn5TorsoBack) Stitch() *geometry.Block {
 }
 
 func (p *pn5TorsoBack) Ink() *geometry.Block {
+	return &geometry.Block{}
+}
+
+func (p *pn5TorsoBack) Reference() *geometry.Block {
 	layer := &geometry.Block{}
 
 	layer.AddLine(

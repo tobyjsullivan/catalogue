@@ -165,6 +165,17 @@ func (p *pn4TorsoFront) z() *geometry.Point {
 	return p.v().SquareToHorizontalLine(p.k().Y)
 }
 
+func (p *pn4TorsoFront) buttons() []*geometry.Point {
+	return []*geometry.Point{
+		p.l().SquareDown(4.3),
+		p.l().SquareDown(14.3),
+		p.l().SquareDown(24.3),
+		p.l().SquareDown(34.3),
+		p.l().SquareDown(44.3),
+		p.l().SquareDown(54.3),
+	}
+}
+
 func (p *pn4TorsoFront) frontNeckLine() geometry.Line {
 	return &geometry.EllipseCurve{
 		Start:         p.l(),
@@ -348,6 +359,10 @@ func (p *pn4TorsoFront) Stitch() *geometry.Block {
 }
 
 func (p *pn4TorsoFront) Ink() *geometry.Block {
+	return &geometry.Block{}
+}
+
+func (p *pn4TorsoFront) Reference() *geometry.Block {
 	layer := &geometry.Block{}
 
 	if DEBUG {

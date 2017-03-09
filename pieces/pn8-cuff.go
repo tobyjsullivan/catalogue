@@ -128,7 +128,7 @@ func (p *pn8Cuff) InnerCut() *geometry.Block {
 
 func (p *pn8Cuff) button() *symbols.Button {
 	return &symbols.Button{
-		Centre: p.g(),
+		Centre:   p.g(),
 		Diameter: BUTTON_DIAMETER,
 	}
 }
@@ -147,6 +147,12 @@ func (p *pn8Cuff) Ink() *geometry.Block {
 		p.button().Block(),
 		p.buttonHole().Block(),
 	)
+
+	return layer
+}
+
+func (p *pn8Cuff) Reference() *geometry.Block {
+	layer := &geometry.Block{}
 
 	// Draw all points (DEBUG)
 	if DEBUG {

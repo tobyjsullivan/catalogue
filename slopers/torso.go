@@ -134,6 +134,10 @@ func (s *Torso) InnerCut() *geometry.Block {
 }
 
 func (s *Torso) Ink() *geometry.Block {
+	return &geometry.Block{}
+}
+
+func (s *Torso) Reference() *geometry.Block {
 	layer := &geometry.Block{}
 
 	layer.AddLine(

@@ -9,25 +9,25 @@ import (
 )
 
 type pn7Sleeve struct {
-	height             float64
-	neckCircumference  float64
-	chestCircumference float64
-	waistCircumference float64
-	hipCircumference   float64
-	sleeveLength       float64
-	cuffDepth          float64
+	height               float64
+	neckCircumference    float64
+	chestCircumference   float64
+	waistCircumference   float64
+	hipCircumference     float64
+	sleeveLength         float64
+	cuffDepth            float64
 	placketOpeningLength float64
 }
 
 func NewPN7Sleeve(height float64, neck float64, chest float64, waist float64, hip float64, sleeve float64, cuffDepth float64, placketOpening float64) pieces.Piece {
 	return &pn7Sleeve{
-		height:             height,
-		neckCircumference:  neck,
-		chestCircumference: chest,
-		waistCircumference: waist,
-		hipCircumference:   hip,
-		sleeveLength:       sleeve,
-		cuffDepth:          cuffDepth,
+		height:               height,
+		neckCircumference:    neck,
+		chestCircumference:   chest,
+		waistCircumference:   waist,
+		hipCircumference:     hip,
+		sleeveLength:         sleeve,
+		cuffDepth:            cuffDepth,
 		placketOpeningLength: placketOpening,
 	}
 }
@@ -294,17 +294,17 @@ func (p *pn7Sleeve) InnerCut() *geometry.Block {
 
 	placketCut := &geometry.StraightLine{
 		Start: p.y().SquareDown(pieces.SEAM_ALLOWANCE),
-		End: p.z(),
+		End:   p.z(),
 	}
 
 	layer.AddLine(
 		seamAllowance,
 		placketCut,
 		pieces.Notch(frontArmholeStitch, 7.6, false),
-		pieces.Notch(frontArmholeStitch, frontArmholeStitch.Length() - 7.6, false),
+		pieces.Notch(frontArmholeStitch, frontArmholeStitch.Length()-7.6, false),
 		pieces.Notch(backArmholeStitch, 7.6, true),
-		pieces.Notch(backArmholeStitch, backArmholeStitch.Length() - 7.6, true),
-		pieces.Notch(backArmholeStitch, backArmholeStitch.Length() - 8.9, true),
+		pieces.Notch(backArmholeStitch, backArmholeStitch.Length()-7.6, true),
+		pieces.Notch(backArmholeStitch, backArmholeStitch.Length()-8.9, true),
 	)
 
 	return layer
@@ -325,6 +325,10 @@ func (p *pn7Sleeve) Stitch() *geometry.Block {
 }
 
 func (p *pn7Sleeve) Ink() *geometry.Block {
+	return &geometry.Block{}
+}
+
+func (p *pn7Sleeve) Reference() *geometry.Block {
 	layer := &geometry.Block{}
 
 	if DEBUG {

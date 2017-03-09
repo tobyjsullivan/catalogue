@@ -46,7 +46,21 @@ func NewSN11001Shirt(m *SN11001Measurements) styles.Style {
 
 func (p *sn11001Shirt) Pieces() []pieces.Piece {
 	return []pieces.Piece{
-		piece_catalogue.NewPN4TorsoFront(
+		//piece_catalogue.NewPN4TorsoFront(
+		//	p.height,
+		//	p.neckCircumference,
+		//	p.chestCircumference,
+		//	p.waistCircumference,
+		//	p.hipCircumference,
+		//),
+		piece_catalogue.NewPN12TorsoFrontRight(
+			p.height,
+			p.neckCircumference,
+			p.chestCircumference,
+			p.waistCircumference,
+			p.hipCircumference,
+		),
+		piece_catalogue.NewPN13TorsoFrontLeft(
 			p.height,
 			p.neckCircumference,
 			p.chestCircumference,

@@ -69,6 +69,10 @@ func (p *pn9CollarBand) InnerCut() *geometry.Block {
 }
 
 func (p *pn9CollarBand) Ink() *geometry.Block {
+	return &geometry.Block{}
+}
+
+func (p *pn9CollarBand) Reference() *geometry.Block {
 	layer := &geometry.Block{}
 
 	layer.AddLine(

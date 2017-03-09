@@ -101,6 +101,10 @@ func (p *pn11SleevePlacket) InnerCut() *geometry.Block {
 }
 
 func (p *pn11SleevePlacket) Ink() *geometry.Block {
+	return &geometry.Block{}
+}
+
+func (p *pn11SleevePlacket) Reference() *geometry.Block {
 	layer := &geometry.Block{}
 
 	if DEBUG {

@@ -164,6 +164,10 @@ func (p *pn6Yoke) InnerCut() *geometry.Block {
 }
 
 func (p *pn6Yoke) Ink() *geometry.Block {
+	return &geometry.Block{}
+}
+
+func (p *pn6Yoke) Reference() *geometry.Block {
 	layer := &geometry.Block{}
 
 	layer.AddLine(
