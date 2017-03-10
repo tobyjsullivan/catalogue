@@ -6,6 +6,7 @@ import (
 	"github.com/tailored-style/pattern-generator/geometry"
 	"github.com/tailored-style/pattern-generator/pieces"
 	catalogue_pieces "github.com/tobyjsullivan/catalogue/pieces"
+	"fmt"
 )
 
 type Torso struct {
@@ -55,7 +56,7 @@ func (s *Torso) H() *geometry.Point {
 }
 
 func (s *Torso) I() *geometry.Point {
-	return s.E().SquareRight(s.ShoulderToShoulder / 2.0)
+	return s.E().SquareRight((s.ChestCircumference / 6.0) + 2.0)
 }
 
 func (s *Torso) J() *geometry.Point {
@@ -74,6 +75,16 @@ func (s *Torso) M() *geometry.Point {
 	return s.E().SquareRight(s.ChestCircumference/4.0 + 0.635)
 }
 
+func (s *Torso) N() *geometry.Point {
+	n := s.M().SquareToHorizontalLine(s.F().Y)
+
+	ang := s.P().AngleRelativeTo(s.M()).Perpendicular()
+	a := n.DistanceTo(s.M())
+	o := a * ang.Tan()
+
+	return n.SquareRight(o)
+}
+
 func (s *Torso) O() *geometry.Point {
 	return s.M().SquareToHorizontalLine(s.B().Y)
 }
@@ -86,8 +97,12 @@ func (s *Torso) P() *geometry.Point {
 	return s.O().SquareLeft((s.BellyButtonWaistCircumference - s.ChestCircumference) / 2.0)
 }
 
+func (s *Torso) backNeckWidth() float64 {
+	return s.NeckCircumference / 6.0
+}
+
 func (s *Torso) BA() *geometry.Point {
-	return s.A().SquareRight(s.NeckCircumference / 6.0)
+	return s.A().SquareRight(s.backNeckWidth())
 }
 
 func (s *Torso) BB() *geometry.Point {
@@ -100,7 +115,10 @@ func (s *Torso) BC() *geometry.Point {
 
 func (s *Torso) BD() *geometry.Point {
 	bb := s.BB()
-	return bb.DrawAt(s.BC().AngleRelativeTo(bb), (s.ShoulderToShoulder/2.0)-s.BA().DistanceTo(s.A()))
+	bc := s.BC()
+	shoulderLength :=  (s.ShoulderToShoulder/2.0)-s.BA().DistanceTo(s.A())
+
+	return bb.DrawAt(bc.AngleRelativeTo(bb), shoulderLength)
 }
 
 func (s *Torso) BE() *geometry.Point {
@@ -119,6 +137,79 @@ func (s *Torso) BG() *geometry.Point {
 func (s *Torso) BH() *geometry.Point {
 	d := s.M().DistanceTo(s.I()) / 2.0
 	return s.I().DrawAt(&geometry.Angle{Rads: math.Pi / 4.0}, d)
+}
+
+func (s *Torso) FI() *geometry.Point {
+	return s.D().SquareDown(s.backNeckWidth() + 0.635)
+}
+
+func (s *Torso) FJ() *geometry.Point {
+	return s.FI().SquareLeft(s.backNeckWidth() - 0.3175)
+}
+
+func (s *Torso) FK() *geometry.Point {
+	return s.FJ().SquareToHorizontalLine(s.D().Y)
+}
+
+func (s *Torso) FL() *geometry.Point {
+	return s.FI().MidpointTo(s.FK())
+}
+
+func (s *Torso) FM() *geometry.Point {
+	ang := s.FK().AngleRelativeTo(s.FI()).Perpendicular()
+
+	return s.FL().DrawAt(ang, 2.22)
+}
+
+func (s *Torso) FN() *geometry.Point {
+	return s.L().SquareDown(3.81)
+}
+
+func (s *Torso) FO() *geometry.Point {
+	return s.FK().DrawAt(s.FN().AngleRelativeTo(s.FK()), s.BD().DistanceTo(s.BB()))
+}
+
+func (s *Torso) FP() *geometry.Point {
+	return s.K().SquareUp(s.FN().DistanceTo(s.K()) / 3.0 + 1.59)
+}
+
+func (s *Torso) FQ() *geometry.Point {
+	dist := s.I().DistanceTo(s.BH()) - 0.635
+
+	return s.K().DrawAt(&geometry.Angle{Rads: math.Pi * 3.0 / 4.0}, dist)
+}
+
+func (s *Torso) ZA() *geometry.Point {
+	ang := s.BC().AngleRelativeTo(s.BB())
+	dist := s.BB().DistanceTo(s.BA()) * ang.Tan()
+
+	return s.BA().SquareLeft(math.Abs(dist))
+}
+
+func (s *Torso) ZB() *geometry.Point {
+	ang := s.BD().AngleRelativeTo(s.BC())
+	o := s.BD().DistanceTo(s.BC())
+
+	h := o / ang.Sin()
+
+	return s.BC().SquareDown(math.Abs(h))
+}
+
+func (s *Torso) ZC() *geometry.Point {
+	ang := s.FO().AngleRelativeTo(s.FN())
+	o := s.FO().DistanceTo(s.FN())
+
+	h := o / ang.Sin()
+
+	return s.FN().SquareDown(math.Abs(h))
+}
+
+func (s *Torso) ZD() *geometry.Point {
+	return s.A().SquareDown(7.6)
+}
+
+func (s *Torso) ZE() *geometry.Point {
+	return s.ZD().SquareToVerticalLine(s.J().X)
 }
 
 func (s *Torso) Stitch() *geometry.Block {
@@ -181,17 +272,43 @@ func (s *Torso) Reference() *geometry.Block {
 			Start: s.BB(),
 			End:   s.BD(),
 		},
-		&geometry.EllipseCurve{
-			Start:         s.A(),
-			End:           s.BB(),
-			StartingAngle: &geometry.Angle{Rads: math.Pi * 3.0 / 2.0},
-			ArcAngle:      s.BD().AngleRelativeTo(s.BB()),
+		&geometry.QuadraticBezierCurve{
+			P0: s.A(),
+			P1: s.ZA(),
+			P2: s.BB(),
 		},
-		&geometry.EllipseCurve{
-			Start:         s.M(),
-			End:           s.BF(),
-			StartingAngle: &geometry.Angle{Rads: math.Pi * 3.0 / 2.0},
-			ArcAngle:      &geometry.Angle{Rads: math.Pi / 2.0},
+		&geometry.QuadraticBezierCurve{
+			P0: s.BD(),
+			P1: s.ZB(),
+			P2: s.ZE(),
+		},
+		&geometry.QuadraticBezierCurve{
+			P0: s.M(),
+			P1: s.I(),
+			P2: s.BF(),
+		},
+		&geometry.QuadraticBezierCurve{
+			P0: s.FI(),
+			P1: s.FJ(),
+			P2: s.FK(),
+		},
+		&geometry.StraightLine{
+			Start: s.FK(),
+			End:   s.FO(),
+		},
+		&geometry.QuadraticBezierCurve{
+			P0: s.FO(),
+			P1: s.ZC(),
+			P2: s.FP(),
+		},
+		&geometry.QuadraticBezierCurve{
+			P0: s.FP(),
+			P1: s.K(),
+			P2: s.M(),
+		},
+		&geometry.StraightLine{
+			Start: s.ZD(),
+			End:   s.ZE(),
 		},
 	)
 
@@ -209,6 +326,8 @@ func (s *Torso) Reference() *geometry.Block {
 	anchors["K"] = s.K()
 	anchors["L"] = s.L()
 	anchors["M"] = s.M()
+	anchors["N"] = s.N()
+	anchors["O"] = s.O()
 	anchors["P"] = s.P()
 	anchors["BA"] = s.BA()
 	anchors["BB"] = s.BB()
@@ -218,6 +337,20 @@ func (s *Torso) Reference() *geometry.Block {
 	anchors["BF"] = s.BF()
 	anchors["BG"] = s.BG()
 	anchors["BH"] = s.BH()
+	anchors["FI"] = s.FI()
+	anchors["FJ"] = s.FJ()
+	anchors["FK"] = s.FK()
+	anchors["FL"] = s.FL()
+	anchors["FM"] = s.FM()
+	anchors["FN"] = s.FN()
+	anchors["FO"] = s.FO()
+	anchors["FP"] = s.FP()
+	anchors["FQ"] = s.FQ()
+	anchors["ZA"] = s.ZA()
+	anchors["ZB"] = s.ZB()
+	anchors["ZC"] = s.ZC()
+	anchors["ZD"] = s.ZD()
+	anchors["ZE"] = s.ZE()
 	catalogue_pieces.AddAnchors(layer, anchors)
 
 	return layer
