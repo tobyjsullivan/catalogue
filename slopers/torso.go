@@ -133,11 +133,11 @@ func (s *Torso) BH() *geometry.Point {
 }
 
 func (s *Torso) FI() *geometry.Point {
-	return s.D().SquareDown(s.backNeckWidth() + 0.635)
+	return s.D().SquareDown(s.backNeckWidth() + 2.635)
 }
 
 func (s *Torso) FJ() *geometry.Point {
-	return s.FI().SquareLeft(s.backNeckWidth() - 0.3175)
+	return s.FI().SquareLeft(s.backNeckWidth() + 0.6825)
 }
 
 func (s *Torso) FK() *geometry.Point {
@@ -203,6 +203,15 @@ func (s *Torso) ZD() *geometry.Point {
 
 func (s *Torso) ZE() *geometry.Point {
 	return s.ZD().SquareToVerticalLine(s.J().X)
+}
+
+func (s *Torso) ZF() *geometry.Point {
+	ang := s.FK().AngleRelativeTo(s.FN())
+	adj := s.FJ().DistanceTo(s.FK())
+
+	opp := adj * ang.Tan()
+
+	return s.FJ().SquareRight(math.Abs(opp))
 }
 
 func (s *Torso) backNeckWidth() float64 {
@@ -283,6 +292,17 @@ func (s *Torso) Ink() *geometry.Block {
 func (s *Torso) Reference() *geometry.Block {
 	layer := &geometry.Block{}
 
+	neckLineFront := &geometry.QuadraticBezierCurve{
+		P0: s.FI(),
+		P1: s.ZF(),
+		P2: s.FK(),
+	}
+	neckLineBack := &geometry.QuadraticBezierCurve{
+		P0: s.A(),
+		P1: s.ZA(),
+		P2: s.BB(),
+	}
+
 	layer.AddLine(
 		&geometry.StraightLine{
 			Start: s.A(),
@@ -324,18 +344,10 @@ func (s *Torso) Reference() *geometry.Block {
 			Start: s.BB(),
 			End:   s.BD(),
 		},
-		&geometry.QuadraticBezierCurve{
-			P0: s.A(),
-			P1: s.ZA(),
-			P2: s.BB(),
-		},
+		neckLineBack,
 		s.yokeArmhole(),
 		s.backArmhole(),
-		&geometry.QuadraticBezierCurve{
-			P0: s.FI(),
-			P1: s.FJ(),
-			P2: s.FK(),
-		},
+		neckLineFront,
 		&geometry.StraightLine{
 			Start: s.FK(),
 			End:   s.FO(),
@@ -386,6 +398,7 @@ func (s *Torso) Reference() *geometry.Block {
 	anchors["ZC"] = s.ZC()
 	anchors["ZD"] = s.ZD()
 	anchors["ZE"] = s.ZE()
+	anchors["ZF"] = s.ZF()
 	catalogue_pieces.AddAnchors(layer, anchors)
 
 	return layer
