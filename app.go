@@ -146,5 +146,26 @@ func main() {
 		panic(err.Error())
 	}
 
+	fmt.Println("Generating PDF of Sleeve sloper")
+	pieceRender = &rendering.PieceRender{
+		Piece: &slopers.Sleeve{
+			Height:                        measurements.height,
+			NeckCircumference:             measurements.neck,
+			ShoulderToShoulder:            measurements.acrossBackShoulderNeck,
+			ChestCircumference:            measurements.chest,
+			ShirtLength:                   measurements.neckToGlutealHip,
+			BellyButtonWaistCircumference: measurements.bellyButtonWaist,
+			NaturalWaistCircumference:     measurements.naturalWaist,
+			HipCircumference:              measurements.maximumHip,
+			ShirtSleeveLength:             measurements.neckShoulderElbowWrist,
+			BicepCircumference:            measurements.midUpperArm,
+			WristCircumference:            measurements.wrist,
+		},
+	}
+	err = pieceRender.SavePDF("/Users/toby/sandbox/sleeve-out.pdf")
+	if err != nil {
+		panic(err.Error())
+	}
+
 	fmt.Println("Done.")
 }

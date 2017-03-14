@@ -6,7 +6,6 @@ import (
 	"github.com/tailored-style/pattern-generator/geometry"
 	"github.com/tailored-style/pattern-generator/pieces"
 	catalogue_pieces "github.com/tobyjsullivan/catalogue/pieces"
-	"fmt"
 )
 
 type Torso struct {
@@ -97,10 +96,6 @@ func (s *Torso) P() *geometry.Point {
 	return s.O().SquareLeft((s.BellyButtonWaistCircumference - s.ChestCircumference) / 2.0)
 }
 
-func (s *Torso) backNeckWidth() float64 {
-	return s.NeckCircumference / 6.0
-}
-
 func (s *Torso) BA() *geometry.Point {
 	return s.A().SquareRight(s.backNeckWidth())
 }
@@ -115,10 +110,8 @@ func (s *Torso) BC() *geometry.Point {
 
 func (s *Torso) BD() *geometry.Point {
 	bb := s.BB()
-	bc := s.BC()
-	shoulderLength :=  (s.ShoulderToShoulder/2.0)-s.BA().DistanceTo(s.A())
 
-	return bb.DrawAt(bc.AngleRelativeTo(bb), shoulderLength)
+	return bb.DrawAt(s.BC().AngleRelativeTo(bb),  s.shoulderLength())
 }
 
 func (s *Torso) BE() *geometry.Point {
@@ -166,7 +159,7 @@ func (s *Torso) FN() *geometry.Point {
 }
 
 func (s *Torso) FO() *geometry.Point {
-	return s.FK().DrawAt(s.FN().AngleRelativeTo(s.FK()), s.BD().DistanceTo(s.BB()))
+	return s.FK().DrawAt(s.FN().AngleRelativeTo(s.FK()), s.shoulderLength())
 }
 
 func (s *Torso) FP() *geometry.Point {
@@ -210,6 +203,65 @@ func (s *Torso) ZD() *geometry.Point {
 
 func (s *Torso) ZE() *geometry.Point {
 	return s.ZD().SquareToVerticalLine(s.J().X)
+}
+
+func (s *Torso) backNeckWidth() float64 {
+	return s.NeckCircumference / 6.0
+}
+
+func (s *Torso) shoulderLength() float64 {
+	return (s.ShoulderToShoulder/2.0)-s.BA().DistanceTo(s.A())
+}
+
+func (s *Torso) frontArmhole() *geometry.Polyline {
+	poly := &geometry.Polyline{}
+
+	poly.AddLine(
+		&geometry.QuadraticBezierCurve{
+			P0: s.FO(),
+			P1: s.ZC(),
+			P2: s.FP(),
+		},
+		&geometry.QuadraticBezierCurve{
+			P0: s.FP(),
+			P1: s.K(),
+			P2: s.M(),
+		},
+	)
+
+	return poly
+}
+
+func (s *Torso) yokeArmhole() *geometry.Polyline {
+	poly := &geometry.Polyline{}
+
+	poly.AddLine(
+		&geometry.QuadraticBezierCurve{
+			P0: s.BD(),
+			P1: s.ZB(),
+			P2: s.ZE(),
+		},
+	)
+
+	return poly
+}
+
+func (s *Torso) backArmhole() *geometry.Polyline {
+	poly := &geometry.Polyline{}
+
+	poly.AddLine(
+		&geometry.StraightLine{
+			Start: s.ZE(),
+			End: s.BF(),
+		},
+		&geometry.QuadraticBezierCurve{
+			P0: s.BF(),
+			P1: s.I(),
+			P2: s.M(),
+		},
+	)
+
+	return poly
 }
 
 func (s *Torso) Stitch() *geometry.Block {
@@ -277,16 +329,8 @@ func (s *Torso) Reference() *geometry.Block {
 			P1: s.ZA(),
 			P2: s.BB(),
 		},
-		&geometry.QuadraticBezierCurve{
-			P0: s.BD(),
-			P1: s.ZB(),
-			P2: s.ZE(),
-		},
-		&geometry.QuadraticBezierCurve{
-			P0: s.M(),
-			P1: s.I(),
-			P2: s.BF(),
-		},
+		s.yokeArmhole(),
+		s.backArmhole(),
 		&geometry.QuadraticBezierCurve{
 			P0: s.FI(),
 			P1: s.FJ(),
@@ -296,16 +340,7 @@ func (s *Torso) Reference() *geometry.Block {
 			Start: s.FK(),
 			End:   s.FO(),
 		},
-		&geometry.QuadraticBezierCurve{
-			P0: s.FO(),
-			P1: s.ZC(),
-			P2: s.FP(),
-		},
-		&geometry.QuadraticBezierCurve{
-			P0: s.FP(),
-			P1: s.K(),
-			P2: s.M(),
-		},
+		s.frontArmhole(),
 		&geometry.StraightLine{
 			Start: s.ZD(),
 			End:   s.ZE(),
