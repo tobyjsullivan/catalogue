@@ -49,7 +49,7 @@ func (p *pn7Sleeve) sloper() *slopers.Sleeve {
 }
 
 func (p *pn7Sleeve) a() *geometry.Point {
-	return p.sloper().A()
+	return p.sloper().P0()
 }
 
 func (p *pn7Sleeve) shoulderSeamLength() float64 {
@@ -59,75 +59,67 @@ func (p *pn7Sleeve) shoulderSeamLength() float64 {
 }
 
 func (p *pn7Sleeve) b() *geometry.Point {
-	b := p.sloper().B()
-	fmt.Printf("Sleeve B: %v\n", b)
-	return b
+	return p.sloper().P1()
 }
 
 func (p *pn7Sleeve) c() *geometry.Point {
-	c := p.sloper().C()
-	fmt.Printf("Sleeve C: %v\n", c)
-
-	return c
+	return p.sloper().P2()
 }
 
 func (p *pn7Sleeve) d() *geometry.Point {
-	return p.sloper().D()
+	return p.sloper().P3()
 }
 
 func (p *pn7Sleeve) e() *geometry.Point {
-	e := p.sloper().E()
-	fmt.Printf("Sleeve E: %v\n", e)
-
-	return e
+	return p.sloper().P4()
 }
 
 func (p *pn7Sleeve) f() *geometry.Point {
-	return p.sloper().F()
+	return p.sloper().P5()
 }
 
 func (p *pn7Sleeve) i() *geometry.Point {
-	return p.sloper().I()
+	return p.sloper().P8()
 }
 
 func (p *pn7Sleeve) j() *geometry.Point {
-	return p.sloper().J()
+	return p.sloper().P9()
 }
 
 func (p *pn7Sleeve) l() *geometry.Point {
-	return p.sloper().L()
+	return p.sloper().P11()
 }
 
 func (p *pn7Sleeve) n() *geometry.Point {
-	return p.sloper().N()
+	return p.sloper().P13()
 }
 
 func (p *pn7Sleeve) o() *geometry.Point {
-	return p.sloper().O()
+	return p.sloper().P14()
 }
 
 func (p *pn7Sleeve) s() *geometry.Point {
-	return p.sloper().S()
+	return p.sloper().P18()
 }
 
 func (p *pn7Sleeve) t() *geometry.Point {
-	return p.sloper().T()
+	return p.sloper().P19()
 }
 
 func (p *pn7Sleeve) u() *geometry.Point {
-	return p.sloper().U()
+	return p.sloper().P20()
 }
 
 func (p *pn7Sleeve) v() *geometry.Point {
-	return p.sloper().V()
+	return p.sloper().P21()
 }
 
 func (p *pn7Sleeve) w() *geometry.Point {
-	return p.sloper().W()
+	return p.sloper().P22()
 }
 
 func (p *pn7Sleeve) x() *geometry.Point {
-	return p.sloper().X()
+	return p.sloper().P23()
 }
 
 func (p *pn7Sleeve) y() *geometry.Point {
