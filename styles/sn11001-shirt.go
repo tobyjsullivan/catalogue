@@ -4,6 +4,7 @@ import (
 	"github.com/tailored-style/pattern-generator/pieces"
 	"github.com/tailored-style/pattern-generator/styles"
 	piece_catalogue "github.com/tobyjsullivan/catalogue/pieces"
+	"github.com/tobyjsullivan/catalogue/slopers"
 )
 
 const (
@@ -12,35 +13,13 @@ const (
 )
 
 type sn11001Shirt struct {
-	height             float64
-	neckCircumference  float64
-	chestCircumference float64
-	waistCircumference float64
-	hipCircumference   float64
-	sleeveLength       float64
-	wristCircumference float64
+	*slopers.TorsoMeasurements
 	pieces             []pieces.Piece
 }
 
-type SN11001Measurements struct {
-	Height float64
-	Neck   float64
-	Chest  float64
-	Waist  float64
-	Hip    float64
-	Sleeve float64
-	Wrist  float64
-}
-
-func NewSN11001Shirt(m *SN11001Measurements) styles.Style {
+func NewSN11001Shirt(m *slopers.TorsoMeasurements) styles.Style {
 	return &sn11001Shirt{
-		height:             m.Height,
-		neckCircumference:  m.Neck,
-		chestCircumference: m.Chest,
-		waistCircumference: m.Waist,
-		hipCircumference:   m.Hip,
-		sleeveLength:       m.Sleeve,
-		wristCircumference: m.Wrist,
+		TorsoMeasurements: m,
 	}
 }
 
@@ -53,61 +32,21 @@ func (p *sn11001Shirt) Pieces() []pieces.Piece {
 		//	p.waistCircumference,
 		//	p.hipCircumference,
 		//),
-		piece_catalogue.NewPN12TorsoFrontRight(
-			p.height,
-			p.neckCircumference,
-			p.chestCircumference,
-			p.waistCircumference,
-			p.hipCircumference,
-		),
-		piece_catalogue.NewPN13TorsoFrontLeft(
-			p.height,
-			p.neckCircumference,
-			p.chestCircumference,
-			p.waistCircumference,
-			p.hipCircumference,
-		),
-		piece_catalogue.NewPN5TorsoBack(
-			p.height,
-			p.chestCircumference,
-			p.waistCircumference,
-			p.hipCircumference,
-		),
-		piece_catalogue.NewPN6Yoke(
-			p.height,
-			p.neckCircumference,
-			p.chestCircumference,
-			p.waistCircumference,
-			p.hipCircumference,
-		),
+		piece_catalogue.NewPN12TorsoFrontRight(p.TorsoMeasurements),
+		piece_catalogue.NewPN13TorsoFrontLeft(p.TorsoMeasurements),
+		piece_catalogue.NewPN5TorsoBack(p.TorsoMeasurements),
+		piece_catalogue.NewPN6Yoke(p.TorsoMeasurements),
 		piece_catalogue.NewPN7Sleeve(
-			p.height,
-			p.neckCircumference,
-			p.chestCircumference,
-			p.waistCircumference,
-			p.hipCircumference,
-			p.sleeveLength,
+			p.TorsoMeasurements,
 			SN11001_CUFF_DEPTH,
 			SN11001_SLEEVE_PLACKET_OPENING,
 		),
 		piece_catalogue.NewPN8Cuff(
-			p.wristCircumference,
+			p.TorsoMeasurements.WristCircumference,
 			SN11001_CUFF_DEPTH,
 		),
-		piece_catalogue.NewPN10Collar(
-			p.height,
-			p.neckCircumference,
-			p.chestCircumference,
-			p.waistCircumference,
-			p.hipCircumference,
-		),
-		piece_catalogue.NewPN9CollarBand(
-			p.height,
-			p.neckCircumference,
-			p.chestCircumference,
-			p.waistCircumference,
-			p.hipCircumference,
-		),
+		piece_catalogue.NewPN10Collar(p.TorsoMeasurements),
+		piece_catalogue.NewPN9CollarBand(p.TorsoMeasurements),
 		piece_catalogue.NewPN11SleevePlacket(
 			SN11001_SLEEVE_PLACKET_OPENING,
 		),
@@ -119,13 +58,13 @@ func (p *sn11001Shirt) Details() *styles.Details {
 		Description: "Tailored Shirt - v3.0 TEST",
 		StyleNumber: "11001",
 		Measurements: &pieces.Measurements{
-			Height:             p.height,
-			NeckCircumference:  p.neckCircumference,
-			ChestCircumference: p.chestCircumference,
-			WaistCircumference: p.waistCircumference,
-			HipCircumference:   p.hipCircumference,
-			SleeveLength:       p.sleeveLength,
-			WristCircumference: p.wristCircumference,
+			Height:             p.TorsoMeasurements.Height,
+			NeckCircumference:  p.TorsoMeasurements.NeckCircumference,
+			ChestCircumference: p.TorsoMeasurements.ChestCircumference,
+			WaistCircumference: p.TorsoMeasurements.BellyButtonWaistCircumference,
+			HipCircumference:   p.TorsoMeasurements.HipCircumference,
+			SleeveLength:       p.TorsoMeasurements.ShirtSleeveLength,
+			WristCircumference: p.TorsoMeasurements.WristCircumference,
 		},
 	}
 }

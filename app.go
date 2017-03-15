@@ -26,28 +26,36 @@ type bodyLabsMeasurments struct {
 	wrist                          float64
 }
 
-func (m *bodyLabsMeasurments) toSN11001Measurements() *styles.SN11001Measurements {
+func (m *bodyLabsMeasurments) toTorsoSloperMeasurements() *slopers.TorsoMeasurements {
 	assertAmount(m.height)
 	assertAmount(m.neck)
+	assertAmount(m.acrossBackShoulderNeck)
 	assertAmount(m.chest)
+	assertAmount(m.neckToGlutealHip)
 	assertAmount(m.bellyButtonWaist)
+	assertAmount(m.naturalWaist)
 	assertAmount(m.maximumHip)
 	assertAmount(m.neckShoulderElbowWrist)
+	assertAmount(m.midUpperArm)
 	assertAmount(m.wrist)
 
-	return &styles.SN11001Measurements{
-		Height: m.height,
-		Neck: m.neck,
-		Chest: m.chest,
-		Waist: m.bellyButtonWaist,
-		Hip: m.maximumHip,
-		Sleeve: m.neckShoulderElbowWrist,
-		Wrist: m.wrist,
+	return &slopers.TorsoMeasurements{
+		Height:                        m.height,
+		NeckCircumference:             m.neck,
+		ShoulderToShoulder:            m.acrossBackShoulderNeck,
+		ChestCircumference:            m.chest,
+		ShirtLength:                   m.neckToGlutealHip,
+		BellyButtonWaistCircumference: m.bellyButtonWaist,
+		NaturalWaistCircumference:     m.naturalWaist,
+		HipCircumference:              m.maximumHip,
+		ShirtSleeveLength:             m.neckShoulderElbowWrist,
+		BicepCircumference:            m.midUpperArm,
+		WristCircumference:            m.wrist,
 	}
 }
 
 func assertAmount(v float64) {
-	if v == 0.0 {
+	if v <= 0.0 {
 		panic("Amount must be greater than zero")
 	}
 }
@@ -96,7 +104,8 @@ func main() {
 		wrist: 18.33,
 	}
 
-	style := styles.NewSN11001Shirt(measurements.toSN11001Measurements())
+	torsoMeasure := measurements.toTorsoSloperMeasurements()
+	style := styles.NewSN11001Shirt(torsoMeasure)
 
 	fmt.Println("Generating DXF...")
 	pf := &rendering.Pattern{
@@ -128,17 +137,7 @@ func main() {
 	fmt.Println("Generating PDF of torso sloper")
 	pieceRender := &rendering.PieceRender{
 		Piece: &slopers.Torso{
-			Height:                        measurements.height,
-			NeckCircumference:             measurements.neck,
-			ShoulderToShoulder:            measurements.acrossBackShoulderNeck,
-			ChestCircumference:            measurements.chest,
-			ShirtLength:                   measurements.neckToGlutealHip,
-			BellyButtonWaistCircumference: measurements.bellyButtonWaist,
-			NaturalWaistCircumference:     measurements.naturalWaist,
-			HipCircumference:              measurements.maximumHip,
-			ShirtSleeveLength:             measurements.neckShoulderElbowWrist,
-			BicepCircumference:            measurements.midUpperArm,
-			WristCircumference:            measurements.wrist,
+			TorsoMeasurements: torsoMeasure,
 		},
 	}
 	err = pieceRender.SavePDF("/Users/toby/sandbox/torso-out.pdf")
@@ -149,17 +148,7 @@ func main() {
 	fmt.Println("Generating PDF of Sleeve sloper")
 	pieceRender = &rendering.PieceRender{
 		Piece: &slopers.Sleeve{
-			Height:                        measurements.height,
-			NeckCircumference:             measurements.neck,
-			ShoulderToShoulder:            measurements.acrossBackShoulderNeck,
-			ChestCircumference:            measurements.chest,
-			ShirtLength:                   measurements.neckToGlutealHip,
-			BellyButtonWaistCircumference: measurements.bellyButtonWaist,
-			NaturalWaistCircumference:     measurements.naturalWaist,
-			HipCircumference:              measurements.maximumHip,
-			ShirtSleeveLength:             measurements.neckShoulderElbowWrist,
-			BicepCircumference:            measurements.midUpperArm,
-			WristCircumference:            measurements.wrist,
+			TorsoMeasurements: torsoMeasure,
 		},
 	}
 	err = pieceRender.SavePDF("/Users/toby/sandbox/sleeve-out.pdf")

@@ -3,46 +3,26 @@ package slopers
 import (
 	"github.com/tailored-style/pattern-generator/geometry"
 	"github.com/tailored-style/pattern-generator/pieces"
-	catalogue_pieces "github.com/tobyjsullivan/catalogue/pieces"
 	"math"
+	"github.com/tobyjsullivan/catalogue/anchors"
 )
 
 type Sleeve struct {
-	Height                        float64
-	NeckCircumference             float64
-	ShoulderToShoulder            float64
-	ChestCircumference            float64
-	ShirtLength                   float64
-	BellyButtonWaistCircumference float64
-	NaturalWaistCircumference     float64
-	HipCircumference              float64
-	ShirtSleeveLength             float64
-	BicepCircumference            float64
-	WristCircumference            float64
+	*TorsoMeasurements
 }
 
 func (s *Sleeve) torso() *Torso {
 	return &Torso{
-		Height: s.Height,
-		NeckCircumference: s.NeckCircumference,
-		ShoulderToShoulder: s.ShoulderToShoulder,
-		ChestCircumference: s.ChestCircumference,
-		ShirtLength: s.ShirtLength,
-		BellyButtonWaistCircumference: s.BellyButtonWaistCircumference,
-		NaturalWaistCircumference: s.NaturalWaistCircumference,
-		HipCircumference: s.HipCircumference,
-		ShirtSleeveLength: s.ShirtSleeveLength,
-		BicepCircumference: s.BicepCircumference,
-		WristCircumference: s.WristCircumference,
+		TorsoMeasurements: s.TorsoMeasurements,
 	}
 }
 
-func (s *Sleeve) A() *geometry.Point {
+func (s *Sleeve) P0() *geometry.Point {
 	return &geometry.Point{X: 0.0, Y: 0.0}
 }
 
-func (s *Sleeve) B() *geometry.Point {
-	return s.A().SquareDown((s.ShirtSleeveLength - s.torso().shoulderLength()) + 2.54)
+func (s *Sleeve) P1() *geometry.Point {
+	return s.P0().SquareDown((s.TorsoMeasurements.ShirtSleeveLength - s.torso().shoulderLength()) + 2.54)
 }
 
 func (s *Sleeve) frontArmholeLength() float64 {
@@ -54,105 +34,105 @@ func (s *Sleeve) backArmholeLength() float64 {
 	return torso.backArmhole().Length() + torso.yokeArmhole().Length()
 }
 
-func (s *Sleeve) C() *geometry.Point {
+func (s *Sleeve) P2() *geometry.Point {
 	armholeLength := s.frontArmholeLength() + s.backArmholeLength()
-	return s.A().SquareDown(armholeLength / 3.0 - 2.86)
+	return s.P0().SquareDown(armholeLength / 3.0 - 2.86)
 }
 
-func (s *Sleeve) D() *geometry.Point {
-	return s.C().MidpointTo(s.B()).SquareUp(3.81)
+func (s *Sleeve) P3() *geometry.Point {
+	return s.P2().MidpointTo(s.P1()).SquareUp(3.81)
 }
 
-func (s *Sleeve) E() *geometry.Point {
+func (s *Sleeve) P4() *geometry.Point {
 	h := s.frontArmholeLength() - 0.635
-	a := s.A().DistanceTo(s.C())
+	a := s.P0().DistanceTo(s.P2())
 
 	b := math.Sqrt((h * h) - (a * a))
 
-	return s.C().SquareRight(b)
+	return s.P2().SquareRight(b)
 }
 
-func (s *Sleeve) F() *geometry.Point {
+func (s *Sleeve) P5() *geometry.Point {
 	h := s.backArmholeLength() - 0.3175
-	a := s.A().DistanceTo(s.C())
+	a := s.P0().DistanceTo(s.P2())
 
 	b := math.Sqrt(h * h - a * a)
 
-	return s.C().SquareLeft(b)
+	return s.P2().SquareLeft(b)
 }
 
-func (s *Sleeve) G() *geometry.Point {
-	return s.E().SquareToHorizontalLine(s.B().Y)
+func (s *Sleeve) P6() *geometry.Point {
+	return s.P4().SquareToHorizontalLine(s.P1().Y)
 }
 
-func (s *Sleeve) H() *geometry.Point {
-	return s.F().SquareToHorizontalLine(s.B().Y)
+func (s *Sleeve) P7() *geometry.Point {
+	return s.P5().SquareToHorizontalLine(s.P1().Y)
 }
 
-func (s *Sleeve) I() *geometry.Point {
-	return s.E().SquareToHorizontalLine(s.D().Y)
+func (s *Sleeve) P8() *geometry.Point {
+	return s.P4().SquareToHorizontalLine(s.P3().Y)
 }
 
-func (s *Sleeve) J() *geometry.Point {
-	return s.F().SquareToHorizontalLine(s.D().Y)
+func (s *Sleeve) P9() *geometry.Point {
+	return s.P5().SquareToHorizontalLine(s.P3().Y)
 }
 
-func (s *Sleeve) K() *geometry.Point {
-	return s.A().MidpointTo(s.A().MidpointTo(s.E()))
+func (s *Sleeve) P10() *geometry.Point {
+	return s.P0().MidpointTo(s.P0().MidpointTo(s.P4()))
 }
 
-func (s *Sleeve) L() *geometry.Point {
-	l := s.A().MidpointTo(s.E())
-	return l.DrawAt(l.AngleRelativeTo(s.A()), 1.27)
+func (s *Sleeve) P11() *geometry.Point {
+	l := s.P0().MidpointTo(s.P4())
+	return l.DrawAt(l.AngleRelativeTo(s.P0()), 1.27)
 }
 
-func (s *Sleeve) M() *geometry.Point {
-	return s.A().MidpointTo(s.E()).MidpointTo(s.E())
+func (s *Sleeve) P12() *geometry.Point {
+	return s.P0().MidpointTo(s.P4()).MidpointTo(s.P4())
 }
 
-func (s *Sleeve) N() *geometry.Point {
-	return s.K().DrawAt(s.K().AngleRelativeTo(s.A()).Perpendicular(), 1.59)
+func (s *Sleeve) P13() *geometry.Point {
+	return s.P10().DrawAt(s.P10().AngleRelativeTo(s.P0()).Perpendicular(), 1.59)
 }
 
-func (s *Sleeve) O() *geometry.Point {
-	return s.M().DrawAt(s.M().AngleRelativeTo(s.A()).Perpendicular().Opposite(), 1.27)
+func (s *Sleeve) P14() *geometry.Point {
+	return s.P12().DrawAt(s.P12().AngleRelativeTo(s.P0()).Perpendicular().Opposite(), 1.27)
 }
 
-func (s *Sleeve) P() *geometry.Point {
-	return s.A().MidpointTo(s.A().MidpointTo(s.F()))
+func (s *Sleeve) P15() *geometry.Point {
+	return s.P0().MidpointTo(s.P0().MidpointTo(s.P5()))
 }
 
-func (s *Sleeve) Q() *geometry.Point {
-	return s.A().MidpointTo(s.F())
+func (s *Sleeve) P16() *geometry.Point {
+	return s.P0().MidpointTo(s.P5())
 }
 
-func (s *Sleeve) R() *geometry.Point {
-	return s.F().MidpointTo(s.A().MidpointTo(s.F()))
+func (s *Sleeve) P17() *geometry.Point {
+	return s.P5().MidpointTo(s.P0().MidpointTo(s.P5()))
 }
 
-func (s *Sleeve) S() *geometry.Point {
-	return s.P().DrawAt(s.A().AngleRelativeTo(s.P()).Perpendicular(), 1.905)
+func (s *Sleeve) P18() *geometry.Point {
+	return s.P15().DrawAt(s.P0().AngleRelativeTo(s.P15()).Perpendicular(), 1.905)
 }
 
-func (s *Sleeve) T() *geometry.Point {
-	return s.Q().DrawAt(s.A().AngleRelativeTo(s.Q()).Perpendicular(), 0.9525)
+func (s *Sleeve) P19() *geometry.Point {
+	return s.P16().DrawAt(s.P0().AngleRelativeTo(s.P16()).Perpendicular(), 0.9525)
 }
 
-func (s *Sleeve) U() *geometry.Point {
-	return s.R().DrawAt(s.A().AngleRelativeTo(s.R()), 1.43)
+func (s *Sleeve) P20() *geometry.Point {
+	return s.P17().DrawAt(s.P0().AngleRelativeTo(s.P17()), 1.43)
 }
 
-func (s *Sleeve) V() *geometry.Point {
-	p := s.R().MidpointTo(s.F())
-	return p.DrawAt(s.F().AngleRelativeTo(s.R()).Perpendicular(), 0.635)
+func (s *Sleeve) P21() *geometry.Point {
+	p := s.P17().MidpointTo(s.P5())
+	return p.DrawAt(s.P5().AngleRelativeTo(s.P17()).Perpendicular(), 0.635)
 }
 
-func (s *Sleeve) W() *geometry.Point {
-	return s.G().SquareLeft(5.715)
+func (s *Sleeve) P22() *geometry.Point {
+	return s.P6().SquareLeft(5.715)
 }
 
-func (s *Sleeve) X() *geometry.Point {
-	return s.H().SquareRight(5.715)
+func (s *Sleeve) P23() *geometry.Point {
+	return s.P7().SquareRight(5.715)
 }
 
 func (s *Sleeve) sleeveCap() *geometry.Polyline {
@@ -161,26 +141,26 @@ func (s *Sleeve) sleeveCap() *geometry.Polyline {
 	poly.AddLine(
 		&geometry.PolyNCurve{
 			Points: []*geometry.Point{
-				s.F(),
-				s.V(),
-				s.U(),
-				s.T(),
-				s.S(),
-				s.A(),
+				s.P5(),
+				s.P21(),
+				s.P20(),
+				s.P19(),
+				s.P18(),
+				s.P0(),
 			},
-			StartAngle: s.X().AngleRelativeTo(s.F()).Perpendicular(),
+			StartAngle: s.P23().AngleRelativeTo(s.P5()).Perpendicular(),
 			EndAngle: &geometry.Angle{Rads: 0.0},
 		},
 		&geometry.PolyNCurve{
 			Points: []*geometry.Point{
-				s.A(),
-				s.N(),
-				s.L(),
-				s.O(),
-				s.E(),
+				s.P0(),
+				s.P13(),
+				s.P11(),
+				s.P14(),
+				s.P4(),
 			},
 			StartAngle: &geometry.Angle{Rads: 0.0},
-			EndAngle: s.W().AngleRelativeTo(s.E()).Perpendicular(),
+			EndAngle: s.P22().AngleRelativeTo(s.P4()).Perpendicular(),
 		},
 	)
 
@@ -209,46 +189,46 @@ func (s *Sleeve) Reference() *geometry.Block {
 	layer.AddLine(
 		s.sleeveCap(),
 		&geometry.StraightLine{
-			Start: s.E(),
-			End: s.W(),
+			Start: s.P4(),
+			End: s.P22(),
 		},
 		&geometry.StraightLine{
-			Start: s.F(),
-			End: s.X(),
+			Start: s.P5(),
+			End: s.P23(),
 		},
 		&geometry.StraightLine{
-			Start: s.W(),
-			End: s.X(),
+			Start: s.P22(),
+			End: s.P23(),
 		},
 
 	)
 
-	anchors := make(map[string]*geometry.Point)
-	anchors["A"] = s.A()
-	anchors["B"] = s.B()
-	anchors["C"] = s.C()
-	anchors["D"] = s.D()
-	anchors["E"] = s.E()
-	anchors["F"] = s.F()
-	anchors["G"] = s.G()
-	anchors["H"] = s.H()
-	anchors["I"] = s.I()
-	anchors["J"] = s.J()
-	anchors["K"] = s.K()
-	anchors["L"] = s.L()
-	anchors["M"] = s.M()
-	anchors["N"] = s.N()
-	anchors["O"] = s.O()
-	anchors["P"] = s.P()
-	anchors["Q"] = s.Q()
-	anchors["R"] = s.R()
-	anchors["S"] = s.S()
-	anchors["T"] = s.T()
-	anchors["U"] = s.U()
-	anchors["V"] = s.V()
-	anchors["W"] = s.W()
-	anchors["X"] = s.X()
-	catalogue_pieces.AddAnchors(layer, anchors)
+	a := make(map[string]*geometry.Point)
+	a["0"] = s.P0()
+	a["1"] = s.P1()
+	a["2"] = s.P2()
+	a["3"] = s.P3()
+	a["4"] = s.P4()
+	a["5"] = s.P5()
+	a["6"] = s.P6()
+	a["7"] = s.P7()
+	a["8"] = s.P8()
+	a["9"] = s.P9()
+	a["10"] = s.P10()
+	a["11"] = s.P11()
+	a["12"] = s.P12()
+	a["13"] = s.P13()
+	a["14"] = s.P14()
+	a["15"] = s.P15()
+	a["16"] = s.P16()
+	a["17"] = s.P17()
+	a["18"] = s.P18()
+	a["19"] = s.P19()
+	a["20"] = s.P20()
+	a["21"] = s.P21()
+	a["22"] = s.P22()
+	a["23"] = s.P23()
+	anchors.AddAnchors(layer, a)
 
 	return layer
 }
