@@ -2,31 +2,22 @@ package pieces
 
 import (
 	"fmt"
-	"math"
 
 	"github.com/tailored-style/pattern-generator/geometry"
 	"github.com/tailored-style/pattern-generator/pieces"
+	"github.com/tobyjsullivan/catalogue/anchors"
+	"github.com/tobyjsullivan/catalogue/slopers"
 )
 
 type pn7Sleeve struct {
-	height               float64
-	neckCircumference    float64
-	chestCircumference   float64
-	waistCircumference   float64
-	hipCircumference     float64
-	sleeveLength         float64
+	*slopers.TorsoMeasurements
 	cuffDepth            float64
 	placketOpeningLength float64
 }
 
-func NewPN7Sleeve(height float64, neck float64, chest float64, waist float64, hip float64, sleeve float64, cuffDepth float64, placketOpening float64) pieces.Piece {
+func NewPN7Sleeve(m *slopers.TorsoMeasurements, cuffDepth float64, placketOpening float64) pieces.Piece {
 	return &pn7Sleeve{
-		height:               height,
-		neckCircumference:    neck,
-		chestCircumference:   chest,
-		waistCircumference:   waist,
-		hipCircumference:     hip,
-		sleeveLength:         sleeve,
+		TorsoMeasurements: 	  m,
 		cuffDepth:            cuffDepth,
 		placketOpeningLength: placketOpening,
 	}
@@ -51,138 +42,92 @@ func (p *pn7Sleeve) Mirrored() bool {
 	return true
 }
 
-func (p *pn7Sleeve) a() *geometry.Point {
-	return &geometry.Point{
-		X: 0.0,
-		Y: 0.0,
+func (p *pn7Sleeve) sloper() *slopers.Sleeve {
+	return &slopers.Sleeve{
+		TorsoMeasurements: p.TorsoMeasurements,
 	}
+}
+
+func (p *pn7Sleeve) a() *geometry.Point {
+	return p.sloper().A()
 }
 
 func (p *pn7Sleeve) shoulderSeamLength() float64 {
 	return (&pn6Yoke{
-		height:             p.height,
-		neckCircumference:  p.neckCircumference,
-		chestCircumference: p.chestCircumference,
-		waistCircumference: p.waistCircumference,
-		hipCircumference:   p.hipCircumference,
+		TorsoMeasurements: p.TorsoMeasurements,
 	}).shoulderSeamLength()
 }
 
 func (p *pn7Sleeve) b() *geometry.Point {
-	return p.a().SquareDown(p.sleeveLength - (p.shoulderSeamLength() + p.cuffDepth))
+	b := p.sloper().B()
+	fmt.Printf("Sleeve B: %v\n", b)
+	return b
 }
 
 func (p *pn7Sleeve) c() *geometry.Point {
-	armholeLength := p.frontArmholeLength() + p.backArmholeLength()
-	return p.a().SquareDown(armholeLength/3.0 - 3.0)
+	c := p.sloper().C()
+	fmt.Printf("Sleeve C: %v\n", c)
+
+	return c
 }
 
 func (p *pn7Sleeve) d() *geometry.Point {
-	return p.c().SquareDown(p.b().DistanceTo(p.c())/2.0 - 4.6)
+	return p.sloper().D()
 }
 
 func (p *pn7Sleeve) e() *geometry.Point {
-	aToE := p.frontArmholeLength() - 0.3
-	c := p.c()
-	return c.SquareRight(math.Sqrt(math.Pow(aToE, 2.0) - math.Pow(p.a().DistanceTo(c), 2.0)))
+	e := p.sloper().E()
+	fmt.Printf("Sleeve E: %v\n", e)
+
+	return e
 }
 
 func (p *pn7Sleeve) f() *geometry.Point {
-	aToF := p.backArmholeLength()
-	c := p.c()
-	return c.SquareLeft(math.Sqrt(math.Pow(aToF, 2.0) - math.Pow(p.a().DistanceTo(c), 2.0)))
-}
-
-func (p *pn7Sleeve) g() *geometry.Point {
-	return p.e().SquareToHorizontalLine(p.b().Y)
-}
-
-func (p *pn7Sleeve) h() *geometry.Point {
-	return p.f().SquareToHorizontalLine(p.b().Y)
+	return p.sloper().F()
 }
 
 func (p *pn7Sleeve) i() *geometry.Point {
-	return p.d().SquareToVerticalLine(p.e().X)
+	return p.sloper().I()
 }
 
 func (p *pn7Sleeve) j() *geometry.Point {
-	return p.d().SquareToVerticalLine(p.f().X)
-}
-
-func (p *pn7Sleeve) k() *geometry.Point {
-	a := p.a()
-	e := p.e()
-	return a.DrawAt(e.AngleRelativeTo(a), a.DistanceTo(e)/4.0)
+	return p.sloper().J()
 }
 
 func (p *pn7Sleeve) l() *geometry.Point {
-	a := p.a()
-	e := p.e()
-	return a.DrawAt(e.AngleRelativeTo(a), a.DistanceTo(e)/2.0+1.0)
-}
-
-func (p *pn7Sleeve) m() *geometry.Point {
-	a := p.a()
-	e := p.e()
-	return a.DrawAt(e.AngleRelativeTo(a), a.DistanceTo(e)*3.0/4.0)
+	return p.sloper().L()
 }
 
 func (p *pn7Sleeve) n() *geometry.Point {
-	k := p.k()
-	return k.DrawAt(k.AngleRelativeTo(p.a()).Perpendicular(), 1.6)
+	return p.sloper().N()
 }
 
 func (p *pn7Sleeve) o() *geometry.Point {
-	m := p.m()
-	return m.DrawAt(m.AngleRelativeTo(p.a()).Perpendicular().Opposite(), 1.3)
-}
-
-func (p *pn7Sleeve) p() *geometry.Point {
-	a := p.a()
-	f := p.f()
-	return a.DrawAt(f.AngleRelativeTo(a), a.DistanceTo(f)/4.0)
-}
-
-func (p *pn7Sleeve) q() *geometry.Point {
-	a := p.a()
-	f := p.f()
-	return a.DrawAt(f.AngleRelativeTo(a), a.DistanceTo(f)/2.0)
-}
-
-func (p *pn7Sleeve) r() *geometry.Point {
-	a := p.a()
-	f := p.f()
-	return a.DrawAt(f.AngleRelativeTo(a), a.DistanceTo(f)*3.0/4.0)
+	return p.sloper().O()
 }
 
 func (p *pn7Sleeve) s() *geometry.Point {
-	pa := p.p()
-	return pa.DrawAt(pa.AngleRelativeTo(p.a()).Perpendicular().Opposite(), 1.9)
+	return p.sloper().S()
 }
 
 func (p *pn7Sleeve) t() *geometry.Point {
-	q := p.q()
-	return q.DrawAt(q.AngleRelativeTo(p.a()).Perpendicular().Opposite(), 1.0)
+	return p.sloper().T()
 }
 
 func (p *pn7Sleeve) u() *geometry.Point {
-	a := p.a()
-	f := p.f()
-	return a.DrawAt(f.AngleRelativeTo(a), a.DistanceTo(f)*3.0/4.0-1.9)
+	return p.sloper().U()
 }
 
 func (p *pn7Sleeve) v() *geometry.Point {
-	f := p.f()
-	r := p.r()
-	return f.MidpointTo(r).DrawAt(f.AngleRelativeTo(r).Perpendicular(), 0.6)
+	return p.sloper().V()
 }
 
 func (p *pn7Sleeve) w() *geometry.Point {
-	return p.g().SquareLeft(7.9)
+	return p.sloper().W()
 }
 
 func (p *pn7Sleeve) x() *geometry.Point {
-	return p.h().SquareRight(5.6)
+	return p.sloper().X()
 }
 
 func (p *pn7Sleeve) y() *geometry.Point {
@@ -195,11 +140,7 @@ func (p *pn7Sleeve) z() *geometry.Point {
 
 func (p *pn7Sleeve) frontArmholeLength() float64 {
 	front := &pn4TorsoFront{
-		height:             p.height,
-		neckCircumference:  p.neckCircumference,
-		chestCircumference: p.chestCircumference,
-		waistCircumference: p.waistCircumference,
-		hipCircumference:   p.hipCircumference,
+		TorsoMeasurements: p.TorsoMeasurements,
 	}
 
 	return front.armholeStitch().Length()
@@ -207,18 +148,14 @@ func (p *pn7Sleeve) frontArmholeLength() float64 {
 
 func (p *pn7Sleeve) backArmholeLength() float64 {
 	back := &pn5TorsoBack{
-		height:             p.height,
-		chestCircumference: p.chestCircumference,
-		waistCircumference: p.waistCircumference,
-		hipCircumference:   p.hipCircumference,
+		height:             p.TorsoMeasurements.Height,
+		chestCircumference: p.TorsoMeasurements.ChestCircumference,
+		waistCircumference: p.TorsoMeasurements.BellyButtonWaistCircumference,
+		hipCircumference:   p.TorsoMeasurements.HipCircumference,
 	}
 
 	yoke := &pn6Yoke{
-		height:             p.height,
-		neckCircumference:  p.neckCircumference,
-		chestCircumference: p.chestCircumference,
-		waistCircumference: p.waistCircumference,
-		hipCircumference:   p.hipCircumference,
+		TorsoMeasurements: p.TorsoMeasurements,
 	}
 
 	return back.armholeStitch().Length() + yoke.armholeStitch().Length()
@@ -353,32 +290,25 @@ func (p *pn7Sleeve) Reference() *geometry.Block {
 			elbowLine,
 		)
 
-		anchors := make(map[string]*geometry.Point)
-		anchors["A"] = p.a()
-		anchors["B"] = p.b()
-		anchors["C"] = p.c()
-		anchors["D"] = p.d()
-		anchors["E"] = p.e()
-		anchors["F"] = p.f()
-		anchors["G"] = p.g()
-		anchors["H"] = p.h()
-		anchors["I"] = p.i()
-		anchors["J"] = p.j()
-		anchors["K"] = p.k()
-		anchors["L"] = p.l()
-		anchors["M"] = p.m()
-		anchors["N"] = p.n()
-		anchors["O"] = p.o()
-		anchors["P"] = p.p()
-		anchors["Q"] = p.q()
-		anchors["R"] = p.r()
-		anchors["S"] = p.s()
-		anchors["T"] = p.t()
-		anchors["U"] = p.u()
-		anchors["V"] = p.v()
-		anchors["W"] = p.w()
-		anchors["X"] = p.x()
-		AddAnchors(layer, anchors)
+		a := make(map[string]*geometry.Point)
+		a["A"] = p.a()
+		a["B"] = p.b()
+		a["C"] = p.c()
+		a["D"] = p.d()
+		a["E"] = p.e()
+		a["F"] = p.f()
+		a["I"] = p.i()
+		a["J"] = p.j()
+		a["L"] = p.l()
+		a["N"] = p.n()
+		a["O"] = p.o()
+		a["S"] = p.s()
+		a["T"] = p.t()
+		a["U"] = p.u()
+		a["V"] = p.v()
+		a["W"] = p.w()
+		a["X"] = p.x()
+		anchors.AddAnchors(layer, a)
 	}
 
 	return layer

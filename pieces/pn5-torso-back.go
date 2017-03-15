@@ -6,6 +6,7 @@ import (
 
 	"github.com/tailored-style/pattern-generator/geometry"
 	"github.com/tailored-style/pattern-generator/pieces"
+	"github.com/tobyjsullivan/catalogue/anchors"
 )
 
 type pn5TorsoBack struct {
@@ -340,31 +341,31 @@ func (p *pn5TorsoBack) Reference() *geometry.Block {
 		)
 
 		// Draw all points
-		anchors := make(map[string]*geometry.Point)
-		anchors["A"] = p.a()
-		anchors["B"] = p.b()
-		anchors["C"] = p.c()
-		anchors["D"] = p.d()
-		anchors["E"] = p.e()
-		anchors["F"] = p.f()
-		anchors["G"] = p.g()
-		anchors["H"] = p.h()
-		anchors["I"] = p.i()
-		anchors["J"] = p.j()
-		anchors["K"] = p.k()
-		anchors["L"] = p.l()
-		anchors["M"] = p.m()
-		anchors["N"] = p.n()
-		anchors["O"] = p.o()
-		anchors["P"] = p.p()
-		anchors["Q"] = p.q()
-		anchors["R"] = p.r()
-		anchors["S"] = p.s()
-		anchors["T"] = p.t()
-		anchors["U"] = p.u()
-		anchors["V"] = p.v()
-		anchors["W"] = p.w()
-		AddAnchors(layer, anchors)
+		a := make(map[string]*geometry.Point)
+		a["A"] = p.a()
+		a["B"] = p.b()
+		a["C"] = p.c()
+		a["D"] = p.d()
+		a["E"] = p.e()
+		a["F"] = p.f()
+		a["G"] = p.g()
+		a["H"] = p.h()
+		a["I"] = p.i()
+		a["J"] = p.j()
+		a["K"] = p.k()
+		a["L"] = p.l()
+		a["M"] = p.m()
+		a["N"] = p.n()
+		a["O"] = p.o()
+		a["P"] = p.p()
+		a["Q"] = p.q()
+		a["R"] = p.r()
+		a["S"] = p.s()
+		a["T"] = p.t()
+		a["U"] = p.u()
+		a["V"] = p.v()
+		a["W"] = p.w()
+		anchors.AddAnchors(layer, a)
 	}
 
 	return layer

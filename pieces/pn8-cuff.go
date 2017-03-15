@@ -6,6 +6,7 @@ import (
 	"github.com/tailored-style/pattern-generator/geometry"
 	"github.com/tailored-style/pattern-generator/pieces"
 	"github.com/tailored-style/pattern-generator/symbols"
+	"github.com/tobyjsullivan/catalogue/anchors"
 )
 
 type pn8Cuff struct {
@@ -156,16 +157,16 @@ func (p *pn8Cuff) Reference() *geometry.Block {
 
 	// Draw all points (DEBUG)
 	if DEBUG {
-		anchors := make(map[string]*geometry.Point)
-		anchors["A"] = p.a()
-		anchors["B"] = p.b()
-		anchors["C"] = p.c()
-		anchors["D"] = p.d()
-		anchors["E"] = p.e()
-		anchors["F"] = p.f()
-		anchors["G"] = p.g()
-		anchors["H"] = p.h()
-		AddAnchors(layer, anchors)
+		a := make(map[string]*geometry.Point)
+		a["A"] = p.a()
+		a["B"] = p.b()
+		a["C"] = p.c()
+		a["D"] = p.d()
+		a["E"] = p.e()
+		a["F"] = p.f()
+		a["G"] = p.g()
+		a["H"] = p.h()
+		anchors.AddAnchors(layer, a)
 	}
 
 	return layer

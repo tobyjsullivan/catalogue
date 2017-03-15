@@ -6,26 +6,14 @@ import (
 
 	"github.com/tailored-style/pattern-generator/geometry"
 	"github.com/tailored-style/pattern-generator/pieces"
+	"github.com/tobyjsullivan/catalogue/slopers"
+	"github.com/tobyjsullivan/catalogue/anchors"
 )
 
 const PN4_BUTTON_WIDTH = 1.5
 
 type pn4TorsoFront struct {
-	height             float64
-	neckCircumference  float64
-	chestCircumference float64
-	waistCircumference float64
-	hipCircumference   float64
-}
-
-func NewPN4TorsoFront(height float64, neck float64, chest float64, waist float64, hip float64) pieces.Piece {
-	return &pn4TorsoFront{
-		height:             height,
-		neckCircumference:  neck,
-		chestCircumference: chest,
-		waistCircumference: waist,
-		hipCircumference:   hip,
-	}
+	*slopers.TorsoMeasurements
 }
 
 func (p *pn4TorsoFront) Details() *pieces.Details {
@@ -47,54 +35,38 @@ func (p *pn4TorsoFront) Mirrored() bool {
 	return true
 }
 
+func (p *pn4TorsoFront) torsoSloper() *slopers.Torso {
+	return &slopers.Torso{
+		TorsoMeasurements: p.TorsoMeasurements,
+	}
+}
+
 func (p *pn4TorsoFront) a() *geometry.Point {
-	return &geometry.Point{X: 0.0, Y: 0.0}
+	return p.torsoSloper().P3()
 }
 
 func (p *pn4TorsoFront) b() *geometry.Point {
-	return p.a().SquareDown(p.chestCircumference / 4.0)
+	return p.torsoSloper().P6()
 }
 
 func (p *pn4TorsoFront) c() *geometry.Point {
-	return p.b().SquareLeft(p.chestCircumference/4.0 + 1.6)
-}
-
-func (p *pn4TorsoFront) d() *geometry.Point {
-	return p.a().SquareDown(p.height/4.0 - 3.2)
-}
-
-func (p *pn4TorsoFront) e() *geometry.Point {
-	return p.d().SquareLeft(p.waistCircumference/4.0 + 3.2)
+	return p.torsoSloper().P12().SquareLeft(1.0)
 }
 
 func (p *pn4TorsoFront) f() *geometry.Point {
-	return p.a().SquareDown(p.height/3.0 - 5.7)
-}
-
-func (p *pn4TorsoFront) bellyWaistGirth() float64 {
-	return p.waistCircumference/4.0 + 4.3
+	return p.torsoSloper().P7()
 }
 
 func (p *pn4TorsoFront) g() *geometry.Point {
-	return p.f().SquareLeft(p.bellyWaistGirth())
+	return p.torsoSloper().P39().SquareLeft(1.0)
 }
 
 func (p *pn4TorsoFront) h() *geometry.Point {
-	return p.a().SquareDown(p.height*(3.0/8.0) + 3.2)
+	return p.torsoSloper().P2()
 }
 
 func (p *pn4TorsoFront) i() *geometry.Point {
-	hipLine := p.hipCircumference/4.0 + 0.6
-	bellyWaist := p.bellyWaistGirth()
-	if hipLine < bellyWaist {
-		hipLine = bellyWaist
-	}
-
-	return p.h().SquareLeft(hipLine)
-}
-
-func (p *pn4TorsoFront) j() *geometry.Point {
-	return p.i().SquareUp(7.0)
+	return p.torsoSloper().P15().SquareLeft(1.0)
 }
 
 func (p *pn4TorsoFront) k() *geometry.Point {
@@ -102,38 +74,27 @@ func (p *pn4TorsoFront) k() *geometry.Point {
 }
 
 func (p *pn4TorsoFront) l() *geometry.Point {
-	return p.a().SquareDown(p.neckCircumference/8.0 + 0.5)
+	return p.torsoSloper().P24()
 }
 
 func (p *pn4TorsoFront) m() *geometry.Point {
-	return p.l().SquareLeft(p.neckCircumference/8.0 + 2.2)
+	return p.torsoSloper().P25()
 }
 
 func (p *pn4TorsoFront) n() *geometry.Point {
-	return p.m().SquareToHorizontalLine(p.a().Y)
+	return p.torsoSloper().P26()
 }
 
 func (p *pn4TorsoFront) o() *geometry.Point {
-	return p.b().SquareLeft(p.chestCircumference/6.0 + 4.1)
-}
-
-func (p *pn4TorsoFront) p() *geometry.Point {
-	return p.o().SquareToHorizontalLine(p.a().Y)
-}
-
-func (p *pn4TorsoFront) q() *geometry.Point {
-	return p.p().SquareDown(5.3)
+	return p.torsoSloper().P10()
 }
 
 func (p *pn4TorsoFront) r() *geometry.Point {
-	n := p.n()
-	q := p.q()
-	return (&geometry.StraightLine{Start: n, End: q}).Resize(n.DistanceTo(q) + 2.3).End
+	return p.torsoSloper().P30()
 }
 
 func (p *pn4TorsoFront) s() *geometry.Point {
-	o := p.o()
-	return o.SquareUp(o.DistanceTo(p.q()) / 2.0)
+	return p.torsoSloper().P31()
 }
 
 func (p *pn4TorsoFront) t() *geometry.Point {
@@ -269,7 +230,6 @@ func (p *pn4TorsoFront) sideSeamStitch() geometry.Line {
 	return &geometry.PolyNCurve{
 		Points: []*geometry.Point{
 			p.c(),
-			p.e(),
 			p.g(),
 			p.i(),
 		},
@@ -371,11 +331,6 @@ func (p *pn4TorsoFront) Reference() *geometry.Block {
 			End:   p.c(),
 		}
 
-		naturalWaistLine := &geometry.StraightLine{
-			Start: p.d(),
-			End:   p.e(),
-		}
-
 		bellyButtonWaistLine := &geometry.StraightLine{
 			Start: p.f(),
 			End:   p.g(),
@@ -388,7 +343,6 @@ func (p *pn4TorsoFront) Reference() *geometry.Block {
 
 		layer.AddLine(
 			chestLine,
-			naturalWaistLine,
 			bellyButtonWaistLine,
 			hipLine,
 			p.centreFront(),
@@ -397,34 +351,29 @@ func (p *pn4TorsoFront) Reference() *geometry.Block {
 		)
 
 		// Draw all points (DEBUG)
-		anchors := make(map[string]*geometry.Point)
-		anchors["A"] = p.a()
-		anchors["B"] = p.b()
-		anchors["C"] = p.c()
-		anchors["D"] = p.d()
-		anchors["E"] = p.e()
-		anchors["F"] = p.f()
-		anchors["G"] = p.g()
-		anchors["H"] = p.h()
-		anchors["I"] = p.i()
-		anchors["J"] = p.j()
-		anchors["K"] = p.k()
-		anchors["L"] = p.l()
-		anchors["M"] = p.m()
-		anchors["N"] = p.n()
-		anchors["O"] = p.o()
-		anchors["P"] = p.p()
-		anchors["Q"] = p.q()
-		anchors["R"] = p.r()
-		anchors["S"] = p.s()
-		anchors["T"] = p.t()
-		anchors["U"] = p.u()
-		anchors["V"] = p.v()
-		anchors["W"] = p.w()
-		anchors["X"] = p.x()
-		anchors["Y"] = p.y()
-		anchors["Z"] = p.z()
-		AddAnchors(layer, anchors)
+		a := make(map[string]*geometry.Point)
+		a["A"] = p.a()
+		a["B"] = p.b()
+		a["C"] = p.c()
+		a["F"] = p.f()
+		a["G"] = p.g()
+		a["H"] = p.h()
+		a["I"] = p.i()
+		a["K"] = p.k()
+		a["L"] = p.l()
+		a["M"] = p.m()
+		a["N"] = p.n()
+		a["O"] = p.o()
+		a["R"] = p.r()
+		a["S"] = p.s()
+		a["T"] = p.t()
+		a["U"] = p.u()
+		a["V"] = p.v()
+		a["W"] = p.w()
+		a["X"] = p.x()
+		a["Y"] = p.y()
+		a["Z"] = p.z()
+		anchors.AddAnchors(layer, a)
 	}
 
 	return layer

@@ -3,37 +3,17 @@ package slopers
 import (
 	"github.com/tailored-style/pattern-generator/geometry"
 	"github.com/tailored-style/pattern-generator/pieces"
-	catalogue_pieces "github.com/tobyjsullivan/catalogue/pieces"
 	"math"
+	"github.com/tobyjsullivan/catalogue/anchors"
 )
 
 type Sleeve struct {
-	Height                        float64
-	NeckCircumference             float64
-	ShoulderToShoulder            float64
-	ChestCircumference            float64
-	ShirtLength                   float64
-	BellyButtonWaistCircumference float64
-	NaturalWaistCircumference     float64
-	HipCircumference              float64
-	ShirtSleeveLength             float64
-	BicepCircumference            float64
-	WristCircumference            float64
+	*TorsoMeasurements
 }
 
 func (s *Sleeve) torso() *Torso {
 	return &Torso{
-		Height: s.Height,
-		NeckCircumference: s.NeckCircumference,
-		ShoulderToShoulder: s.ShoulderToShoulder,
-		ChestCircumference: s.ChestCircumference,
-		ShirtLength: s.ShirtLength,
-		BellyButtonWaistCircumference: s.BellyButtonWaistCircumference,
-		NaturalWaistCircumference: s.NaturalWaistCircumference,
-		HipCircumference: s.HipCircumference,
-		ShirtSleeveLength: s.ShirtSleeveLength,
-		BicepCircumference: s.BicepCircumference,
-		WristCircumference: s.WristCircumference,
+		TorsoMeasurements: s.TorsoMeasurements,
 	}
 }
 
@@ -42,7 +22,7 @@ func (s *Sleeve) A() *geometry.Point {
 }
 
 func (s *Sleeve) B() *geometry.Point {
-	return s.A().SquareDown((s.ShirtSleeveLength - s.torso().shoulderLength()) + 2.54)
+	return s.A().SquareDown((s.TorsoMeasurements.ShirtSleeveLength - s.torso().shoulderLength()) + 2.54)
 }
 
 func (s *Sleeve) frontArmholeLength() float64 {
@@ -223,32 +203,32 @@ func (s *Sleeve) Reference() *geometry.Block {
 
 	)
 
-	anchors := make(map[string]*geometry.Point)
-	anchors["A"] = s.A()
-	anchors["B"] = s.B()
-	anchors["C"] = s.C()
-	anchors["D"] = s.D()
-	anchors["E"] = s.E()
-	anchors["F"] = s.F()
-	anchors["G"] = s.G()
-	anchors["H"] = s.H()
-	anchors["I"] = s.I()
-	anchors["J"] = s.J()
-	anchors["K"] = s.K()
-	anchors["L"] = s.L()
-	anchors["M"] = s.M()
-	anchors["N"] = s.N()
-	anchors["O"] = s.O()
-	anchors["P"] = s.P()
-	anchors["Q"] = s.Q()
-	anchors["R"] = s.R()
-	anchors["S"] = s.S()
-	anchors["T"] = s.T()
-	anchors["U"] = s.U()
-	anchors["V"] = s.V()
-	anchors["W"] = s.W()
-	anchors["X"] = s.X()
-	catalogue_pieces.AddAnchors(layer, anchors)
+	a := make(map[string]*geometry.Point)
+	a["A"] = s.A()
+	a["B"] = s.B()
+	a["C"] = s.C()
+	a["D"] = s.D()
+	a["E"] = s.E()
+	a["F"] = s.F()
+	a["G"] = s.G()
+	a["H"] = s.H()
+	a["I"] = s.I()
+	a["J"] = s.J()
+	a["K"] = s.K()
+	a["L"] = s.L()
+	a["M"] = s.M()
+	a["N"] = s.N()
+	a["O"] = s.O()
+	a["P"] = s.P()
+	a["Q"] = s.Q()
+	a["R"] = s.R()
+	a["S"] = s.S()
+	a["T"] = s.T()
+	a["U"] = s.U()
+	a["V"] = s.V()
+	a["W"] = s.W()
+	a["X"] = s.X()
+	anchors.AddAnchors(layer, a)
 
 	return layer
 }

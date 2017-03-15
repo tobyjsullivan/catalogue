@@ -5,23 +5,16 @@ import (
 	"github.com/tailored-style/pattern-generator/pieces"
 	"github.com/tailored-style/pattern-generator/symbols"
 	"math"
+	"github.com/tobyjsullivan/catalogue/slopers"
 )
 
 type pn13TorsoFrontLeft struct {
-	height             float64
-	neckCircumference  float64
-	chestCircumference float64
-	waistCircumference float64
-	hipCircumference   float64
+	*slopers.TorsoMeasurements
 }
 
-func NewPN13TorsoFrontLeft(height float64, neck float64, chest float64, waist float64, hip float64) pieces.Piece {
+func NewPN13TorsoFrontLeft(torso *slopers.TorsoMeasurements) pieces.Piece {
 	return &pn13TorsoFrontLeft{
-		height:             height,
-		neckCircumference:  neck,
-		chestCircumference: chest,
-		waistCircumference: waist,
-		hipCircumference:   hip,
+		TorsoMeasurements: torso,
 	}
 }
 
@@ -70,11 +63,7 @@ func (p *pn13TorsoFrontLeft) Reference() *geometry.Block {
 
 func (p *pn13TorsoFrontLeft) torsoFront() *pn4TorsoFront {
 	return &pn4TorsoFront{
-		height:             p.height,
-		neckCircumference:  p.neckCircumference,
-		chestCircumference: p.chestCircumference,
-		waistCircumference: p.waistCircumference,
-		hipCircumference:   p.hipCircumference,
+		TorsoMeasurements: p.TorsoMeasurements,
 	}
 }
 

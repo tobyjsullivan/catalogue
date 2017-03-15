@@ -4,6 +4,7 @@ import (
 	"github.com/tailored-style/pattern-generator/pieces"
 	"github.com/tailored-style/pattern-generator/geometry"
 	"math"
+	"github.com/tobyjsullivan/catalogue/anchors"
 )
 
 type pn11SleevePlacket struct {
@@ -108,20 +109,20 @@ func (p *pn11SleevePlacket) Reference() *geometry.Block {
 	layer := &geometry.Block{}
 
 	if DEBUG {
-		anchors := make(map[string]*geometry.Point)
-		anchors["A"] = p.a()
-		anchors["B"] = p.b()
-		anchors["C"] = p.c()
-		anchors["D"] = p.d()
-		anchors["E"] = p.e()
-		anchors["F"] = p.f()
-		anchors["G"] = p.g()
-		anchors["H"] = p.h()
-		anchors["I"] = p.i()
-		anchors["J"] = p.j()
-		anchors["K"] = p.k()
-		anchors["L"] = p.l()
-		AddAnchors(layer, anchors)
+		a := make(map[string]*geometry.Point)
+		a["A"] = p.a()
+		a["B"] = p.b()
+		a["C"] = p.c()
+		a["D"] = p.d()
+		a["E"] = p.e()
+		a["F"] = p.f()
+		a["G"] = p.g()
+		a["H"] = p.h()
+		a["I"] = p.i()
+		a["J"] = p.j()
+		a["K"] = p.k()
+		a["L"] = p.l()
+		anchors.AddAnchors(layer, a)
 	}
 
 	return layer

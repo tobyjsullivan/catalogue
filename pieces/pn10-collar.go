@@ -6,23 +6,17 @@ import (
 
 	"github.com/tailored-style/pattern-generator/geometry"
 	"github.com/tailored-style/pattern-generator/pieces"
+	"github.com/tobyjsullivan/catalogue/anchors"
+	"github.com/tobyjsullivan/catalogue/slopers"
 )
 
 type pn10Collar struct {
-	height             float64
-	neckCircumference  float64
-	chestCircumference float64
-	waistCircumference float64
-	hipCircumference   float64
+	*slopers.TorsoMeasurements
 }
 
-func NewPN10Collar(height float64, neck float64, chest float64, waist float64, hip float64) pieces.Piece {
+func NewPN10Collar(m *slopers.TorsoMeasurements) pieces.Piece {
 	return &pn10Collar{
-		height:             height,
-		neckCircumference:  neck,
-		chestCircumference: chest,
-		waistCircumference: waist,
-		hipCircumference:   hip,
+		TorsoMeasurements: m,
 	}
 }
 
@@ -83,17 +77,17 @@ func (p *pn10Collar) Reference() *geometry.Block {
 
 	// Draw all points (DEBUG)
 	if DEBUG {
-		anchors := make(map[string]*geometry.Point)
-		anchors["A"] = p.a()
-		anchors["B"] = p.b()
-		anchors["C"] = p.c()
-		anchors["D"] = p.d()
-		anchors["E"] = p.e()
-		anchors["F"] = p.f()
-		anchors["G"] = p.g()
-		anchors["H"] = p.h()
-		anchors["I"] = p.i()
-		AddAnchors(layer, anchors)
+		a := make(map[string]*geometry.Point)
+		a["A"] = p.a()
+		a["B"] = p.b()
+		a["C"] = p.c()
+		a["D"] = p.d()
+		a["E"] = p.e()
+		a["F"] = p.f()
+		a["G"] = p.g()
+		a["H"] = p.h()
+		a["I"] = p.i()
+		anchors.AddAnchors(layer, a)
 	}
 
 	return layer
@@ -112,10 +106,7 @@ func (p *pn10Collar) String() string {
 
 func (p *pn10Collar) collarBand() *pn9CollarBand {
 	return &pn9CollarBand{
-		height:             p.height,
-		neckCircumference:  p.neckCircumference,
-		chestCircumference: p.chestCircumference,
-		waistCircumference: p.waistCircumference,
+		TorsoMeasurements: p.TorsoMeasurements,
 	}
 }
 

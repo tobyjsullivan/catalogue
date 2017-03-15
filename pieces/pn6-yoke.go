@@ -6,23 +6,17 @@ import (
 
 	"github.com/tailored-style/pattern-generator/geometry"
 	"github.com/tailored-style/pattern-generator/pieces"
+	"github.com/tobyjsullivan/catalogue/anchors"
+	"github.com/tobyjsullivan/catalogue/slopers"
 )
 
 type pn6Yoke struct {
-	height             float64
-	neckCircumference  float64
-	chestCircumference float64
-	waistCircumference float64
-	hipCircumference   float64
+	*slopers.TorsoMeasurements
 }
 
-func NewPN6Yoke(height float64, neck float64, chest float64, waist float64, hip float64) pieces.Piece {
+func NewPN6Yoke(m *slopers.TorsoMeasurements) pieces.Piece {
 	return &pn6Yoke{
-		height:             height,
-		neckCircumference:  neck,
-		chestCircumference: chest,
-		waistCircumference: waist,
-		hipCircumference:   hip,
+		TorsoMeasurements: m,
 	}
 }
 
@@ -45,42 +39,43 @@ func (p *pn6Yoke) Mirrored() bool {
 	return false
 }
 
+func (p *pn6Yoke) torso() *slopers.Torso {
+	return &slopers.Torso{
+		TorsoMeasurements: p.TorsoMeasurements,
+	}
+}
+
 func (p *pn6Yoke) a() *geometry.Point {
-	return &geometry.Point{X: 0.0, Y: 0.0}
+	return p.torso().P0()
 }
 
 func (p *pn6Yoke) b() *geometry.Point {
-	return p.a().SquareDown(9.5)
+	return p.torso().P36()
 }
 
 func (p *pn6Yoke) c() *geometry.Point {
-	return p.b().SquareRight(p.chestCircumference/6.0 + 6.2)
-}
-
-func (p *pn6Yoke) d() *geometry.Point {
-	return p.c().SquareToHorizontalLine(p.a().Y)
+	return p.torso().P37()
 }
 
 func (p *pn6Yoke) e() *geometry.Point {
-	return p.a().SquareRight(p.neckCircumference/8.0 + 3.7)
+	return p.torso().P33()
 }
 
 func (p *pn6Yoke) f() *geometry.Point {
-	e := p.e()
-	return e.SquareUp(p.a().DistanceTo(e)/2.0 + 0.3)
+	return p.torso().P17()
 }
 
 func (p *pn6Yoke) g() *geometry.Point {
-	return (&geometry.StraightLine{Start: p.f(), End: p.d()}).Resize(p.shoulderSeamLength()).End
+	return p.torso().P19()
+}
+
+func (p *pn6Yoke) h() *geometry.Point {
+	return p.torso().P34()
 }
 
 func (p *pn6Yoke) shoulderSeamLength() float64 {
 	return (&pn4TorsoFront{
-		height:             p.height,
-		neckCircumference:  p.neckCircumference,
-		chestCircumference: p.chestCircumference,
-		waistCircumference: p.waistCircumference,
-		hipCircumference:   p.hipCircumference,
+		TorsoMeasurements: p.TorsoMeasurements,
 	}).shoulderStitch().Length()
 }
 
@@ -105,11 +100,10 @@ func (p *pn6Yoke) frontStitch() geometry.Line {
 }
 
 func (p *pn6Yoke) armholeStitch() geometry.Line {
-	return &geometry.EllipseCurve{
-		Start:         p.c(),
-		End:           p.g(),
-		StartingAngle: &geometry.Angle{Rads: math.Pi},
-		ArcAngle:      p.g().AngleRelativeTo(p.d()).Opposite().Subtract(&geometry.Angle{Rads: math.Pi}),
+	return &geometry.QuadraticBezierCurve{
+		P0: p.c(),
+		P1: p.h(),
+		P2: p.g(),
 	}
 }
 
@@ -157,8 +151,12 @@ func (p *pn6Yoke) InnerCut() *geometry.Block {
 
 	layer.AddLine(
 		seamAllowance,
-		pieces.Notch(armholeStitch, 7.6, false),
 	)
+	if armholeStitch.Length() > 7.6 {
+		layer.AddLine(
+			pieces.Notch(armholeStitch, 7.6, false),
+		)
+	}
 
 	return layer
 }
@@ -176,15 +174,15 @@ func (p *pn6Yoke) Reference() *geometry.Block {
 
 	// Draw all points (DEBUG)
 	if DEBUG {
-		anchors := make(map[string]*geometry.Point)
-		anchors["A"] = p.a()
-		anchors["B"] = p.b()
-		anchors["C"] = p.c()
-		anchors["D"] = p.d()
-		anchors["E"] = p.e()
-		anchors["F"] = p.f()
-		anchors["G"] = p.g()
-		AddAnchors(layer, anchors)
+		a := make(map[string]*geometry.Point)
+		a["A"] = p.a()
+		a["B"] = p.b()
+		a["C"] = p.c()
+		a["E"] = p.e()
+		a["F"] = p.f()
+		a["G"] = p.g()
+		a["H"] = p.h()
+		anchors.AddAnchors(layer, a)
 	}
 
 	return layer

@@ -6,23 +6,17 @@ import (
 
 	"github.com/tailored-style/pattern-generator/geometry"
 	"github.com/tailored-style/pattern-generator/pieces"
+	"github.com/tobyjsullivan/catalogue/anchors"
+	"github.com/tobyjsullivan/catalogue/slopers"
 )
 
 type pn9CollarBand struct {
-	height             float64
-	neckCircumference  float64
-	chestCircumference float64
-	waistCircumference float64
-	hipCircumference   float64
+	*slopers.TorsoMeasurements
 }
 
-func NewPN9CollarBand(height float64, neck float64, chest float64, waist float64, hip float64) pieces.Piece {
+func NewPN9CollarBand(m *slopers.TorsoMeasurements) pieces.Piece {
 	return &pn9CollarBand{
-		height:             height,
-		neckCircumference:  neck,
-		chestCircumference: chest,
-		waistCircumference: waist,
-		hipCircumference:   hip,
+		TorsoMeasurements: m,
 	}
 }
 
@@ -85,21 +79,21 @@ func (p *pn9CollarBand) Reference() *geometry.Block {
 			p.centreFront(),
 		)
 
-		anchors := make(map[string]*geometry.Point)
-		anchors["A"] = p.a()
-		anchors["B"] = p.b()
-		anchors["C"] = p.c()
-		anchors["D"] = p.d()
-		anchors["E"] = p.e()
-		anchors["F"] = p.f()
-		anchors["G"] = p.g()
-		anchors["H"] = p.h()
-		anchors["I"] = p.i()
-		anchors["J"] = p.j()
-		anchors["K"] = p.k()
-		anchors["L"] = p.l()
-		anchors["M"] = p.m()
-		AddAnchors(layer, anchors)
+		a := make(map[string]*geometry.Point)
+		a["A"] = p.a()
+		a["B"] = p.b()
+		a["C"] = p.c()
+		a["D"] = p.d()
+		a["E"] = p.e()
+		a["F"] = p.f()
+		a["G"] = p.g()
+		a["H"] = p.h()
+		a["I"] = p.i()
+		a["J"] = p.j()
+		a["K"] = p.k()
+		a["L"] = p.l()
+		a["M"] = p.m()
+		anchors.AddAnchors(layer, a)
 	}
 
 	return layer
@@ -118,21 +112,13 @@ func (p *pn9CollarBand) String() string {
 
 func (p *pn9CollarBand) backNeckLength() float64 {
 	return (&pn6Yoke{
-		height:             p.height,
-		neckCircumference:  p.neckCircumference,
-		chestCircumference: p.chestCircumference,
-		waistCircumference: p.waistCircumference,
-		hipCircumference:   p.hipCircumference,
+		TorsoMeasurements: p.TorsoMeasurements,
 	}).backNeckLine().Length()
 }
 
 func (p *pn9CollarBand) frontNeckLength() float64 {
 	return (&pn4TorsoFront{
-		height:             p.height,
-		neckCircumference:  p.neckCircumference,
-		chestCircumference: p.chestCircumference,
-		waistCircumference: p.waistCircumference,
-		hipCircumference:   p.hipCircumference,
+		TorsoMeasurements: p.TorsoMeasurements,
 	}).frontNeckLine().Length()
 }
 
