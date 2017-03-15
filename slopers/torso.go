@@ -407,6 +407,7 @@ func (s *Torso) Reference() *geometry.Block {
 	a["36"] = s.P36()
 	a["37"] = s.P37()
 	a["38"] = s.P38()
+	a["39"] = s.P39()
 	anchors.AddAnchors(layer, a)
 
 	return layer

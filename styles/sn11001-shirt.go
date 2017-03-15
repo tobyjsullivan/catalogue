@@ -34,12 +34,7 @@ func (p *sn11001Shirt) Pieces() []pieces.Piece {
 		//),
 		piece_catalogue.NewPN12TorsoFrontRight(p.TorsoMeasurements),
 		piece_catalogue.NewPN13TorsoFrontLeft(p.TorsoMeasurements),
-		piece_catalogue.NewPN5TorsoBack(
-			p.TorsoMeasurements.Height,
-			p.TorsoMeasurements.ChestCircumference,
-			p.TorsoMeasurements.BellyButtonWaistCircumference,
-			p.TorsoMeasurements.HipCircumference,
-		),
+		piece_catalogue.NewPN5TorsoBack(p.TorsoMeasurements),
 		piece_catalogue.NewPN6Yoke(p.TorsoMeasurements),
 		piece_catalogue.NewPN7Sleeve(
 			p.TorsoMeasurements,

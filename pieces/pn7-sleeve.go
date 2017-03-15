@@ -140,10 +140,7 @@ func (p *pn7Sleeve) frontArmholeLength() float64 {
 
 func (p *pn7Sleeve) backArmholeLength() float64 {
 	back := &pn5TorsoBack{
-		height:             p.TorsoMeasurements.Height,
-		chestCircumference: p.TorsoMeasurements.ChestCircumference,
-		waistCircumference: p.TorsoMeasurements.BellyButtonWaistCircumference,
-		hipCircumference:   p.TorsoMeasurements.HipCircumference,
+		TorsoMeasurements: p.TorsoMeasurements,
 	}
 
 	yoke := &pn6Yoke{
