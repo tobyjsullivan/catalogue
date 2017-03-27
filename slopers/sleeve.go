@@ -35,8 +35,17 @@ func (s *Sleeve) backArmholeLength() float64 {
 }
 
 func (s *Sleeve) P2() *geometry.Point {
-	armholeLength := s.frontArmholeLength() + s.backArmholeLength()
-	return s.P0().SquareDown(armholeLength / 3.0 - 2.86)
+	frontLength := s.frontArmholeLength()
+	backLength := s.backArmholeLength()
+
+	hyp := math.Max(frontLength, backLength)
+	opp := s.TorsoMeasurements.BicepCircumference / 2.0
+
+	adj := math.Sqrt(hyp * hyp - opp * opp)
+
+	heur := (frontLength + backLength) / 3.0 - 2.86
+
+	return s.P0().SquareDown((adj + heur) / 2.0)
 }
 
 func (s *Sleeve) P3() *geometry.Point {
@@ -128,11 +137,15 @@ func (s *Sleeve) P21() *geometry.Point {
 }
 
 func (s *Sleeve) P22() *geometry.Point {
-	return s.P6().SquareLeft(5.715)
+	diff := s.P6().DistanceTo(s.P7()) - s.TorsoMeasurements.WristCircumference
+
+	return s.P6().SquareLeft(diff / 2.0)
 }
 
 func (s *Sleeve) P23() *geometry.Point {
-	return s.P7().SquareRight(5.715)
+	diff := s.P6().DistanceTo(s.P7()) - s.TorsoMeasurements.WristCircumference
+
+	return s.P7().SquareRight(diff / 2.0)
 }
 
 func (s *Sleeve) sleeveCap() *geometry.Polyline {

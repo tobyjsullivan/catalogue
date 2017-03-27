@@ -109,6 +109,15 @@ func (p *pn5TorsoBack) r() *geometry.Point {
 	return p.p().SquareLeft(0.5)
 }
 
+func (p *pn5TorsoBack) s() *geometry.Point {
+	ang := p.o().AngleRelativeTo(p.q())
+	adj := p.m().DistanceTo(p.o())
+
+	opp := adj * ang.Tan()
+
+	return p.m().SquareLeft(math.Abs(opp))
+}
+
 func (p *pn5TorsoBack) yoke() *pn6Yoke {
 	return &pn6Yoke{
 		TorsoMeasurements: p.TorsoMeasurements,
@@ -145,22 +154,14 @@ func (p *pn5TorsoBack) yokeSeamStitch() geometry.Line {
 }
 
 func (p *pn5TorsoBack) armholeStitch() geometry.Line {
-	armscyeA := &geometry.EllipseCurve{
-		Start:         p.r(),
-		End:           p.o(),
-		StartingAngle: &geometry.Angle{Rads: 0.0},
-		ArcAngle:      &geometry.Angle{Rads: math.Pi / 8.0},
-	}
-
 	armscyeB := &geometry.QuadraticBezierCurve{
-		P0: p.r(),
-		P1: p.m(),
+		P0: p.o(),
+		P1: p.s(),
 		P2: p.c(),
 	}
 
 	line := &geometry.Polyline{}
 	line.AddLine(
-		&geometry.ReverseLine{InnerLine: armscyeA},
 		armscyeB,
 	)
 
@@ -298,6 +299,7 @@ func (p *pn5TorsoBack) Reference() *geometry.Block {
 		a["P"] = p.p()
 		a["Q"] = p.q()
 		a["R"] = p.r()
+		a["S"] = p.s()
 		anchors.AddAnchors(layer, a)
 	}
 
